@@ -472,13 +472,7 @@ export default function RedditVideoMakerPage() {
                           <input {...register('audioUrl')} type="text" placeholder="s3://your-bucket/hook-audio.mp3" className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:border-reddit-orangered focus:ring-reddit-orangered focus:outline-none transition-colors"/>
                           {formErrors.audioUrl && <p className="text-red-400 text-xs mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{formErrors.audioUrl.message}</p>}
                         </div>
-                        <div>
-                          <label className="block text-sm font-medium mb-2">Main Audio (S3 URL)<span className="text-gray-500 ml-2 text-xs font-normal">Main content</span></label>
-                          <input {...register('scriptAudioUrl')} type="text" placeholder="s3://your-bucket/main-audio.mp3" className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:border-reddit-orangered focus:ring-reddit-orangered focus:outline-none transition-colors"/>
-                          {formErrors.scriptAudioUrl && <p className="text-red-400 text-xs mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{formErrors.scriptAudioUrl.message}</p>}
-                        </div>
                       </div>
-                      <p className="mt-1 text-xs text-gray-500">Full audio track for the video.</p>
                     </div>
                     <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
                       <h3 className="font-semibold mb-4 flex items-center gap-2"><FileText className="w-5 h-5 text-blue-400" />Text Content</h3>
