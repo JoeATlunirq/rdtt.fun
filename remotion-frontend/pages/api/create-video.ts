@@ -285,7 +285,8 @@ async function 실제Remotion랜더링 (props: RemotionFormProps, outputFileName
   // On Vercel, process.cwd() will be the root of the remotion-frontend deployment.
   // The Remotion project files are in a 'remotion' subdirectory.
   const remotionProjectSourceDir = path.join(process.cwd(), 'remotion'); 
-  const remotionExecutable = `npx --no-install remotion`;
+  // Using a direct path to the remotion executable within node_modules
+  const remotionExecutable = path.join(process.cwd(), 'node_modules', '.bin', 'remotion');
   const compositionId = 'MainComposition'; 
   const outputLocation = path.join(os.tmpdir(), outputFileName);
   const propsString = JSON.stringify(props);
