@@ -1,72 +1,127 @@
 import { z } from 'zod';
 
+// Keep srt-parser-2 SrtLine structure for internal processing if needed
+// but Remotion props will use WordTiming.
+export interface SrtLine {
+  id: string;
+  startTime: string; 
+  endTime: string;
+  text: string;
+}
+
 export const wordTimingSchema = z.object({
   text: z.string(),
   startFrame: z.number(),
   endFrame: z.number(),
-  color: z.string().optional()
+  // color: z.string().optional() // Color can be handled dynamically in component if needed
 });
 
 export type WordTiming = z.infer<typeof wordTimingSchema>;
 
 export const videoAssetSchema = z.object({
-  path: z.string(),
+  path: z.string(), // Should be an S3 URL for Remotion
   durationInFrames: z.number(),
-  durationInSeconds: z.number().optional()
+  // durationInSeconds: z.number().optional() // Not directly used by Remotion component if frames are set
 });
 
 export type VideoAsset = z.infer<typeof videoAssetSchema>;
 
 export const remotionPropsSchema = z.object({
+  // Channel & Hook
   channelName: z.string().min(1, "Channel name is required"),
-  channelImage: z.string().url("Must be a valid S3 URL for channel image"), // Assuming S3 URL
+  channelImage: z.string().url("Must be a valid URL for channel image"), 
   hookText: z.string().min(1, "Hook text is required"),
-  hook_animation_type: z.enum(['fall', 'float']).default('fall'),
-  audioUrl: z.string().url("Must be a valid S3 URL for hook audio"),
-  audioDurationInSeconds: z.number().positive("Hook audio duration must be positive"),
-  scriptAudioUrl: z.string().url("Must be a valid S3 URL for main audio"),
-  scriptAudioDurationInSeconds: z.number().positive("Script audio duration must be positive"),
-  srtFileUrl: z.string().url("Must be a valid S3 URL for SRT file"), // For SRT file
-  subtitleText: z.string(), // Derived from SRT
-  wordTimings: z.array(wordTimingSchema), // Derived from SRT
+  hook_animation_type: z.enum(['fall', 'float', 'reveal', 'none']).default('fall'),
+
+  // Audio sources
+  audioUrl: z.string().url("Must be a valid URL for hook audio").optional(), // Optional now
+  scriptAudioUrl: z.string().url("Must be a valid URL for main audio").optional(), // Optional now
+  srtFileUrl: z.string().url("Must be a valid URL for SRT file").optional(), // Optional now
+
+  // Derived audio/subtitle data
+  hookDurationInSeconds: z.number().min(0).default(0),
+  scriptDurationInSeconds: z.number().min(0).default(0),
+  subtitleText: z.string().optional(), // Combined text from SRT
+  wordTimings: z.array(wordTimingSchema).optional(), // Parsed and transformed SRT data
+  
+  // Subtitle Styling
   animatedSubtitleType: z.enum(['word', 'phrase']).default('word'),
-  fontFamily: z.string().default('Jellee'), // Can be a name of a pre-installed font or 'custom'
-  customFontUrl: z.string().url("Must be a valid S3 URL for TTF font").optional(),
-  fontSize: z.number().positive().default(48),
-  fontStrokeSize: z.number().positive().default(4),
-  backgroundVideoStyle: z.enum(['satisfying', 'makeup', 'parkour']).default('satisfying'),
-  backgroundVideoPath: z.union([
-    z.string(), // Allow single string path too, though array of VideoAsset is preferred for segments
-    z.array(videoAssetSchema)
-  ]), // Derived from style
+  fontFamily: z.string().default('Jellee'), 
+  // customFontUrl: z.string().url("Must be a valid URL for TTF font").optional(), // If allowing custom fonts uploaded by user
+  fontSize: z.number().positive().default(50),
+  fontStrokeSize: z.number().min(0).default(3),
+  textColor: z.string().default('#FFFFFF'),
+  highlightColor: z.string().default('#FCA5A5'), // Example: Tailwind red-300
+
+  // Background
+  backgroundVideoStyle: z.enum(['satisfying', 'makeup', 'parkour', 'gaming', 'nature', 'custom']).default('satisfying'),
+  backgroundVideoUrl: z.string().url("Must be a valid URL for a custom background video").optional(), // Direct URL override
+  backgroundVideoPath: z.string().url().optional(), // Final S3 path for Remotion, derived from style or direct URL
+  backgroundColor: z.string().default('#1A1A1A'), // Fallback if no video
+  backgroundImageUrl: z.string().url("Must be a valid URL for a background image").optional(), // Static image background
+
+  // Music
   has_background_music: z.boolean().default(false),
-  backgroundMusicUrl: z.string().url().optional(), // If they want specific music
-  background_music_volume: z.number().min(0).max(1).default(0.015),
-  totalDurationInFrames: z.number().positive("Total duration must be positive"), // Derived
-  assetUrls: z.object({
-    badge: z.string().url().optional(),
-    bubble: z.string().url().optional(),
-    share: z.string().url().optional()
-  }).optional(),
-  bucketName: z.string().optional(),
-  bucketRegion: z.string().optional(),
+  backgroundMusicUrl: z.string().url().optional(), 
+  background_music_volume: z.number().min(0).max(1).default(0.05),
+
+  // Watermark / Overlays
+  watermarkImageUrl: z.string().url().optional(),
+  watermarkText: z.string().optional(),
+  watermarkOpacity: z.number().min(0).max(1).default(0.7),
+  showChannelWatermark: z.boolean().default(true), // Toggle for default channel image watermark
+
+  // Misc
+  outroText: z.string().optional(),
+  showVideoLength: z.boolean().default(true),
+  
+  // Internal / Derived by API - not directly from UI form usually
+  totalDurationInFrames: z.number().positive("Total duration must be positive"), 
+  // assetUrls: z.object({ // For pre-signed URLs if needed by Remotion components, not for now
+  //   badge: z.string().url().optional(),
+  //   bubble: z.string().url().optional(),
+  //   share: z.string().url().optional()
+  // }).optional(),
+  // bucketName: z.string().optional(), // These are server-side config, not props
+  // bucketRegion: z.string().optional(),
 });
 
 export type RemotionFormProps = z.infer<typeof remotionPropsSchema>;
 
-export const uiFormSchema = remotionPropsSchema.omit({
-  audioDurationInSeconds: true, 
-  scriptAudioDurationInSeconds: true,
-  subtitleText: true,
-  wordTimings: true,
-  totalDurationInFrames: true, 
-  backgroundVideoPath: true,
-}).extend({
-  // These were for hypothetical direct file uploads, not strictly needed if using S3 URLs + backend processing
-  // hookAudioFile: z.any().optional(), 
-  // mainAudioFile: z.any().optional(), 
-  // srtFile: z.any().optional(), 
-  // customFontFile: z.any().optional(), 
+// UI form schema: fields directly configurable by the user in the frontend form
+export const uiFormSchema = z.object({
+  channelName: z.string().min(1, "Channel name is required"),
+  channelImage: z.string().url("Must be a valid URL for channel image"), 
+  hookText: z.string().min(1, "Hook text is required"),
+  hook_animation_type: z.enum(['fall', 'float', 'reveal', 'none']).default('fall'),
+  
+  audioUrl: z.string().url("Must be a valid URL for hook audio").optional().or(z.literal('')),
+  scriptAudioUrl: z.string().url("Must be a valid URL for main audio").optional().or(z.literal('')),
+  srtFileUrl: z.string().url("Must be a valid URL for SRT file").optional().or(z.literal('')),
+
+  animatedSubtitleType: z.enum(['word', 'phrase']).default('word'),
+  fontFamily: z.string().default('Jellee'),
+  fontSize: z.number({ coerce: true }).positive().default(50),
+  fontStrokeSize: z.number({ coerce: true }).min(0).default(3),
+  textColor: z.string().default('#FFFFFF'),
+  highlightColor: z.string().default('#FCA5A5'),
+
+  backgroundVideoStyle: z.enum(['satisfying', 'makeup', 'parkour', 'gaming', 'nature', 'custom']).default('satisfying'),
+  backgroundVideoUrl: z.string().url("Must be a valid URL (or leave empty for style-based)").optional().or(z.literal('')), 
+  backgroundColor: z.string().default('#1A1A1A'), 
+  backgroundImageUrl: z.string().url("Must be a valid URL for background image (optional)").optional().or(z.literal('')),
+
+  has_background_music: z.boolean().default(false),
+  backgroundMusicUrl: z.string().url("Must be a valid URL for music (optional)").optional().or(z.literal('')),
+  background_music_volume: z.number({ coerce: true }).min(0).max(1).default(0.05),
+  
+  watermarkImageUrl: z.string().url("Must be valid URL for watermark image (optional)").optional().or(z.literal('')),
+  watermarkText: z.string().optional(),
+  watermarkOpacity: z.number({ coerce: true }).min(0).max(1).default(0.7),
+  showChannelWatermark: z.boolean().default(true),
+
+  outroText: z.string().optional(),
+  showVideoLength: z.boolean().default(true),
 });
 
 export type UIFormValues = z.infer<typeof uiFormSchema>; 
