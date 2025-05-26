@@ -287,7 +287,7 @@ async function getRandomBackgroundVideoS3(s3ClientInstance: S3Client, bucket: st
   }
 }
 
-async function 실제Remotion랜더링(props: RemotionProps, outputFileName: string): Promise<string> {
+async function 실제Remotion랜더링(props: RemotionFormProps, outputFileName: string): Promise<string> {
   console.log("Starting Remotion render process...");
 
   // Ensure the /tmp directory is writable for cache
