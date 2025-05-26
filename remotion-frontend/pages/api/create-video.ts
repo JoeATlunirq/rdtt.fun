@@ -294,7 +294,7 @@ async function 실제Remotion랜더링 (props: RemotionFormProps, outputFileName
   // Added --chrome-flags="--no-sandbox --disable-dev-shm-usage" for serverless environments
   const chromeFlags = "--no-sandbox --disable-dev-shm-usage";
   // Command now cds into the Remotion project subdirectory
-  const command = `cd "${remotionProjectSourceDir}" && ${remotionExecutable} render ${compositionId} "${outputLocation}" --props='${propsString}' --log=verbose --chrome-flags="${chromeFlags}"`;
+  const command = `HOME=/tmp cd "${remotionProjectSourceDir}" && ${remotionExecutable} render ${compositionId} "${outputLocation}" --props='${propsString}' --log=verbose --chrome-flags="${chromeFlags}"`;
   
   console.log(`Executing Remotion CLI: ${command}`);
   try {
@@ -415,7 +415,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       finalBackgroundVideoPath = uiData.backgroundVideoUrl;
       console.log(`Using user-provided background video URL: ${finalBackgroundVideoPath}`);
     } else if (uiData.backgroundVideoStyle && uiData.backgroundVideoStyle !== 'custom' && S3_BUCKET_NAME && S3_CLIPS_PREFIX) {
-      const randomVideoS3Url = await getRandomBackgroundVideoS3(s3Client, S3_BUCKET_NAME, `${S3_CLIPS_PREFIX}${uiData.backgroundVideoStyle}/`);
+      const style = uiData.backgroundVideoStyle.charAt(0).toUpperCase() + uiData.backgroundVideoStyle.slice(1);
+      const randomVideoS3Url = await getRandomBackgroundVideoS3(s3Client, S3_BUCKET_NAME, `${S3_CLIPS_PREFIX}${style}/`);
       if (randomVideoS3Url) {
         finalBackgroundVideoPath = randomVideoS3Url;
         console.log(`Using randomly selected background video S3 URL: ${finalBackgroundVideoPath}`);
