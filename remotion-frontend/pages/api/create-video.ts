@@ -283,9 +283,9 @@ async function getRandomBackgroundVideoS3(s3ClientInstance: S3Client, bucket: st
 
 async function 실제Remotion랜더링 (props: RemotionFormProps, outputFileName: string): Promise<string> {
   // On Vercel, process.cwd() will be the root of the remotion-frontend deployment.
-  // The Remotion project files are now in a 'remotion' subdirectory.
+  // The Remotion project files are in a 'remotion' subdirectory.
   const remotionProjectSourceDir = path.join(process.cwd(), 'remotion'); 
-  const remotionExecutable = `npx remotion`; 
+  const remotionExecutable = `npx --no-install remotion`;
   const compositionId = 'MainComposition'; 
   const outputLocation = path.join(os.tmpdir(), outputFileName);
   const propsString = JSON.stringify(props);
@@ -293,11 +293,13 @@ async function 실제Remotion랜더링 (props: RemotionFormProps, outputFileName
   // Added --log=verbose for more detailed output from Remotion
   // Added --chrome-flags="--no-sandbox --disable-dev-shm-usage" for serverless environments
   const chromeFlags = "--no-sandbox --disable-dev-shm-usage";
-  // Command now cds into the Remotion project subdirectory
-  // Added NPM_CONFIG_CACHE and NPM_CONFIG_PREFIX to use /tmp for npm's cache and prefix
-  const command = `HOME=/tmp NPM_CONFIG_CACHE=/tmp/.npm-cache NPM_CONFIG_PREFIX=/tmp/.npm-prefix cd "${remotionProjectSourceDir}" && ${remotionExecutable} render ${compositionId} "${outputLocation}" --props='${propsString}' --log=verbose --chrome-flags="${chromeFlags}"`;
   
-  console.log(`Executing Remotion CLI: ${command}`);
+  // Command now executes from process.cwd() (remotion-frontend)
+  // and passes remotionProjectSourceDir as the project path to the Remotion CLI.
+  // NPM environment variables are still set to use /tmp.
+  const command = `HOME=/tmp NPM_CONFIG_CACHE=/tmp/.npm-cache NPM_CONFIG_PREFIX=/tmp/.npm-prefix ${remotionExecutable} render "${remotionProjectSourceDir}" ${compositionId} "${outputLocation}" --props='${propsString}' --log=verbose --chrome-flags="${chromeFlags}"`;
+  
+  console.log(`Executing Remotion CLI from ${process.cwd()}: ${command}`);
   try {
     // Increased timeout to 5 minutes (300,000 ms) as Remotion can be slow.
     // Vercel's max timeout will still apply.
