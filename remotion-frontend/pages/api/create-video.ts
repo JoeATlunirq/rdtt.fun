@@ -225,20 +225,32 @@ async function getRandomBackgroundVideoS3(s3ClientInstance: S3Client, bucket: st
 }
 
 async function 실제Remotion랜더링 (props: RemotionFormProps, outputFileName: string): Promise<string> {
-  const projectRoot = path.resolve(process.cwd(), '../..'); 
-  const remotionProjectDir = path.resolve(projectRoot);
-  const remotionExecutable = `npx remotion`;
+  // On Vercel, process.cwd() will be the root of the remotion-frontend deployment.
+  // The Remotion project files are now in a 'remotion' subdirectory.
+  const remotionProjectSourceDir = path.join(process.cwd(), 'remotion'); 
+  const remotionExecutable = `npx remotion`; 
   const compositionId = 'MainComposition'; 
   const outputLocation = path.join(os.tmpdir(), outputFileName);
   const propsString = JSON.stringify(props);
-  const command = `cd "${remotionProjectDir}" && ${remotionExecutable} render ${compositionId} "${outputLocation}" --props='${propsString}' --log=verbose`;
+
+  // Added --log=verbose for more detailed output from Remotion
+  // Added --chrome-flags="--no-sandbox --disable-dev-shm-usage" for serverless environments
+  const chromeFlags = "--no-sandbox --disable-dev-shm-usage";
+  // Command now cds into the Remotion project subdirectory
+  const command = `cd "${remotionProjectSourceDir}" && ${remotionExecutable} render ${compositionId} "${outputLocation}" --props='${propsString}' --log=verbose --chrome-flags="${chromeFlags}"`;
+  
   console.log(`Executing Remotion CLI: ${command}`);
   try {
-    execSync(command, { stdio: 'inherit', timeout: 600000 }); 
+    // Increased timeout to 5 minutes (300,000 ms) as Remotion can be slow.
+    // Vercel's max timeout will still apply.
+    execSync(command, { stdio: 'inherit', timeout: 300000 }); 
     console.log(`Remotion render successful: ${outputLocation}`);
     return outputLocation;
-  } catch (error) {
+  } catch (error: any) { // Added :any to error type for stdout/stderr
     console.error("Error during Remotion CLI execution:", error);
+    // Log stdout/stderr from the error object if available
+    if (error.stdout) console.error("Remotion stdout:", error.stdout.toString());
+    if (error.stderr) console.error("Remotion stderr:", error.stderr.toString());
     throw new Error(`Remotion render failed: ${ (error as Error).message }`);
   }
 }
@@ -357,14 +369,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.log("Final Remotion props (validated):", validatedRemotionProps);
 
     const videoFileName = `${uuidv4()}.mp4`;
-    // const renderedVideoPath = await 실제Remotion랜더링(validatedRemotionProps, videoFileName);
-    // const finalVideoS3Key = `${S3_VIDEOS_PREFIX}${videoFileName}`;
-    // const finalVideoUrl = await 실제S3업로드(renderedVideoPath, finalVideoS3Key);
+    console.log("Starting Remotion render...");
+    const renderedVideoPath = await 실제Remotion랜더링(validatedRemotionProps, videoFileName);
+    console.log(`Rendered video path: ${renderedVideoPath}`);
+
+    console.log("Starting S3 upload...");
+    const finalVideoS3Key = `${S3_VIDEOS_PREFIX}${videoFileName}`;
+    const finalVideoUrl = await 실제S3업로드(renderedVideoPath, finalVideoS3Key);
+    console.log(`Final video URL: ${finalVideoUrl}`);
 
     res.status(200).json({ 
-      message: "Props generated successfully (Remotion rendering is still simulated).", 
+      message: "Video generated and uploaded successfully!", 
       propsUsed: validatedRemotionProps,
-      // videoUrl: finalVideoUrl 
+      videoUrl: finalVideoUrl 
     });
 
   } catch (error: any) {
