@@ -5,11 +5,12 @@ import { uiFormSchema, remotionPropsSchema, RemotionFormProps, UIFormValues, Wor
 import { ZodError } from 'zod';
 import { v4 as uuidv4 } from 'uuid';
 import SrtParser from 'srt-parser-2';
-import fs from 'fs';
+import * as mm from 'music-metadata';
+import { execSync } from 'child_process';
 import path from 'path';
 import os from 'os';
-import { execSync } from 'child_process';
-import * as mm from 'music-metadata';
+import fs from 'fs';
+
 
 const S3_BUCKET_NAME = process.env.AWS_S3_BUCKET_NAME;
 const S3_REGION = process.env.AWS_S3_REGION;
@@ -286,43 +287,95 @@ async function getRandomBackgroundVideoS3(s3ClientInstance: S3Client, bucket: st
   }
 }
 
-async function 실제Remotion랜더링 (props: RemotionFormProps, outputFileName: string): Promise<string> {
-  // On Vercel, process.cwd() will be the root of the remotion-frontend deployment.
-  // The Remotion project files are in a 'remotion' subdirectory.
+async function 실제Remotion랜더링(props: RemotionProps, outputFileName: string): Promise<string> {
+  console.log("Starting Remotion render process...");
+
+  // Ensure the /tmp directory is writable for cache
+  const remotionCacheDir = path.join(os.tmpdir(), '.remotion-cache');
+  const npmCacheDir = path.join(os.tmpdir(), '.npm-cache'); // For npx
+  const npmPrefixDir = path.join(os.tmpdir(), '.npm-prefix'); // For npx
+
+  try {
+    if (!fs.existsSync(remotionCacheDir)) {
+      fs.mkdirSync(remotionCacheDir, { recursive: true });
+    }
+    if (!fs.existsSync(npmCacheDir)) {
+      fs.mkdirSync(npmCacheDir, { recursive: true });
+    }
+    if (!fs.existsSync(npmPrefixDir)) {
+      fs.mkdirSync(npmPrefixDir, { recursive: true });
+    }
+    console.log(`Ensured temp directories: ${remotionCacheDir}, ${npmCacheDir}, ${npmPrefixDir}`);
+  } catch (e: any) {
+    console.warn(`Warning: Could not create temp directories: ${e.message}`);
+  }
+
+  // The Remotion project files are in a 'remotion' subdirectory relative to the Next.js project root.
+  // process.cwd() in Vercel is /var/task/remotion-frontend/
   const remotionProjectSourceDir = path.join(process.cwd(), 'remotion'); 
   const compositionId = 'MainComposition'; 
   const outputLocation = path.join(os.tmpdir(), outputFileName);
+  
+  // Escape single quotes in props string for shell command
   const propsString = JSON.stringify(props);
+  // Handle potential single quotes in the props string if it's directly embedded
+  const propsStringEscaped = propsString.replace(/'/g, "'\\''");
 
-  // Added --log=verbose for more detailed output from Remotion
-  // Added --chrome-flags="--no-sandbox --disable-dev-shm-usage" for serverless environments
+
   const chromeFlags = "--no-sandbox --disable-dev-shm-usage";
   
-  // Command now executes from process.cwd() (remotion-frontend)
-  // and passes remotionProjectSourceDir as the project path to the Remotion CLI.
-  // NPM environment variables are still set to use /tmp.
-  // Execute the Remotion CLI using 'npx --package @remotion/cli remotion ...'
-  const command = `HOME=/tmp NPM_CONFIG_CACHE=/tmp/.npm-cache NPM_CONFIG_PREFIX=/tmp/.npm-prefix REMOTION_CACHE_DIR=/tmp/.remotion-cache npx --package @remotion/cli remotion render "${remotionProjectSourceDir}" ${compositionId} "${outputLocation}" --props='${propsString}' --log=verbose --chrome-flags="${chromeFlags}"`;  
-  console.log(`Executing Remotion CLI from ${process.cwd()}: ${command}`);
+  // Pin the version of @remotion/cli used by npx to match package.json
+  const remotionVersion = "4.0.150"; 
+
+  // Construct the command
+  // The `remotion` executable will be fetched by npx.
+  // The project path is passed as the first argument to `remotion render`.
+  const baseCommand = `npx --package @remotion/cli@${remotionVersion} remotion render "${remotionProjectSourceDir}" ${compositionId} "${outputLocation}" --props='${propsStringEscaped}' --log=verbose --chrome-flags="${chromeFlags}"`;
+
+  const envVars = {
+    ...process.env, // Inherit existing environment variables
+    HOME: os.tmpdir(), 
+    NPM_CONFIG_CACHE: npmCacheDir,
+    NPM_CONFIG_PREFIX: npmPrefixDir,
+    REMOTION_CACHE_DIR: remotionCacheDir,
+    PUPPETEER_CACHE_DIR: remotionCacheDir, // Also set PUPPETEER_CACHE_DIR as a fallback
+  };
+  
+  console.log(`Executing Remotion command: ${baseCommand}`);
+  console.log(`With environment variables: HOME=${envVars.HOME}, NPM_CONFIG_CACHE=${envVars.NPM_CONFIG_CACHE}, NPM_CONFIG_PREFIX=${envVars.NPM_CONFIG_PREFIX}, REMOTION_CACHE_DIR=${envVars.REMOTION_CACHE_DIR}, PUPPETEER_CACHE_DIR=${envVars.PUPPETEER_CACHE_DIR}`);
+
   try {
-    // Increased timeout to 5 minutes (300,000 ms) as Remotion can be slow.
-    // Vercel's max timeout will still apply.
-    // Changed stdio to 'pipe' (or omit entirely) to buffer output for error reporting
-    execSync(command, { timeout: 300000 }); 
-    console.log(`Remotion render successful: ${outputLocation}`);
+    // Capture stdio for logging, do not inherit.
+    const stdout = execSync(baseCommand, {
+        cwd: process.cwd(), // Execute from the Next.js project root (/var/task/remotion-frontend)
+        env: envVars,
+        encoding: 'utf-8', // To get string output
+    });
+    console.log("Remotion render STDOUT:\n", stdout);
     return outputLocation;
-  } catch (error: any) { 
-    console.error("Error during Remotion CLI execution:", error);
-    let errorMessage = `Remotion render failed: ${ (error as Error).message }`;
+  } catch (error: any) {
+    console.error("Remotion render FAILED.");
+    // Log the error object itself for more details if available
+    console.error("Error object:", error); // This will log the full error object
+    
+    let errorMessage = "Remotion render failed";
+    if (error.message) {
+      errorMessage += `: ${error.message}`;
+    }
+    // stdout and stderr are properties of the error object when execSync fails
     if (error.stdout) {
-      const stdout = error.stdout.toString();
-      console.error("Remotion stdout:", stdout);
-      errorMessage += `\nSTDOUT: ${stdout}`;
+      const stdoutStr = Buffer.isBuffer(error.stdout) ? error.stdout.toString() : error.stdout;
+      console.error("Remotion render STDOUT (on error):\n", stdoutStr);
+      errorMessage += `\nSTDOUT: ${stdoutStr}`;
     }
     if (error.stderr) {
-      const stderr = error.stderr.toString();
-      console.error("Remotion stderr:", stderr);
-      errorMessage += `\nSTDERR: ${stderr}`;
+      const stderrStr = Buffer.isBuffer(error.stderr) ? error.stderr.toString() : error.stderr;
+      console.error("Remotion render STDERR (on error):\n", stderrStr);
+      errorMessage += `\nSTDERR: ${stderrStr}`;
+    }
+    // The status property can also be useful
+     if (error.status) {
+        errorMessage += `\nStatus: ${error.status}`;
     }
     throw new Error(errorMessage);
   }
