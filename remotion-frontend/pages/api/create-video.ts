@@ -12,14 +12,14 @@ import { execSync } from 'child_process';
 import * as mm from 'music-metadata';
 
 // Define SrtLine interface locally based on srt-parser-2 output
-interface SrtLine {
+// This is already in schema.ts as AppSrtLine, but if schema.ts is not read first, this is a fallback.
+// However, the import from schema.ts (AppSrtLine) should be preferred.
+interface LocalSrtLine {
   id: string;
   startTime: string; 
   endTime: string;
   text: string;
 }
-
-// ... (S3_BUCKET_NAME etc. declarations remain the same) ...
 
 const S3_BUCKET_NAME = process.env.AWS_S3_BUCKET_NAME;
 const S3_REGION = process.env.AWS_S3_REGION;
@@ -27,7 +27,7 @@ const S3_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID;
 const S3_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
 const S3_CLIPS_PREFIX = process.env.AWS_S3_CLIPS_PREFIX || 'Clips/';
 const S3_VIDEOS_PREFIX = process.env.AWS_S3_VIDEOS_PREFIX || 'Videos/';
-const S3_UPLOADED_AUDIO_PREFIX = 'UploadedAudio/'; // For audio files uploaded by users if needed
+const S3_UPLOADED_AUDIO_PREFIX = 'UploadedAudio/';
 
 if (!S3_BUCKET_NAME || !S3_REGION) {
   throw new Error("AWS S3 Bucket Name and Region must be configured in environment variables.");
@@ -41,7 +41,6 @@ const s3Client = new S3Client({
   }
 });
 
-// Helper to download a stream to a local file
 async function streamToFile(stream: NodeJS.ReadableStream, filePath: string): Promise<void> {
   return new Promise((resolve, reject) => {
     const fileWriteStream = fs.createWriteStream(filePath);
@@ -49,7 +48,7 @@ async function streamToFile(stream: NodeJS.ReadableStream, filePath: string): Pr
     stream.on('error', (err) => {
       console.error("Stream error during download:", err);
       fileWriteStream.close();
-      fs.unlink(filePath, () => {}); // Attempt to clean up
+      fs.unlink(filePath, () => {}); 
       reject(err);
     });
     fileWriteStream.on('finish', () => {
@@ -58,35 +57,40 @@ async function streamToFile(stream: NodeJS.ReadableStream, filePath: string): Pr
     });
     fileWriteStream.on('error', (err) => {
       console.error("File write stream error:", err);
-      fs.unlink(filePath, () => {}); // Attempt to clean up
+      fs.unlink(filePath, () => {}); 
       reject(err);
     });
   });
 }
 
-// Helper to parse S3 URL
 function parseS3Url(s3Url: string): { bucket: string, key: string } {
   const url = new URL(s3Url);
   if (url.protocol !== 's3:') {
     throw new Error(`Invalid S3 URL: ${s3Url}. Must start with s3://`);
   }
   const bucket = url.hostname;
-  const key = url.pathname.substring(1); // Remove leading '/'
+  const key = url.pathname.substring(1);
   return { bucket, key };
 }
 
+async function getAudioDurationFromS3(audioUrlString: string): Promise<number> {
+  if (!audioUrlString) return 0;
+  // Validate URL structure before parsing to prevent errors with path.basename
+  let audioUrl;
+  try {
+    audioUrl = new URL(audioUrlString);
+  } catch (e) {
+    console.error(`Invalid audio URL string: ${audioUrlString}`, e);
+    throw new Error(`Invalid audio URL: ${audioUrlString}`);
+  }
 
-async function getAudioDurationFromS3(audioUrl: string): Promise<number> {
-  const tempFileName = `${uuidv4()}_${path.basename(new URL(audioUrl).pathname)}`;
+  const tempFileName = `${uuidv4()}_${path.basename(audioUrl.pathname) || 'audiofile'}`;
   const tempFilePath = path.join(os.tmpdir(), tempFileName);
-  let s3KeyForUpload: string | null = null;
-  let isHttpUrl = false;
 
   try {
-    if (audioUrl.startsWith('s3://')) {
-      console.log(`Processing S3 URL: ${audioUrl}`);
-      const { bucket, key } = parseS3Url(audioUrl);
-      s3KeyForUpload = key; // Original key if it's already in our bucket
+    if (audioUrl.protocol === 's3:') {
+      console.log(`Processing S3 URL: ${audioUrlString}`);
+      const { bucket, key } = parseS3Url(audioUrlString);
       console.log(`Downloading audio from S3: bucket=${bucket}, key=${key} to ${tempFilePath}...`);
       const command = new GetObjectCommand({ Bucket: bucket, Key: key });
       const { Body } = await s3Client.send(command);
@@ -95,88 +99,76 @@ async function getAudioDurationFromS3(audioUrl: string): Promise<number> {
       }
       await streamToFile(Body, tempFilePath);
       console.log("Audio downloaded successfully from S3.");
-    } else if (audioUrl.startsWith('http://') || audioUrl.startsWith('https://')) {
-      isHttpUrl = true;
-      console.log(`Processing HTTP(S) URL: ${audioUrl}`);
-      console.log(`Downloading audio from ${audioUrl} to ${tempFilePath}...`);
-      const response = await fetch(audioUrl);
-      if (!response.ok) {
-        throw new Error(`Failed to download audio from ${audioUrl}: ${response.statusText}`);
-      }
-      if (!response.body) {
-        throw new Error('Response body is null');
-      }
-      // Convert web ReadableStream to Node.js Readable stream
+    } else if (audioUrl.protocol === 'http:' || audioUrl.protocol === 'https:') {
+      console.log(`Processing HTTP(S) URL: ${audioUrlString}`);
+      console.log(`Downloading audio from ${audioUrlString} to ${tempFilePath}...`);
+      const response = await fetch(audioUrlString);
+      if (!response.ok) throw new Error(`Failed to download audio from ${audioUrlString}: ${response.statusText}`);
+      if (!response.body) throw new Error('Response body is null');
       const nodeStream = Readable.fromWeb(response.body as import('stream/web').ReadableStream<any>);
       await streamToFile(nodeStream, tempFilePath);
       console.log("Audio downloaded successfully from HTTP(S).");
-      
-      // For externally hosted audio, upload it to our S3 for consistent access/archival
-      // and so Remotion can access it if it needs to.
       if (S3_BUCKET_NAME && S3_UPLOADED_AUDIO_PREFIX) {
-        s3KeyForUpload = `${S3_UPLOADED_AUDIO_PREFIX}${tempFileName}`;
+        const s3KeyForUpload = `${S3_UPLOADED_AUDIO_PREFIX}${tempFileName}`;
         console.log(`Uploading audio from ${tempFilePath} to s3://${S3_BUCKET_NAME}/${s3KeyForUpload}...`);
-        const uploadCommand = new PutObjectCommand({
+        await s3Client.send(new PutObjectCommand({
           Bucket: S3_BUCKET_NAME,
           Key: s3KeyForUpload,
           Body: fs.createReadStream(tempFilePath),
-        });
-        await s3Client.send(uploadCommand);
-        console.log(`Audio uploaded to your S3: https://${S3_BUCKET_NAME}.s3.${S3_REGION}.amazonaws.com/${s3KeyForUpload}`);
+        }));
+        console.log(`Audio uploaded to S3.`);
       }
-
     } else {
-      throw new Error(`Unsupported audio URL protocol: ${audioUrl}`);
+      throw new Error(`Unsupported audio URL protocol: ${audioUrl.protocol}`);
     }
-
     console.log(`Getting duration for ${tempFilePath} using music-metadata...`);
     const metadata = await mm.parseFile(tempFilePath);
-    if (metadata.format.duration) {
+    if (metadata && metadata.format && typeof metadata.format.duration === 'number') {
       console.log(`Duration found: ${metadata.format.duration} seconds.`);
       return metadata.format.duration;
     } else {
       throw new Error('Could not determine audio duration using music-metadata.');
     }
-
   } catch (error) {
-    console.error(`Error in getAudioDurationFromS3 for URL ${audioUrl}:`, error);
-    throw error; // Re-throw the error to be caught by the main handler
+    console.error(`Error in getAudioDurationFromS3 for URL ${audioUrlString}:`, error);
+    throw error;
   } finally {
-    console.log(`Attempting to delete temporary file: ${tempFilePath}`);
     fs.unlink(tempFilePath, (err) => {
-      if (err) {
-        // Log error but don't throw, as main operation might have succeeded
-        console.warn(`Failed to delete temporary file ${tempFilePath}:`, err);
-      } else {
-        console.log(`Temporary file ${tempFilePath} deleted.`);
-      }
+      if (err) console.warn(`Failed to delete temporary audio file ${tempFilePath}:`, err);
+      else console.log(`Temporary audio file ${tempFilePath} deleted.`);
     });
   }
 }
 
-// Renamed from parseSrtFromS3 to parseSrt
-async function parseSrt(srtFileUrl: string): Promise<AppSrtLine[]> {
-  if (!srtFileUrl) return [];
-  const tempFileName = `${uuidv4()}_${path.basename(new URL(srtFileUrl).pathname)}.srt`;
+async function parseSrt(srtFileUrlString: string): Promise<AppSrtLine[]> {
+  if (!srtFileUrlString) return [];
+  let srtUrl;
+  try {
+    srtUrl = new URL(srtFileUrlString);
+  } catch (e) {
+    console.error(`Invalid SRT URL string: ${srtFileUrlString}`, e);
+    throw new Error(`Invalid SRT URL: ${srtFileUrlString}`);
+  }
+  const tempFileName = `${uuidv4()}_${path.basename(srtUrl.pathname) || 'subtitle.srt'}.srt`;
   const tempFilePath = path.join(os.tmpdir(), tempFileName);
 
   try {
-    if (srtFileUrl.startsWith('s3://')) {
-      console.log(`Fetching SRT from S3 URL: ${srtFileUrl}`);
-      const { bucket, key } = parseS3Url(srtFileUrl);
+    if (srtUrl.protocol === 's3:') {
+      console.log(`Fetching SRT from S3 URL: ${srtFileUrlString}`);
+      const { bucket, key } = parseS3Url(srtFileUrlString);
       const { Body } = await s3Client.send(new GetObjectCommand({ Bucket: bucket, Key: key }));
       if (!Body || !(Body instanceof Readable)) throw new Error('S3 SRT Body error.');
       await streamToFile(Body, tempFilePath);
       console.log("SRT downloaded from S3.");
-    } else if (srtFileUrl.startsWith('http://') || srtFileUrl.startsWith('https://')) {
-      console.log(`Fetching SRT from HTTPS URL: ${srtFileUrl}`);
-      const response = await fetch(srtFileUrl);
+    } else if (srtUrl.protocol === 'http:' || srtUrl.protocol === 'https:') {
+      console.log(`Fetching SRT from HTTPS URL: ${srtFileUrlString}`);
+      const response = await fetch(srtFileUrlString);
       if (!response.ok) throw new Error(`Failed to download SRT: ${response.statusText}`);
       if (!response.body) throw new Error('SRT Response body is null');
       await streamToFile(Readable.fromWeb(response.body as import('stream/web').ReadableStream<any>), tempFilePath);
       console.log("SRT downloaded from HTTPS.");
     } else {
-      throw new Error(`Unsupported SRT URL: ${srtFileUrl}`);
+      throw new Error(`Unsupported SRT URL: ${srtUrl.protocol}`);
     }
     const srtContent = fs.readFileSync(tempFilePath, 'utf-8');
     const parser = new SrtParser();
@@ -184,7 +176,7 @@ async function parseSrt(srtFileUrl: string): Promise<AppSrtLine[]> {
     console.log(`SRT parsed. Found ${srtResult.length} lines.`);
     return srtResult;
   } catch (error) {
-    console.error(`Error parsing SRT from URL ${srtFileUrl}:`, error);
+    console.error(`Error parsing SRT from URL ${srtFileUrlString}:`, error);
     throw error;
   } finally {
     fs.unlink(tempFilePath, (err) => {
@@ -195,7 +187,7 @@ async function parseSrt(srtFileUrl: string): Promise<AppSrtLine[]> {
 }
 
 function srtLinesToWordTimings(srtLines: AppSrtLine[], fps: number): WordTiming[] {
-  if (!srtLines) return [];
+  if (!srtLines || srtLines.length === 0) return [];
   return srtLines.map(line => ({
     text: line.text,
     startFrame: Math.floor(parseFloat(line.startTime.replace(',', '.')) * fps),
@@ -204,103 +196,63 @@ function srtLinesToWordTimings(srtLines: AppSrtLine[], fps: number): WordTiming[
 }
 
 function srtLinesToSubtitleText(srtLines: AppSrtLine[]): string {
-  if (!srtLines) return '';
+  if (!srtLines || srtLines.length === 0) return '';
   return srtLines.map(line => line.text).join('\n'); 
 }
 
-// ... (getRandomBackgroundVideoS3, simulateRemotionRender, simulateS3Upload remain the same for now) ...
-
-async function getRandomBackgroundVideoS3(s3Client: S3Client, bucket: string, prefix: string): Promise<string | null> {
-  // ... (implementation remains the same)
+async function getRandomBackgroundVideoS3(s3ClientInstance: S3Client, bucket: string, prefix: string): Promise<string | null> {
   console.log(`Listing background videos from S3: bucket=${bucket}, prefix=${prefix}`);
   try {
-    const command = new ListObjectsV2Command({
-      Bucket: bucket,
-      Prefix: prefix,
-    });
-    const response = await s3Client.send(command);
-
+    const command = new ListObjectsV2Command({ Bucket: bucket, Prefix: prefix });
+    const response = await s3ClientInstance.send(command);
     if (!response.Contents || response.Contents.length === 0) {
       console.warn(`No background videos found in s3://${bucket}/${prefix}`);
       return null;
     }
-
-    // Filter out any "directory" objects (though S3 doesn't really have directories)
     const videoFiles = response.Contents.filter(obj => obj.Key && !obj.Key.endsWith('/'));
-
     if (videoFiles.length === 0) {
-      console.warn(`No actual video files found in s3://${bucket}/${prefix} after filtering.`);
+      console.warn(`No actual video files found after filtering.`);
       return null;
     }
-
     const randomIndex = Math.floor(Math.random() * videoFiles.length);
-    const randomVideoKey = videoFiles[randomIndex].Key;
-    if (!randomVideoKey) {
-        console.warn(`Random video key was undefined at index ${randomIndex}.`);
-        return null;
-    }
-    const randomVideoUrl = `s3://${bucket}/${randomVideoKey}`;
-    console.log(`Selected random background video: ${randomVideoUrl}`);
-    return randomVideoUrl;
-
+    const randomVideoKey = videoFiles[randomIndex]?.Key;
+    if (!randomVideoKey) return null;
+    return `s3://${bucket}/${randomVideoKey}`;
   } catch (error) {
     console.error("Error listing background videos from S3:", error);
-    return null; // Or handle error as appropriate
+    return null;
   }
 }
 
-
-// Simulate Remotion rendering - replace with actual Remotion CLI call
 async function 실제Remotion랜더링 (props: RemotionFormProps, outputFileName: string): Promise<string> {
-  const projectRoot = path.resolve(process.cwd(), '../..'); // Assuming API is in remotion-frontend/pages/api
-  const remotionProjectDir = path.resolve(projectRoot); // Root of the Remotion project itself
-  
-  // Ensure this path is correct for your project structure.
-  // This assumes your remotion project's package.json is in the root,
-  // and that 'remotion' is a script or direct dependency there.
+  const projectRoot = path.resolve(process.cwd(), '../..'); 
+  const remotionProjectDir = path.resolve(projectRoot);
   const remotionExecutable = `npx remotion`;
-  const compositionId = 'MainComposition'; // Or make this dynamic if needed
+  const compositionId = 'MainComposition'; 
   const outputLocation = path.join(os.tmpdir(), outputFileName);
-
   const propsString = JSON.stringify(props);
-
-  // cd to the Remotion project directory before running the command
   const command = `cd "${remotionProjectDir}" && ${remotionExecutable} render ${compositionId} "${outputLocation}" --props='${propsString}' --log=verbose`;
-  
   console.log(`Executing Remotion CLI: ${command}`);
-  
   try {
-    // Increased timeout to 10 minutes (600000 ms) for potentially long renders
-    // execSync might not be ideal for very long processes in serverless, consider alternatives for production
     execSync(command, { stdio: 'inherit', timeout: 600000 }); 
     console.log(`Remotion render successful: ${outputLocation}`);
     return outputLocation;
   } catch (error) {
     console.error("Error during Remotion CLI execution:", error);
-    // @ts-ignore
-    // console.error("stdout:", error.stdout?.toString());
-    // @ts-ignore
-    // console.error("stderr:", error.stderr?.toString());
     throw new Error(`Remotion render failed: ${ (error as Error).message }`);
   }
 }
 
-
-// Simulate S3 Upload - replace with actual S3 upload
 async function 실제S3업로드 (filePath: string, s3Key: string): Promise<string> {
   console.log(`Uploading ${filePath} to S3 bucket ${S3_BUCKET_NAME} with key ${s3Key}`);
-  if (!S3_BUCKET_NAME) {
-    throw new Error("S3_BUCKET_NAME is not configured for upload.");
-  }
+  if (!S3_BUCKET_NAME) throw new Error("S3_BUCKET_NAME is not configured.");
   try {
     const fileStream = fs.createReadStream(filePath);
-    const uploadCommand = new PutObjectCommand({
+    await s3Client.send(new PutObjectCommand({
       Bucket: S3_BUCKET_NAME,
       Key: s3Key,
       Body: fileStream,
-      // ACL: 'public-read', // Optional: if you want the video to be publicly accessible directly
-    });
-    await s3Client.send(uploadCommand);
+    }));
     const videoUrl = `https://${S3_BUCKET_NAME}.s3.${S3_REGION}.amazonaws.com/${s3Key}`;
     console.log(`File uploaded to S3: ${videoUrl}`);
     return videoUrl;
@@ -308,13 +260,14 @@ async function 실제S3업로드 (filePath: string, s3Key: string): Promise<stri
     console.error("Error uploading file to S3:", error);
     throw error;
   } finally {
-    fs.unlink(filePath, err => { // Clean up local rendered file
-      if (err) console.warn(`Failed to delete temporary rendered file ${filePath}:`, err);
-      else console.log(`Temporary rendered file ${filePath} deleted.`);
+    fs.unlink(filePath, err => {
+      if (err) console.warn(`Failed to delete temp rendered file ${filePath}:`, err);
+      else console.log(`Temp rendered file ${filePath} deleted.`);
     });
   }
 }
 
+const FPS = 30;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -335,23 +288,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const FPS = 30; // Define FPS early, as it's needed for SRT processing
-
     const hookAudioDuration = uiData.audioUrl ? await getAudioDurationFromS3(uiData.audioUrl) : 0;
     let scriptAudioDuration = uiData.scriptAudioUrl ? await getAudioDurationFromS3(uiData.scriptAudioUrl) : 0;
     
-    let srtLines: AppSrtLine[] = []; // Assuming AppSrtLine is the type from your schema.ts for SrtLine
+    let srtLines: AppSrtLine[] = [];
     let finalWordTimings: WordTiming[] | undefined = undefined;
     let finalSubtitleText: string | undefined = undefined;
 
     if (uiData.srtFileUrl) {
-      srtLines = await parseSrt(uiData.srtFileUrl); // parseSrt is the renamed parseSrtFromS3
+      srtLines = await parseSrt(uiData.srtFileUrl);
       if (srtLines.length > 0) {
-        finalWordTimings = srtLinesToWordTimings(srtLines, FPS); // Use helper
-        finalSubtitleText = srtLinesToSubtitleText(srtLines);   // Use helper
+        finalWordTimings = srtLinesToWordTimings(srtLines, FPS);
+        finalSubtitleText = srtLinesToSubtitleText(srtLines);
         if (scriptAudioDuration <= 0) { 
           const lastSubtitle = srtLines[srtLines.length - 1];
-          if (lastSubtitle) { // Check if lastSubtitle exists
+          if (lastSubtitle && lastSubtitle.endTime) { 
             scriptAudioDuration = parseFloat(lastSubtitle.endTime.replace(',', '.'));
             console.log(`Script audio duration estimated from SRT: ${scriptAudioDuration} seconds`);
           }
@@ -364,17 +315,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     let finalVideoDurationSeconds = overallAudioDuration;
     if (finalVideoDurationSeconds <= 0 && finalWordTimings && finalWordTimings.length > 0) {
         const lastTiming = finalWordTimings[finalWordTimings.length - 1];
-        if (lastTiming) finalVideoDurationSeconds = lastTiming.endFrame / FPS; 
+        if (lastTiming && typeof lastTiming.endFrame === 'number') finalVideoDurationSeconds = lastTiming.endFrame / FPS; 
     }
 
     if (finalVideoDurationSeconds <= 0) {
-      // Only error if no audio AND no valid subtitles from which duration could be inferred.
       if (!finalWordTimings || finalWordTimings.length === 0) {
           console.error("Could not determine final video duration from audio or SRT.");
           return res.status(400).json({ error: 'Could not determine final video duration.'});
       } 
-      // If we reach here, it means overallAudioDuration was <=0, but we have word timings,
-      // and finalVideoDurationSeconds was updated from SRT. This is acceptable.
       console.log("Audio duration is zero, video duration will be based on SRT timings.");
     }
 
@@ -382,7 +330,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (uiData.backgroundVideoUrl) {
       finalBackgroundVideoPath = uiData.backgroundVideoUrl;
       console.log(`Using user-provided background video URL: ${finalBackgroundVideoPath}`);
-    } else if (uiData.backgroundVideoStyle !== 'custom' && S3_BUCKET_NAME && S3_CLIPS_PREFIX) {
+    } else if (uiData.backgroundVideoStyle && uiData.backgroundVideoStyle !== 'custom' && S3_BUCKET_NAME && S3_CLIPS_PREFIX) {
       const randomVideoS3Url = await getRandomBackgroundVideoS3(s3Client, S3_BUCKET_NAME, `${S3_CLIPS_PREFIX}${uiData.backgroundVideoStyle}/`);
       if (randomVideoS3Url) {
         finalBackgroundVideoPath = randomVideoS3Url;
@@ -399,8 +347,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       srtFileUrl: uiData.srtFileUrl || undefined,
       hookDurationInSeconds: hookAudioDuration,
       scriptDurationInSeconds: scriptAudioDuration,
-      wordTimings: finalWordTimings,         // Corrected: Use pre-processed variable
-      subtitleText: finalSubtitleText,        // Corrected: Use pre-processed variable
+      wordTimings: finalWordTimings, 
+      subtitleText: finalSubtitleText,
       backgroundVideoPath: finalBackgroundVideoPath, 
       totalDurationInFrames: Math.ceil(finalVideoDurationSeconds * FPS),
     };
@@ -416,7 +364,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(200).json({ 
       message: "Props generated successfully (Remotion rendering is still simulated).", 
       propsUsed: validatedRemotionProps,
-      // videoUrl: finalVideoUrl // Uncomment when rendering is live
+      // videoUrl: finalVideoUrl 
     });
 
   } catch (error: any) {
