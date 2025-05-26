@@ -302,8 +302,7 @@ async function 실제Remotion랜더링 (props: RemotionFormProps, outputFileName
   // and passes remotionProjectSourceDir as the project path to the Remotion CLI.
   // NPM environment variables are still set to use /tmp.
   // Execute the Remotion CLI using 'npx --package @remotion/cli remotion ...'
-  const command = `HOME=/tmp NPM_CONFIG_CACHE=/tmp/.npm-cache NPM_CONFIG_PREFIX=/tmp/.npm-prefix npx --package @remotion/cli remotion render "${remotionProjectSourceDir}" ${compositionId} "${outputLocation}" --props='${propsString}' --log=verbose --chrome-flags="${chromeFlags}"`;
-  
+  const command = `HOME=/tmp NPM_CONFIG_CACHE=/tmp/.npm-cache NPM_CONFIG_PREFIX=/tmp/.npm-prefix REMOTION_CACHE_DIR=/tmp/.remotion-cache npx --package @remotion/cli remotion render "${remotionProjectSourceDir}" ${compositionId} "${outputLocation}" --props='${propsString}' --log=verbose --chrome-flags="${chromeFlags}"`;  
   console.log(`Executing Remotion CLI from ${process.cwd()}: ${command}`);
   try {
     // Increased timeout to 5 minutes (300,000 ms) as Remotion can be slow.
