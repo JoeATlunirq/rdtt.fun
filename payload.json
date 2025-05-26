@@ -1,0 +1,15 @@
+{
+  "channelName": "RealTestChannel",
+  "channelImage": "https://rdtt.fun/ChannelLogos/2291f8b4-cf8f-430a-92a3-6a4718abde2f-object-logo.png",
+  "hookText": "Real S3 Test",
+  "audioUrl": "https://slicr-me.s3.eu-north-1.amazonaws.com/uploads/03dbd922-9914-4a8c-a7a5-bcba759fddb5-stream.mp3",
+  "scriptAudioUrl": "https://slicr-me.s3.eu-north-1.amazonaws.com/uploads/03dbd922-9914-4a8c-a7a5-bcba759fddb5-stream.mp3",
+  "srtFileUrl": "https://slicr-me.s3.eu-north-1.amazonaws.com/processed_03dbd922-9914-4a8c-a7a5-bcba759fddb5-stream_1747674208594_final.srt",
+  "animatedSubtitleType": "word",
+  "fontFamily": "Jellee",
+  "fontSize": 48,
+  "fontStrokeSize": 4,
+  "backgroundVideoStyle": "satisfying",
+  "has_background_music": false,
+  "background_music_volume": 0.015
+} 
