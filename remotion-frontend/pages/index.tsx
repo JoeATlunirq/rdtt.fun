@@ -24,6 +24,7 @@ import {
   KeyRound,
   ShieldCheck,
   ShieldX,
+  LogOut,
 } from 'lucide-react';
 
 // Main App Mode Toggle Button
@@ -354,6 +355,16 @@ export default function RedditVideoMakerPage() {
     setIsLoadingAuth(false); // Done checking auth
   }, []);
 
+  const handleLogout = () => {
+    localStorage.removeItem(AUTH_TIMESTAMP_KEY);
+    setIsAuthenticated(false);
+    setSeedPhrase(Array(12).fill(''));
+    setAuthError(null);
+    // Optionally, you might want to reset other states like appMode, activeTab etc.
+    // setAppMode('creator'); 
+    // setActiveTab('hook');
+  };
+
   if (isLoadingAuth) {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center">
@@ -432,7 +443,7 @@ export default function RedditVideoMakerPage() {
                 <Image src="/logo.png" alt="rdtt.fun Logo" width={36} height={36} className="rounded-lg" />
                 <h1 className="text-xl sm:text-2xl font-bold text-gray-100">rdtt.fun</h1>
               </div>
-              <div className="flex items-center space-x-2 sm:space-x-3">
+              <div className="flex items-center space-x-1 sm:space-x-2">
                 <AppModeButton active={appMode === 'creator'} onClick={() => setAppMode('creator')} icon={<Video className="w-5 h-5"/>} label="Video Creator" />
                 <AppModeButton active={appMode === 'assets'} onClick={() => setAppMode('assets')} icon={<FolderKanban className="w-5 h-5"/>} label="Asset Manager" />
                 <a 
@@ -443,6 +454,13 @@ export default function RedditVideoMakerPage() {
                 >
                   <ExternalLink className="w-5 h-5" />
                 </a>
+                <button
+                    onClick={handleLogout}
+                    title="Logout"
+                    className="p-2 text-gray-400 hover:text-white transition-colors rounded-full hover:bg-gray-700 flex items-center gap-1"
+                >
+                    <LogOut className="w-5 h-5" />
+                </button>
               </div>
             </div>
           </div>
