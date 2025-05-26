@@ -188,59 +188,64 @@ function srtTimeToSeconds(timeString: string): number {
 
 // New function to calculate hook end frame
 function calculateHookEndFrame(hookText: string, srtLines: SrtLine[], fps: number, hookEndDelaySeconds: number = 0.25): number {
-  if (!hookText || hookText.trim() === '' || !srtLines || srtLines.length === 0) {
-    console.warn("Cannot calculate hook end frame: Hook text or SRT lines are empty.");
-    return 0; // Or throw an error, or return a default based on desired behavior
-  }
-
-  // Clean hook text: lowercase, trim, remove trailing punctuation
-  const cleanedHookText = hookText.toLowerCase().trim().replace(/[.,!?;:]+$/, '');
-  const hookWords = cleanedHookText.split(/\\s+/);
-  if (hookWords.length === 0) {
-    console.warn("Cannot calculate hook end frame: Hook text has no words after cleaning.");
+  if (!hookText || srtLines.length === 0) {
+    console.warn("Hook text or SRT lines are empty, cannot calculate hook end frame.");
     return 0;
   }
-  // For now, let's try matching the whole phrase first, then fall back to last word.
-  // More sophisticated matching could be implemented later (e.g., fuzzy matching, sequence matching)
 
-  let matchedEndFrame = 0;
+  const normalizeWord = (word: string): string => {
+    if (!word) return '';
+    return word.trim().toLowerCase().replace(/[.,!?;:]$/, '');
+  };
 
-  // Attempt to match the entire cleaned hook phrase
-  for (const line of srtLines) {
-    const cleanedSrtLineText = line.text.toLowerCase().trim().replace(/[.,!?;:]/g, '');
-    if (cleanedSrtLineText.includes(cleanedHookText)) {
-      matchedEndFrame = Math.floor(srtTimeToSeconds(line.endTime) * fps);
-      console.log(`Hook end matched (full phrase): "${hookText}" found in SRT line "${line.text}", ends at frame ${matchedEndFrame}`);
-      break; 
-    }
+  const normalizedHookWords = hookText.trim().split(/\s+/).map(normalizeWord).filter(w => w.length > 0);
+
+  if (normalizedHookWords.length === 0) {
+    console.warn("Hook text is empty after normalization, cannot calculate hook end frame.");
+    return 0;
   }
 
-  // If full phrase not found, try matching the last word
-  if (matchedEndFrame === 0) {
-    const lastWordOfHook = hookWords[hookWords.length - 1];
-    if (lastWordOfHook) {
-      for (const line of srtLines) {
-        const cleanedSrtLineText = line.text.toLowerCase().trim().replace(/[.,!?;:]/g, '');
-        // Check if the last word of hook text is present as a whole word in the SRT line
-        const wordRegex = new RegExp(`\\\\b${lastWordOfHook}\\\\b`);
-        if (wordRegex.test(cleanedSrtLineText)) {
-          matchedEndFrame = Math.floor(srtTimeToSeconds(line.endTime) * fps);
-          console.log(`Hook end matched (last word): "${lastWordOfHook}" from "${hookText}" found in SRT line "${line.text}", ends at frame ${matchedEndFrame}`);
-          break; 
-        }
+  // Attempt 1: Match the full hook text (normalized)
+  for (let i = 0; i <= srtLines.length - normalizedHookWords.length; i++) {
+    let segmentMatches = true;
+    for (let j = 0; j < normalizedHookWords.length; j++) {
+      const srtWordNormalized = normalizeWord(srtLines[i + j].text);
+      if (srtWordNormalized !== normalizedHookWords[j]) {
+        segmentMatches = false;
+        break;
       }
     }
+
+    if (segmentMatches) {
+      const endSrtLine = srtLines[i + normalizedHookWords.length - 1];
+      const endTimeSeconds = srtTimeToSeconds(endSrtLine.endTime);
+      const endFrame = Math.floor((endTimeSeconds + hookEndDelaySeconds) * fps);
+      console.log(`Found full hook text match (normalized) ending at SRT line ${endSrtLine.id}. End time: ${endTimeSeconds}s. Original hook: "${hookText}". Normalized hook: "${normalizedHookWords.join(' ')}". End frame: ${endFrame}.`);
+      return endFrame;
+    }
   }
-  
-  if (matchedEndFrame > 0) {
-    return matchedEndFrame + Math.floor(hookEndDelaySeconds * fps);
+  console.log(`Full hook text (normalized) "${normalizedHookWords.join(' ')}" (original: "${hookText}") not found in SRT lines. Trying last word match.`);
+
+  // Attempt 2: Match the last word of the hook text (normalized)
+  if (normalizedHookWords.length > 0) {
+    const lastHookWordNormalized = normalizedHookWords[normalizedHookWords.length - 1];
+    for (let i = srtLines.length - 1; i >= 0; i--) {
+      const srtWordNormalized = normalizeWord(srtLines[i].text);
+      if (srtWordNormalized === lastHookWordNormalized) {
+        const endSrtLine = srtLines[i];
+        const endTimeSeconds = srtTimeToSeconds(endSrtLine.endTime);
+        const endFrame = Math.floor((endTimeSeconds + hookEndDelaySeconds) * fps);
+        console.log(`Found last word of hook text match (normalized) at SRT line ${endSrtLine.id}. End time: ${endTimeSeconds}s. Normalized word: "${lastHookWordNormalized}". End frame: ${endFrame}.`);
+        return endFrame;
+      }
+    }
+    console.log(`Last word of hook (normalized) "${lastHookWordNormalized}" not found in SRT lines.`);
+  } else {
+    console.log("No words in hook text after normalization to attempt last word match.");
   }
 
-  console.error(`Could not find hook text ("${hookText}") or its last word in SRT lines to determine hook end frame.`);
-  // Decide on fallback: throw error, or return a small default, or 0 which will be handled later.
-  // For now, returning 0, which might make the hook very short or effectively disabled if not found.
-  // The caller should check for this.
-  return 0; 
+  console.warn(`Could not find hook text (normalized: "${normalizedHookWords.join(' ')}") or its last word in SRT lines to determine hook end frame. Original hook text: "${hookText}". Hook duration might be incorrect or zero.`);
+  return 0;
 }
 
 function srtLinesToWordTimings(srtLines: SrtLine[], fps: number): WordTiming[] {
@@ -285,8 +290,8 @@ async function 실제Remotion랜더링 (props: RemotionFormProps, outputFileName
   // On Vercel, process.cwd() will be the root of the remotion-frontend deployment.
   // The Remotion project files are in a 'remotion' subdirectory.
   const remotionProjectSourceDir = path.join(process.cwd(), 'remotion'); 
-  // Using a direct path to the remotion executable within node_modules
-  const remotionExecutable = path.join(process.cwd(), 'node_modules', '.bin', 'remotion');
+  // Using a direct path to the remotion CLI's entry script within node_modules, executed with node
+  const remotionCLIEntryScript = path.join(process.cwd(), 'node_modules', '@remotion', 'cli', 'bin', 'remotion.js');
   const compositionId = 'MainComposition'; 
   const outputLocation = path.join(os.tmpdir(), outputFileName);
   const propsString = JSON.stringify(props);
@@ -295,10 +300,9 @@ async function 실제Remotion랜더링 (props: RemotionFormProps, outputFileName
   // Added --chrome-flags="--no-sandbox --disable-dev-shm-usage" for serverless environments
   const chromeFlags = "--no-sandbox --disable-dev-shm-usage";
   
-  // Command now executes from process.cwd() (remotion-frontend)
-  // and passes remotionProjectSourceDir as the project path to the Remotion CLI.
   // NPM environment variables are still set to use /tmp.
-  const command = `HOME=/tmp NPM_CONFIG_CACHE=/tmp/.npm-cache NPM_CONFIG_PREFIX=/tmp/.npm-prefix ${remotionExecutable} render "${remotionProjectSourceDir}" ${compositionId} "${outputLocation}" --props='${propsString}' --log=verbose --chrome-flags="${chromeFlags}"`;
+  // Execute the Remotion CLI script using 'node'.
+  const command = `HOME=/tmp NPM_CONFIG_CACHE=/tmp/.npm-cache NPM_CONFIG_PREFIX=/tmp/.npm-prefix node ${remotionCLIEntryScript} render "${remotionProjectSourceDir}" ${compositionId} "${outputLocation}" --props='${propsString}' --log=verbose --chrome-flags="${chromeFlags}"`;
   
   console.log(`Executing Remotion CLI from ${process.cwd()}: ${command}`);
   try {

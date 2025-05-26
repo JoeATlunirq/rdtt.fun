@@ -1,0 +1,999 @@
+
+Received validated UI data: {
+  channelName: 'RealTestChannel',
+  channelImage: 'https://rdtt.fun/ChannelLogos/2291f8b4-cf8f-430a-92a3-6a4718abde2f-object-logo.png',
+  hookText: 'What has your child done that brought you to tears?',
+  hook_animation_type: 'fall',
+  audioUrl: 'https://slicr-me.s3.eu-north-1.amazonaws.com/Story21.mp3',
+  srtFileUrl: 'https://slicr-me.s3.eu-north-1.amazonaws.com/processed_5225f667-0903-440e-b79a-6c39388dfac7-stream_1748282020205_final.srt',
+  animatedSubtitleType: 'word',
+  fontFamily: 'Jellee',
+  fontSize: 50,
+  fontStrokeSize: 3,
+  textColor: '#FFFFFF',
+  highlightColor: '#FCA5A5',
+  backgroundVideoStyle: 'satisfying',
+  backgroundColor: '#1A1A1A',
+  has_background_music: false,
+  background_music_volume: 0.05,
+  watermarkOpacity: 0.7,
+  showChannelWatermark: true,
+  showVideoLength: true
+}
+Processing HTTP(S) URL: https://slicr-me.s3.eu-north-1.amazonaws.com/Story21.mp3
+Downloading audio from https://slicr-me.s3.eu-north-1.amazonaws.com/Story21.mp3 to /tmp/b516daaa-566e-40db-960a-af4060548c5d_Story21.mp3...
+Audio downloaded successfully from HTTP(S).
+Uploading audio from /tmp/b516daaa-566e-40db-960a-af4060548c5d_Story21.mp3 to s3://remotion-reddit-start/UploadedAudio/b516daaa-566e-40db-960a-af4060548c5d_Story21.mp3...
+Audio uploaded to S3.
+Getting duration for /tmp/b516daaa-566e-40db-960a-af4060548c5d_Story21.mp3 using music-metadata...
+Duration found: 179.5395918367347 seconds.
+Fetching SRT from HTTPS URL: https://slicr-me.s3.eu-north-1.amazonaws.com/processed_5225f667-0903-440e-b79a-6c39388dfac7-stream_1748282020205_final.srt
+Temporary audio file /tmp/b516daaa-566e-40db-960a-af4060548c5d_Story21.mp3 deleted.
+SRT downloaded from HTTPS.
+SRT parsed. Found 787 lines.
+Could not find hook text ("What has your child done that brought you to tears?") or its last word in SRT lines to determine hook end frame.
+Hook text not found in SRT. Hook duration might be incorrect or zero.
+Total SRT duration: 179.42 seconds
+Using audio duration for final video length: 179.5395918367347s
+Listing background videos from S3: bucket=remotion-reddit-start, prefix=Clips/Satisfying/
+Temp SRT file /tmp/ed746109-5e3f-4e78-bf46-70e7d100f537_processed_5225f667-0903-440e-b79a-6c39388dfac7-stream_1748282020205_final.srt.srt deleted.
+Using randomly selected background video S3 URL: s3://remotion-reddit-start/Clips/Satisfying/8edz8nr0.mp4
+Final Remotion props (validated): {
+  channelName: 'RealTestChannel',
+  channelImage: 'https://rdtt.fun/ChannelLogos/2291f8b4-cf8f-430a-92a3-6a4718abde2f-object-logo.png',
+  hookText: 'What has your child done that brought you to tears?',
+  hook_animation_type: 'fall',
+  audioUrl: 'https://slicr-me.s3.eu-north-1.amazonaws.com/Story21.mp3',
+  srtFileUrl: 'https://slicr-me.s3.eu-north-1.amazonaws.com/processed_5225f667-0903-440e-b79a-6c39388dfac7-stream_1748282020205_final.srt',
+  hookDurationInSeconds: 0,
+  subtitleText: 'What\n' +
+    'has\n' +
+    'your\n' +
+    'child\n' +
+    'done\n' +
+    'that\n' +
+    'brought\n' +
+    'you\n' +
+    'to\n' +
+    'tears\n' +
+    'My\n' +
+    'daughter\n' +
+    'Lily\n' +
+    'has\n' +
+    'been\n' +
+    'in\n' +
+    'a\n' +
+    'wheelchair\n' +
+    'since\n' +
+    'she\n' +
+    'was\n' +
+    'three\n' +
+    'Spina\n' +
+    'bifida\n' +
+    'means\n' +
+    "she'll\n" +
+    'never\n' +
+    'walk\n' +
+    'but\n' +
+    "she's\n" +
+    'never\n' +
+    'let\n' +
+    'that\n' +
+    'stop\n' +
+    'her\n' +
+    'from\n' +
+    'trying\n' +
+    'everything\n' +
+    'When\n' +
+    'she\n' +
+    'started\n' +
+    'first\n' +
+    'grade\n' +
+    'I\n' +
+    'was\n' +
+    'terrified\n' +
+    'Kids\n' +
+    'can\n' +
+    'be\n' +
+    'cruel\n' +
+    'and\n' +
+    'I\n' +
+    "didn't\n" +
+    'know\n' +
+    'how\n' +
+    "they'd\n" +
+    'treat\n' +
+    'her\n' +
+    'The\n' +
+    'first\n' +
+    'few\n' +
+    'weeks\n' +
+    'seemed\n' +
+    'okay\n' +
+    'Lily\n' +
+    'would\n' +
+    'come\n' +
+    'home\n' +
+    'chattering\n' +
+    'about\n' +
+    'her\n' +
+    'new\n' +
+    'friends\n' +
+    'and\n' +
+    'her\n' +
+    'teacher\n' +
+    'Mrs\n' +
+    'Chen\n' +
+    'but\n' +
+    'then\n' +
+    'things\n' +
+    'started\n' +
+    'changing\n' +
+    "She'd\n" +
+    'get\n' +
+    'quiet\n' +
+    'on\n' +
+    'the\n' +
+    'ride\n' +
+    'home\n' +
+    'and\n' +
+    'they\n' +
+    'stopped\n' +
+    'talking\n' +
+    'about\n' +
+    'school\n' +
+    'when\n' +
+    'I\n' +
+    'asked\n' +
+    'about\n' +
+    'her\n' +
+    'day\n' +
+    "She'd\n" +
+    'just\n' +
+    'say\n' +
+    'it\n' +
+    'was\n' +
+    'fine\n' +
+    'One\n' +
+    'morning\n' +
+    'I\n' +
+    'found\n' +
+    'her\n' +
+    'crying\n' +
+    'in\n' +
+    'her\n' +
+    'room\n' +
+    'She\n' +
+    "wouldn't\n" +
+    'tell\n' +
+    'me\n' +
+    'what\n' +
+    'was\n' +
+    'wrong\n' +
+    'just\n' +
+    'kept\n' +
+    'saying\n' +
+    'she\n' +
+    "didn't\n" +
+    'want\n' +
+    'to\n' +
+    'go\n' +
+    'to\n' +
+    'school\n' +
+    'anymore\n' +
+    'My\n' +
+    'heart\n' +
+    'broke\n' +
+    'because\n' +
+    'Lily\n' +
+    'had\n' +
+    'always\n' +
+    'loved\n' +
+    'learning\n' +
+    'and\n' +
+    'being\n' +
+    'around\n' +
+    'other\n' +
+    'kids\n' +
+    'I\n' +
+    'called\n' +
+    'Mrs\n' +
+    'Chen\n' +
+    'who\n' +
+    'said\n' +
+    'Lily\n' +
+    'seemed\n' +
+    'withdrawn\n' +
+    'lately\n' +
+    'and\n' +
+    'had\n' +
+    'been\n' +
+    'asking\n' +
+    'to\n' +
+    'eat\n' +
+    'lunch\n' +
+    'in\n' +
+    'the\n' +
+    'classroom\n' +
+    'instead\n' +
+    'of\n' +
+    'the\n' +
+    'cafeteria\n' +
+    'She\n' +
+    'also\n' +
+    'mentioned\n' +
+    'that\n' +
+    "Lily's\n" +
+    'best\n' +
+    'friend\n' +
+    'Emma\n' +
+    'had\n' +
+    'been\n' +
+    'absent\n' +
+    'a\n' +
+    'lot\n' +
+    'recently\n' +
+    'That\n' +
+    'afternoon\n' +
+    'I\n' +
+    'decided\n' +
+    'to\n' +
+    'pick\n' +
+    'Lily\n' +
+    'up\n' +
+    'early\n' +
+    'from\n' +
+    'school\n' +
+    'instead\n' +
+    'of\n' +
+    'waiting\n' +
+    'for\n' +
+    'her\n' +
+    'The\n' +
+    'bus\n' +
+    'when\n' +
+    'I\n' +
+    'got\n' +
+    'there\n' +
+    'I\n' +
+    'saw\n' +
+    'something\n' +
+    'that\n' +
+    'made\n' +
+    'my\n' +
+    'blood\n' +
+    'boil\n' +
+    'Three\n' +
+    'boys\n' +
+    'from\n' +
+    'her\n' +
+    'class\n' +
+    'were\n' +
+    'blocking\n' +
+    'her\n' +
+    'wheelchair\n' +
+    'in\n' +
+    'the\n' +
+    'hallway\n' +
+    'laughing\n' +
+    'as\n' +
+    'she\n' +
+    'tried\n' +
+    'to\n' +
+    'get\n' +
+    'around\n' +
+    'them\n' +
+    'I\n' +
+    'was\n' +
+    'about\n' +
+    'to\n' +
+    'march\n' +
+    'over\n' +
+    'there\n' +
+    'when\n' +
+    'I\n' +
+    'saw\n' +
+    'Emma\n' +
+    'appear\n' +
+    'out\n' +
+    'of\n' +
+    'nowhere\n' +
+    'This\n' +
+    'tiny\n' +
+    'six\n' +
+    'year\n' +
+    'old\n' +
+    'girl\n' +
+    'walked\n' +
+    'right\n' +
+    'up\n' +
+    'to\n' +
+    'those\n' +
+    'boys\n' +
+    'and\n' +
+    'said\n' +
+    'in\n' +
+    'the\n' +
+    'loudest\n' +
+    'voice\n' +
+    'you\n' +
+    'need\n' +
+    'to\n' +
+    'move\n' +
+    'right\n' +
+    'now\n' +
+    'or\n' +
+    "I'm\n" +
+    'getting\n' +
+    'the\n' +
+    'principal\n' +
+    'The\n' +
+    'boys\n' +
+    'just\n' +
+    'laughed\n' +
+    'at\n' +
+    'her\n' +
+    'but\n' +
+    'Emma\n' +
+    "didn't\n" +
+    'back\n' +
+    'down\n' +
+    'She\n' +
+    'planted\n' +
+    'herself\n' +
+    'between\n' +
+    'them\n' +
+    'and\n' +
+    'Lily\n' +
+    'and\n' +
+    'I\n' +
+    'started\n' +
+    'yelling\n' +
+    'for\n' +
+    'help\n' +
+    'until\n' +
+    'a\n' +
+    'teacher\n' +
+    'came\n' +
+    'running\n' +
+    'The\n' +
+    'boys\n' +
+    'scattered\n' +
+    'and\n' +
+    'Emma\n' +
+    'helped\n' +
+    'Lily\n' +
+    'get\n' +
+    'to\n' +
+    'class\n' +
+    'that\n' +
+    'night\n' +
+    'I\n' +
+    'asked\n' +
+    'Lily\n' +
+    'about\n' +
+    'what\n' +
+    "I'd\n" +
+    'seen\n' +
+    'She\n' +
+    'finally\n' +
+    'broke\n' +
+    'down\n' +
+    'and\n' +
+    'told\n' +
+    'me\n' +
+    'those\n' +
+    'boys\n' +
+    'had\n' +
+    'been\n' +
+    'bothering\n' +
+    'her\n' +
+    'for\n' +
+    'weeks\n' +
+    'calling\n' +
+    'her\n' +
+    'names\n' +
+    'and\n' +
+    'making\n' +
+    'it\n' +
+    'hard\n' +
+    'for\n' +
+    'her\n' +
+    'to\n' +
+    'get\n' +
+    'around\n' +
+    'school\n' +
+    "She'd\n" +
+    'been\n' +
+    'too\n' +
+    'embarrassed\n' +
+    'to\n' +
+    'tell\n' +
+    'me\n' +
+    'but\n' +
+    'Emma\n' +
+    'had\n' +
+    'been\n' +
+    'protecting\n' +
+    'her\n' +
+    'every\n' +
+    'day\n' +
+    'walking\n' +
+    'with\n' +
+    'her\n' +
+    'to\n' +
+    'class\n' +
+    'sitting\n' +
+    'with\n' +
+    'her\n' +
+    'at\n' +
+    'lunch\n' +
+    'and\n' +
+    'even\n' +
+    'getting\n' +
+    'in\n' +
+    'trouble\n' +
+    'for\n' +
+    'being\n' +
+    'late\n' +
+    'to\n' +
+    'her\n' +
+    'own\n' +
+    'classes\n' +
+    'because\n' +
+    'she\n' +
+    'was\n' +
+    'helping\n' +
+    'Lily\n' +
+    'navigate\n' +
+    'the\n' +
+    'crowded\n' +
+    'hallways\n' +
+    'I\n' +
+    'called\n' +
+    "Emma's\n" +
+    'mom\n' +
+    'to\n' +
+    'thank\n' +
+    'her\n' +
+    'but\n' +
+    'she\n' +
+    'said\n' +
+    'she\n' +
+    'had\n' +
+    'no\n' +
+    'idea\n' +
+    'Emma\n' +
+    'had\n' +
+    'been\n' +
+    'doing\n' +
+    'any\n' +
+    'of\n' +
+    'this\n' +
+    'When\n' +
+    'we\n' +
+    'asked\n' +
+    'Emma\n' +
+    'why\n' +
+    'she\n' +
+    'was\n' +
+    'helping\n' +
+    'Lily\n' +
+    'she\n' +
+    'just\n' +
+    'shrugged\n' +
+    'and\n' +
+    'said\n' +
+    'because\n' +
+    "she's\n" +
+    'my\n' +
+    'friend\n' +
+    'and\n' +
+    'friends\n' +
+    'help\n' +
+    'each\n' +
+    'other\n' +
+    'The\n' +
+    'next\n' +
+    'day\n' +
+    'I\n' +
+    'went\n' +
+    'to\n' +
+    'school\n' +
+    'to\n' +
+    'talk\n' +
+    'to\n' +
+    'the\n' +
+    'principal\n' +
+    'about\n' +
+    'the\n' +
+    'bullying\n' +
+    'but\n' +
+    'when\n' +
+    'I\n' +
+    'got\n' +
+    'there\n' +
+    "Emma's\n" +
+    'mom\n' +
+    'was\n' +
+    'already\n' +
+    'in\n' +
+    'the\n' +
+    'office\n' +
+    'with\n' +
+    'Emma\n' +
+    "They'd\n" +
+    'come\n' +
+    'to\n' +
+    'report\n' +
+    'the\n' +
+    'boys\n' +
+    'behavior\n' +
+    'and\n' +
+    'Emma\n' +
+    'had\n' +
+    'brought\n' +
+    'a\n' +
+    'notebook\n' +
+    'where\n' +
+    "she'd\n" +
+    'been\n' +
+    'writing\n' +
+    'down\n' +
+    'every\n' +
+    'incident\n' +
+    'this\n' +
+    'six\n' +
+    'year\n' +
+    'old\n' +
+    'had\n' +
+    'been\n' +
+    'documenting\n' +
+    'Everything\n' +
+    'dates\n' +
+    'times\n' +
+    'what\n' +
+    'the\n' +
+    'boys\n' +
+    'said\n' +
+    'and\n' +
+    'did\n' +
+    "she'd\n" +
+    'even\n' +
+    'drawn\n' +
+    'pictures\n' +
+    'of\n' +
+    'where\n' +
+    'the\n' +
+    'incidents\n' +
+    'happened\n' +
+    'Emma\n' +
+    'had\n' +
+    'created\n' +
+    'her\n' +
+    'own\n' +
+    'evidence\n' +
+    'file\n' +
+    'to\n' +
+    'protect\n' +
+    'my\n' +
+    'daughter\n' +
+    'The\n' +
+    'principal\n' +
+    'was\n' +
+    'amazed\n' +
+    'by\n' +
+    "Emma's\n" +
+    'detailed\n' +
+    'records\n' +
+    'and\n' +
+    'immediately\n' +
+    'called\n' +
+    'in\n' +
+    'the\n' +
+    'boys\n' +
+    'and\n' +
+    'their\n' +
+    'parents\n' +
+    'The\n' +
+    'bullying\n' +
+    'stopped\n' +
+    'that\n' +
+    'day\n' +
+    'but\n' +
+    "Emma's\n" +
+    'protection\n' +
+    "didn't\n" +
+    'She\n' +
+    'continued\n' +
+    'walking\n' +
+    'with\n' +
+    'Lily\n' +
+    'and\n' +
+    'including\n' +
+    'her\n' +
+    'in\n' +
+    'everything\n' +
+    'last\n' +
+    'month\n' +
+    'Was\n' +
+    "Lily's\n" +
+    'birthday\n' +
+    'party\n' +
+    'I\n' +
+    'was\n' +
+    'worried\n' +
+    'about\n' +
+    'inviting\n' +
+    'kids\n' +
+    'from\n' +
+    'school\n' +
+    'because\n' +
+    'of\n' +
+    'the\n' +
+    'accessibility\n' +
+    'issues\n' +
+    'with\n' +
+    'our\n' +
+    'house\n' +
+    'but\n' +
+    'Lily\n' +
+    'really\n' +
+    'wanted\n' +
+    'a\n' +
+    'normal\n' +
+    'party\n' +
+    'with\n' +
+    'her\n' +
+    'friends\n' +
+    'when\n' +
+    'the\n' +
+    'kids\n' +
+    'arrived\n' +
+    'Emma\n' +
+    'immediately\n' +
+    'started\n' +
+    'organizing\n' +
+    'games\n' +
+    'that\n' +
+    'Lily\n' +
+    'could\n' +
+    'participate\n' +
+    'in\n' +
+    "She'd\n" +
+    'clearly\n' +
+    'thought\n' +
+    'about\n' +
+    'this\n' +
+    'ahead\n' +
+    'of\n' +
+    'time\n' +
+    'because\n' +
+    'she\n' +
+    'had\n' +
+    'ideas\n' +
+    'for\n' +
+    'wheelchair\n' +
+    'friendly\n' +
+    'activities\n' +
+    'that\n' +
+    'made\n' +
+    'Lily\n' +
+    'feel\n' +
+    'included\n' +
+    'rather\n' +
+    'than\n' +
+    'accommodated\n' +
+    'But\n' +
+    'the\n' +
+    'moment\n' +
+    'that\n' +
+    'really\n' +
+    'got\n' +
+    'me\n' +
+    'was\n' +
+    'when\n' +
+    'one\n' +
+    'of\n' +
+    'the\n' +
+    'other\n' +
+    'kids\n' +
+    'asked\n' +
+    'why\n' +
+    'Lily\n' +
+    "couldn't\n" +
+    'just\n' +
+    'get\n' +
+    'out\n' +
+    'of\n' +
+    'her\n' +
+    'wheelchair\n' +
+    'and\n' +
+    'walk\n' +
+    'Emma\n' +
+    'Very\n' +
+    'seriously\n' +
+    'explained\n' +
+    'that\n' +
+    "Lily's\n" +
+    'legs\n' +
+    "don't\n" +
+    'work\n' +
+    'the\n' +
+    'same\n' +
+    'way\n' +
+    'but\n' +
+    'her\n' +
+    'brain\n' +
+    'and\n' +
+    'heart\n' +
+    'work\n' +
+    'perfectly\n' +
+    'and\n' +
+    "that's\n" +
+    'what\n' +
+    'matters\n' +
+    'Then\n' +
+    'Emma\n' +
+    'said\n' +
+    'something\n' +
+    'that\n' +
+    'made\n' +
+    'every\n' +
+    'adult\n' +
+    'in\n' +
+    'the\n' +
+    'room\n' +
+    'tear\n' +
+    'up\n' +
+    'She\n' +
+    'said\n' +
+    'Lily\n' +
+    'is\n' +
+    'the\n' +
+    'bravest\n' +
+    'person\n' +
+    'I\n' +
+    'know\n' +
+    'because\n' +
+    'she\n' +
+    'never\n' +
+    'gives\n' +
+    'up\n' +
+    'even\n' +
+    'when\n' +
+    'things\n' +
+    'are\n' +
+    'hard\n' +
+    'And\n' +
+    'she\n' +
+    'always\n' +
+    'shares\n' +
+    'her\n' +
+    'snacks\n' +
+    'with\n' +
+    'me\n' +
+    'When\n' +
+    'I\n' +
+    'tried\n' +
+    'to\n' +
+    'thank\n' +
+    'Emma\n' +
+    'for\n' +
+    'everything\n' +
+    "she'd\n" +
+    'done\n' +
+    'she\n' +
+    'looked\n' +
+    'confused\n' +
+    'and\n' +
+    'said\n' +
+    'but\n' +
+    'Lily\n' +
+    'would\n' +
+    'do\n' +
+    'the\n' +
+    'same\n' +
+    'for\n' +
+    'me\n' +
+    "That's\n" +
+    'what\n' +
+    'best\n' +
+    'friends\n' +
+    'do\n' +
+    "I'm\n" +
+    'crying\n' +
+    'writing\n' +
+    'this\n' +
+    'because\n' +
+    'I\n' +
+    'realized\n' +
+    'my\n' +
+    'daughter\n' +
+    'found\n' +
+    'something\n' +
+    "I'd\n" +
+    'been\n' +
+    'worried\n' +
+    "she'd\n" +
+    'never\n' +
+    'have\n' +
+    'a\n' +
+    'true\n' +
+    'friend\n' +
+    'who\n' +
+    'sees\n' +
+    'her\n' +
+    'for\n' +
+    'who\n' +
+    'she\n' +
+    'is\n' +
+    'not\n' +
+    'what\n' +
+    'she\n' +
+    "can't\n" +
+    'do',
+  wordTimings: [
+    { text: 'What', startFrame: 0, endFrame: 2 },
+    { text: 'has', startFrame: 2, endFrame: 7 },
+    { text: 'your', startFrame: 7, endFrame: 12 },
+    { text: 'child', startFrame: 12, endFrame: 19 },
+    { text: 'done', startFrame: 19, endFrame: 24 },
+    { text: 'that', startFrame: 24, endFrame: 30 },
+    { text: 'brought', startFrame: 30, endFrame: 34 },
+    { text: 'you', startFrame: 34, endFrame: 39 },
+    { text: 'to', startFrame: 39, endFrame: 53 },
+    { text: 'tears', startFrame: 53, endFrame: 53 },
+    { text: 'My', startFrame: 60, endFrame: 60 },
+    { text: 'daughter', startFrame: 60, endFrame: 67 },
+    { text: 'Lily', startFrame: 67, endFrame: 73 },
+    { text: 'has', startFrame: 73, endFrame: 81 },
+    { text: 'been', startFrame: 81, endFrame: 85 },
+    { text: 'in', startFrame: 85, endFrame: 88 },
+    { text: 'a', startFrame: 88, endFrame: 94 },
+    { text: 'wheelchair', startFrame: 94, endFrame: 98 },
+    { text: 'since', startFrame: 98, endFrame: 106 },
+    { text: 'she', startFrame: 106, endFrame: 112 },
+    { text: 'was', startFrame: 112, endFrame: 117 },
+    { text: 'three', startFrame: 117, endFrame: 126 },
+    { text: 'Spina', startFrame: 137, endFrame: 138 },
+    { text: 'bifida', startFrame: 138, endFrame: 145 },
+    { text: 'means', startFrame: 145, endFrame: 157 },
+    { text: "she'll", startFrame: 157, endFrame: 167 },
+    { text: 'never', startFrame: 167, endFrame: 172 },
+    { text: 'walk', startFrame: 172, endFrame: 182 },
+    { text: 'but', startFrame: 184, endFrame: 187 },
+    { text: "she's", startFrame: 187, endFrame: 198 },
+    { text: 'never', startFrame: 198, endFrame: 200 },
+    { text: 'let', startFrame: 200, endFrame: 206 },
+    { text: 'that', startFrame: 206, endFrame: 213 },
+    { text: 'stop', startFrame: 213, endFrame: 216 },
+    { text: 'her', startFrame: 216, endFrame: 220 },
+    { text: 'from', startFrame: 220, endFrame: 226 },
+    { text: 'trying', startFrame: 226, endFrame: 231 },
+    { text: 'everything', startFrame: 231, endFrame: 245 },
+    { text: 'When', startFrame: 249, endFrame: 252 },
+    { text: 'she', startFrame: 252, endFrame: 256 },
+    { text: 'started', startFrame: 256, endFrame: 262 },
+    { text: 'first', startFrame: 262, endFrame: 273 },
+    { text: 'grade', startFrame: 273, endFrame: 280 },
+    { text: 'I', startFrame: 282, endFrame: 285 },
+    { text: 'was', startFrame: 285, endFrame: 292 },
+    { text: 'terrified', startFrame: 292, endFrame: 309 },
+    { text: 'Kids', startFrame: 318, endFrame: 318 },
+    { text: 'can', startFrame: 318, endFrame: 324 },
+    { text: 'be', startFrame: 324, endFrame: 338 },
+    { text: 'cruel', startFrame: 338, endFrame: 338 },
+    { text: 'and', startFrame: 340, endFrame: 344 },
+    { text: 'I', startFrame: 344, endFrame: 349 },
+    { text: "didn't", startFrame: 349, endFrame: 351 },
+    { text: 'know', startFrame: 351, endFrame: 357 },
+    { text: 'how', startFrame: 357, endFrame: 361 },
+    { text: "they'd", startFrame: 361, endFrame: 375 },
+    { text: 'treat', startFrame: 375, endFrame: 375 },
+    { text: 'her', startFrame: 375, endFrame: 379 },
+    { text: 'The', startFrame: 382, endFrame: 385 },
+    { text: 'first', startFrame: 385, endFrame: 391 },
+    { text: 'few', startFrame: 391, endFrame: 397 },
+    { text: 'weeks', startFrame: 397, endFrame: 402 },
+    { text: 'seemed', startFrame: 402, endFrame: 409 },
+    { text: 'okay', startFrame: 409, endFrame: 423 },
+    { text: 'Lily', startFrame: 432, endFrame: 432 },
+    { text: 'would', startFrame: 432, endFrame: 436 },
+    { text: 'come', startFrame: 436, endFrame: 443 },
+    { text: 'home', startFrame: 443, endFrame: 450 },
+    { text: 'chattering', startFrame: 450, endFrame: 457 },
+    { text: 'about', startFrame: 457, endFrame: 464 },
+    { text: 'her', startFrame: 464, endFrame: 469 },
+    { text: 'new', startFrame: 469, endFrame: 476 },
+    { text: 'friends', startFrame: 476, endFrame: 482 },
+    { text: 'and', startFrame: 482, endFrame: 487 },
+    { text: 'her', startFrame: 487, endFrame: 501 },
+    { text: 'teacher', startFrame: 501, endFrame: 501 },
+    { text: 'Mrs', startFrame: 504, endFrame: 511 },
+    { text: 'Chen', startFrame: 513, endFrame: 520 },
+    { text: 'but', startFrame: 524, endFrame: 528 },
+    { text: 'then', startFrame: 528, endFrame: 536 },
+    { text: 'things', startFrame: 536, endFrame: 543 },
+    { text: 'started', startFrame: 543, endFrame: 551 },
+    { text: 'changing', startFrame: 551, endFrame: 562 },
+    { text: "She'd", startFrame: 568, endFrame: 575 },
+    { text: 'get', startFrame: 575, endFrame: 579 },
+    { text: 'quiet', startFrame: 579, endFrame: 584 },
+    { text: 'on', startFrame: 584, endFrame: 589 },
+    { text: 'the', startFrame: 589, endFrame: 591 },
+    { text: 'ride', startFrame: 591, endFrame: 598 },
+    { text: 'home', startFrame: 598, endFrame: 603 },
+    { text: 'and', startFrame: 603, endFrame: 607 },
+    { text: 'they', startFrame: 607, endFrame: 614 },
+    { text: 'stopped', startFrame: 614, endFrame: 619 },
+    { text: 'talking', startFrame: 619, endFrame: 629 },
+    { text: 'about', startFrame: 629, endFrame: 637 },
+    { text: 'school', startFrame: 637, endFrame: 643 },
+    { text: 'when', startFrame: 643, endFrame: 648 },
+    { text: 'I', startFrame: 648, endFrame: 656 },
+    { text: 'asked', startFrame: 656, endFrame: 657 },
+    { text: 'about', startFrame: 657, endFrame: 662 },
+    ... 687 more items
+  ],
+  animatedSubtitleType: 'word',
+  fontFamily: 'Jellee',
+  fontSize: 50,
+  fontStrokeSize: 3,
+  textColor: '#FFFFFF',
+  highlightColor: '#FCA5A5',
+  backgroundVideoStyle: 'satisfying',
+  backgroundVideoPath: 's3://remotion-reddit-start/Clips/Satisfying/8edz8nr0.mp4',
+  backgroundColor: '#1A1A1A',
+  has_background_music: false,
+  background_music_volume: 0.05,
+  watermarkOpacity: 0.7,
+  showChannelWatermark: true,
+  showVideoLength: true,
+  totalDurationInFrames: 5387
+}
+Starting Remotion render...
+Executing Remotion CLI from /var/task/remotion-frontend: HOME=/tmp NPM_CONFIG_CACHE=/tmp/.npm-cache NPM_CONFIG_PREFIX=/tmp/.npm-prefix /var/task/remotion-frontend/node_modules/.bin/remotion render "/var/task/remotion-frontend/remotion" MainComposition "/tmp/54228542-5e01-49e7-8f0a-2390edabb8fd.mp4" --props='{"channelName":"RealTestChannel","channelImage":"https://rdtt.fun/ChannelLogos/2291f8b4-cf8f-430a-92a3-6a4718abde2f-object-logo.png","hookText":"What has your child done that brought you to tears?","hook_animation_type":"fall","audioUrl":"https://slicr-me.s3.eu-north-1.amazonaws.com/Story21.mp3","srtFileUrl":"https://slicr-me.s3.eu-north-1.amazonaws.com/processed_5225f667-0903-440e-b79a-6c39388dfac7-stream_1748282020205_final.srt","hookDurationInSeconds":0,"subtitleText":"What\nhas\nyour\nchild\ndone\nthat\nbrought\nyou\nto\ntears\nMy\ndaughter\nLily\nhas\nbeen\nin\na\nwheelchair\nsince\nshe\nwas\nthree\nSpina\nbifida\nmeans\nshe'll\nnever\nwalk\nbut\nshe's\nnever\nlet\nthat\nstop\nher\nfrom\ntrying\neverything\nWhen\nshe\nstarted\nfirst\ngrade\nI\nwas\nterrified\nKids\ncan\nbe\ncruel\nand\nI\ndidn't\nknow\nhow\nthey'd\ntreat\nher\nThe\nfirst\nfew\nweeks\nseemed\nokay\nLily\nwould\ncome\nhome\nchattering\nabout\nher\nnew\nfriends\nand\nher\nteacher\nMrs\nChen\nbut\nthen\nthings\nstarted\nchanging\nShe'd\nget\nquiet\non\nthe\nride\nhome\nand\nthey\nstopped\ntalking\nabout\nschool\nwhen\nI\nasked\nabout\nher\nday\nShe'd\njust\nsay\nit\nwas\nfine\nOne\nmorning\nI\nfound\nher\ncrying\nin\nher\nroom\nShe\nwouldn't\ntell\nme\nwhat\nwas\nwrong\njust\nkept\nsaying\nshe\ndidn't\nwant\nto\ngo\nto\nschool\nanymore\nMy\nheart\nbroke\nbecause\nLily\nhad\nalways\nloved\nlearning\nand\nbeing\naround\nother\nkids\nI\ncalled\nMrs\nChen\nwho\nsaid\nLily\nseemed\nwithdrawn\nlately\nand\nhad\nbeen\nasking\nto\neat\nlunch\nin\nthe\nclassroom\ninstead\nof\nthe\ncafeteria\nShe\nalso\nmentioned\nthat\nLily's\nbest\nfriend\nEmma\nhad\nbeen\nabsent\na\nlot\nrecently\nThat\nafternoon\nI\ndecided\nto\npick\nLily\nup\nearly\nfrom\nschool\ninstead\nof\nwaiting\nfor\nher\nThe\nbus\nwhen\nI\ngot\nthere\nI\nsaw\nsomething\nthat\nmade\nmy\nblood\nboil\nThree\nboys\nfrom\nher\nclass\nwere\nblocking\nher\nwheelchair\nin\nthe\nhallway\nlaughing\nas\nshe\ntried\nto\nget\naround\nthem\nI\nwas\nabout\nto\nmarch\nover\nthere\nwhen\nI\nsaw\nEmma\nappear\nout\nof\nnowhere\nThis\ntiny\nsix\nyear\nold\ngirl\nwalked\nright\nup\nto\nthose\nboys\nand\nsaid\nin\nthe\nloudest\nvoice\nyou\nneed\nto\nmove\nright\nnow\nor\nI'm\ngetting\nthe\nprincipal\nThe\nboys\njust\nlaughed\nat\nher\nbut\nEmma\ndidn't\nback\ndown\nShe\nplanted\nherself\nbetween\nthem\nand\nLily\nand\nI\nstarted\nyelling\nfor\nhelp\nuntil\na\nteacher\ncame\nrunning\nThe\nboys\nscattered\nand\nEmma\nhelped\nLily\nget\nto\nclass\nthat\nnight\nI\nasked\nLily\nabout\nwhat\nI'd\nseen\nShe\nfinally\nbroke\ndown\nand\ntold\nme\nthose\nboys\nhad\nbeen\nbothering\nher\nfor\nweeks\ncalling\nher\nnames\nand\nmaking\nit\nhard\nfor\nher\nto\nget\naround\nschool\nShe'd\nbeen\ntoo\nembarrassed\nto\ntell\nme\nbut\nEmma\nhad\nbeen\nprotecting\nher\nevery\nday\nwalking\nwith\nher\nto\nclass\nsitting\nwith\nher\nat\nlunch\nand\neven\ngetting\nin\ntrouble\nfor\nbeing\nlate\nto\nher\nown\nclasses\nbecause\nshe\nwas\nhelping\nLily\nnavigate\nthe\ncrowded\nhallways\nI\ncalled\nEmma's\nmom\nto\nthank\nher\nbut\nshe\nsaid\nshe\nhad\nno\nidea\nEmma\nhad\nbeen\ndoing\nany\nof\nthis\nWhen\nwe\nasked\nEmma\nwhy\nshe\nwas\nhelping\nLily\nshe\njust\nshrugged\nand\nsaid\nbecause\nshe's\nmy\nfriend\nand\nfriends\nhelp\neach\nother\nThe\nnext\nday\nI\nwent\nto\nschool\nto\ntalk\nto\nthe\nprincipal\nabout\nthe\nbullying\nbut\nwhen\nI\ngot\nthere\nEmma's\nmom\nwas\nalready\nin\nthe\noffice\nwith\nEmma\nThey'd\ncome\nto\nreport\nthe\nboys\nbehavior\nand\nEmma\nhad\nbrought\na\nnotebook\nwhere\nshe'd\nbeen\nwriting\ndown\nevery\nincident\nthis\nsix\nyear\nold\nhad\nbeen\ndocumenting\nEverything\ndates\ntimes\nwhat\nthe\nboys\nsaid\nand\ndid\nshe'd\neven\ndrawn\npictures\nof\nwhere\nthe\nincidents\nhappened\nEmma\nhad\ncreated\nher\nown\nevidence\nfile\nto\nprotect\nmy\ndaughter\nThe\nprincipal\nwas\namazed\nby\nEmma's\ndetailed\nrecords\nand\nimmediately\ncalled\nin\nthe\nboys\nand\ntheir\nparents\nThe\nbullying\nstopped\nthat\nday\nbut\nEmma's\nprotection\ndidn't\nShe\ncontinued\nwalking\nwith\nLily\nand\nincluding\nher\nin\neverything\nlast\nmonth\nWas\nLily's\nbirthday\nparty\nI\nwas\nworried\nabout\ninviting\nkids\nfrom\nschool\nbecause\nof\nthe\naccessibility\nissues\nwith\nour\nhouse\nbut\nLily\nreally\nwanted\na\nnormal\nparty\nwith\nher\nfriends\nwhen\nthe\nkids\narrived\nEmma\nimmediately\nstarted\norganizing\ngames\nthat\nLily\ncould\nparticipate\nin\nShe'd\nclearly\nthought\nabout\nthis\nahead\nof\ntime\nbecause\nshe\nhad\nideas\nfor\nwheelchair\nfriendly\nactivities\nthat\nmade\nLily\nfeel\nincluded\nrather\nthan\naccommodated\nBut\nthe\nmoment\nthat\nreally\ngot\nme\nwas\nwhen\none\nof\nthe\nother\nkids\nasked\nwhy\nLily\ncouldn't\njust\nget\nout\nof\nher\nwheelchair\nand\nwalk\nEmma\nVery\nseriously\nexplained\nthat\nLily's\nlegs\ndon't\nwork\nthe\nsame\nway\nbut\nher\nbrain\nand\nheart\nwork\nperfectly\nand\nthat's\nwhat\nmatters\nThen\nEmma\nsaid\nsomething\nthat\nmade\nevery\nadult\nin\nthe\nroom\ntear\nup\nShe\nsaid\nLily\nis\nthe\nbravest\nperson\nI\nknow\nbecause\nshe\nnever\ngives\nup\neven\nwhen\nthings\nare\nhard\nAnd\nshe\nalways\nshares\nher\nsnacks\nwith\nme\nWhen\nI\ntried\nto\nthank\nEmma\nfor\neverything\nshe'd\ndone\nshe\nlooked\nconfused\nand\nsaid\nbut\nLily\nwould\ndo\nthe\nsame\nfor\nme\nThat's\nwhat\nbest\nfriends\ndo\nI'm\ncrying\nwriting\nthis\nbecause\nI\nrealized\nmy\ndaughter\nfound\nsomething\nI'd\nbeen\nworried\nshe'd\nnever\nhave\na\ntrue\nfriend\nwho\nsees\nher\nfor\nwho\nshe\nis\nnot\nwhat\nshe\ncan't\ndo","wordTimings":[{"text":"What","startFrame":0,"endFrame":2},{"text":"has","startFrame":2,"endFrame":7},{"text":"your","startFrame":7,"endFrame":12},{"text":"child","startFrame":12,"endFrame":19},{"text":"done","startFrame":19,"endFrame":24},{"text":"that","startFrame":24,"endFrame":30},{"text":"brought","startFrame":30,"endFrame":34},{"text":"you","startFrame":34,"endFrame":39},{"text":"to","startFrame":39,"endFrame":53},{"text":"tears","startFrame":53,"endFrame":53},{"text":"My","startFrame":60,"endFrame":60},{"text":"daughter","startFrame":60,"endFrame":67},{"text":"Lily","startFrame":67,"endFrame":73},{"text":"has","startFrame":73,"endFrame":81},{"text":"been","startFrame":81,"endFrame":85},{"text":"in","startFrame":85,"endFrame":88},{"text":"a","startFrame":88,"endFrame":94},{"text":"wheelchair","startFrame":94,"endFrame":98},{"text":"since","startFrame":98,"endFrame":106},{"text":"she","startFrame":106,"endFrame":112},{"text":"was","startFrame":112,"endFrame":117},{"text":"three","startFrame":117,"endFrame":126},{"text":"Spina","startFrame":137,"endFrame":138},{"text":"bifida","startFrame":138,"endFrame":145},{"text":"means","startFrame":145,"endFrame":157},{"text":"she'll","startFrame":157,"endFrame":167},{"text":"never","startFrame":167,"endFrame":172},{"text":"walk","startFrame":172,"endFrame":182},{"text":"but","startFrame":184,"endFrame":187},{"text":"she's","startFrame":187,"endFrame":198},{"text":"never","startFrame":198,"endFrame":200},{"text":"let","startFrame":200,"endFrame":206},{"text":"that","startFrame":206,"endFrame":213},{"text":"stop","startFrame":213,"endFrame":216},{"text":"her","startFrame":216,"endFrame":220},{"text":"from","startFrame":220,"endFrame":226},{"text":"trying","startFrame":226,"endFrame":231},{"text":"everything","startFrame":231,"endFrame":245},{"text":"When","startFrame":249,"endFrame":252},{"text":"she","startFrame":252,"endFrame":256},{"text":"started","startFrame":256,"endFrame":262},{"text":"first","startFrame":262,"endFrame":273},{"text":"grade","startFrame":273,"endFrame":280},{"text":"I","startFrame":282,"endFrame":285},{"text":"was","startFrame":285,"endFrame":292},{"text":"terrified","startFrame":292,"endFrame":309},{"text":"Kids","startFrame":318,"endFrame":318},{"text":"can","startFrame":318,"endFrame":324},{"text":"be","startFrame":324,"endFrame":338},{"text":"cruel","startFrame":338,"endFrame":338},{"text":"and","startFrame":340,"endFrame":344},{"text":"I","startFrame":344,"endFrame":349},{"text":"didn't","startFrame":349,"endFrame":351},{"text":"know","startFrame":351,"endFrame":357},{"text":"how","startFrame":357,"endFrame":361},{"text":"they'd","startFrame":361,"endFrame":375},{"text":"treat","startFrame":375,"endFrame":375},{"text":"her","startFrame":375,"endFrame":379},{"text":"The","startFrame":382,"endFrame":385},{"text":"first","startFrame":385,"endFrame":391},{"text":"few","startFrame":391,"endFrame":397},{"text":"weeks","startFrame":397,"endFrame":402},{"text":"seemed","startFrame":402,"endFrame":409},{"text":"okay","startFrame":409,"endFrame":423},{"text":"Lily","startFrame":432,"endFrame":432},{"text":"would","startFrame":432,"endFrame":436},{"text":"come","startFrame":436,"endFrame":443},{"text":"home","startFrame":443,"endFrame":450},{"text":"chattering","startFrame":450,"endFrame":457},{"text":"about","startFrame":457,"endFrame":464},{"text":"her","startFrame":464,"endFrame":469},{"text":"new","startFrame":469,"endFrame":476},{"text":"friends","startFrame":476,"endFrame":482},{"text":"and","startFrame":482,"endFrame":487},{"text":"her","startFrame":487,"endFrame":501},{"text":"teacher","startFrame":501,"endFrame":501},{"text":"Mrs","startFrame":504,"endFrame":511},{"text":"Chen","startFrame":513,"endFrame":520},{"text":"but","startFrame":524,"endFrame":528},{"text":"then","startFrame":528,"endFrame":536},{"text":"things","startFrame":536,"endFrame":543},{"text":"started","startFrame":543,"endFrame":551},{"text":"changing","startFrame":551,"endFrame":562},{"text":"She'd","startFrame":568,"endFrame":575},{"text":"get","startFrame":575,"endFrame":579},{"text":"quiet","startFrame":579,"endFrame":584},{"text":"on","startFrame":584,"endFrame":589},{"text":"the","startFrame":589,"endFrame":591},{"text":"ride","startFrame":591,"endFrame":598},{"text":"home","startFrame":598,"endFrame":603},{"text":"and","startFrame":603,"endFrame":607},{"text":"they","startFrame":607,"endFrame":614},{"text":"stopped","startFrame":614,"endFrame":619},{"text":"talking","startFrame":619,"endFrame":629},{"text":"about","startFrame":629,"endFrame":637},{"text":"school","startFrame":637,"endFrame":643},{"text":"when","startFrame":643,"endFrame":648},{"text":"I","startFrame":648,"endFrame":656},{"text":"asked","startFrame":656,"endFrame":657},{"text":"about","startFrame":657,"endFrame":662},{"text":"her","startFrame":662,"endFrame":666},{"text":"day","startFrame":666,"endFrame":673},{"text":"She'd","startFrame":676,"endFrame":685},{"text":"just","startFrame":685,"endFrame":690},{"text":"say","startFrame":690,"endFrame":695},{"text":"it","startFrame":695,"endFrame":699},{"text":"was","startFrame":699,"endFrame":705},{"text":"fine","startFrame":705,"endFrame":713},{"text":"One","startFrame":717,"endFrame":721},{"text":"morning","startFrame":721,"endFrame":726},{"text":"I","startFrame":729,"endFrame":732},{"text":"found","startFrame":732,"endFrame":735},{"text":"her","startFrame":735,"endFrame":741},{"text":"crying","startFrame":741,"endFrame":747},{"text":"in","startFrame":747,"endFrame":752},{"text":"her","startFrame":752,"endFrame":759},{"text":"room","startFrame":759,"endFrame":762},{"text":"She","startFrame":766,"endFrame":770},{"text":"wouldn't","startFrame":770,"endFrame":774},{"text":"tell","startFrame":774,"endFrame":780},{"text":"me","startFrame":780,"endFrame":783},{"text":"what","startFrame":783,"endFrame":786},{"text":"was","startFrame":786,"endFrame":792},{"text":"wrong","startFrame":792,"endFrame":798},{"text":"just","startFrame":801,"endFrame":806},{"text":"kept","startFrame":806,"endFrame":811},{"text":"saying","startFrame":811,"endFrame":818},{"text":"she","startFrame":818,"endFrame":826},{"text":"didn't","startFrame":826,"endFrame":831},{"text":"want","startFrame":831,"endFrame":834},{"text":"to","startFrame":834,"endFrame":837},{"text":"go","startFrame":837,"endFrame":838},{"text":"to","startFrame":838,"endFrame":844},{"text":"school","startFrame":844,"endFrame":847},{"text":"anymore","startFrame":847,"endFrame":856},{"text":"My","startFrame":856,"endFrame":863},{"text":"heart","startFrame":863,"endFrame":868},{"text":"broke","startFrame":868,"endFrame":874},{"text":"because","startFrame":874,"endFrame":883},{"text":"Lily","startFrame":883,"endFrame":886},{"text":"had","startFrame":886,"endFrame":892},{"text":"always","startFrame":892,"endFrame":901},{"text":"loved","startFrame":901,"endFrame":909},{"text":"learning","startFrame":909,"endFrame":918},{"text":"and","startFrame":918,"endFrame":924},{"text":"being","startFrame":924,"endFrame":929},{"text":"around","startFrame":929,"endFrame":936},{"text":"other","startFrame":936,"endFrame":944},{"text":"kids","startFrame":944,"endFrame":951},{"text":"I","startFrame":958,"endFrame":958},{"text":"called","startFrame":958,"endFrame":964},{"text":"Mrs","startFrame":964,"endFrame":973},{"text":"Chen","startFrame":979,"endFrame":980},{"text":"who","startFrame":985,"endFrame":988},{"text":"said","startFrame":988,"endFrame":994},{"text":"Lily","startFrame":994,"endFrame":999},{"text":"seemed","startFrame":999,"endFrame":1010},{"text":"withdrawn","startFrame":1010,"endFrame":1021},{"text":"lately","startFrame":1021,"endFrame":1031},{"text":"and","startFrame":1031,"endFrame":1040},{"text":"had","startFrame":1040,"endFrame":1050},{"text":"been","startFrame":1050,"endFrame":1056},{"text":"asking","startFrame":1056,"endFrame":1061},{"text":"to","startFrame":1061,"endFrame":1068},{"text":"eat","startFrame":1068,"endFrame":1074},{"text":"lunch","startFrame":1074,"endFrame":1079},{"text":"in","startFrame":1079,"endFrame":1083},{"text":"the","startFrame":1083,"endFrame":1086},{"text":"classroom","startFrame":1086,"endFrame":1096},{"text":"instead","startFrame":1096,"endFrame":1105},{"text":"of","startFrame":1105,"endFrame":1108},{"text":"the","startFrame":1108,"endFrame":1112},{"text":"cafeteria","startFrame":1112,"endFrame":1123},{"text":"She","startFrame":1132,"endFrame":1135},{"text":"also","startFrame":1135,"endFrame":1147},{"text":"mentioned","startFrame":1147,"endFrame":1155},{"text":"that","startFrame":1155,"endFrame":1165},{"text":"Lily's","startFrame":1165,"endFrame":1173},{"text":"best","startFrame":1173,"endFrame":1180},{"text":"friend","startFrame":1180,"endFrame":1185},{"text":"Emma","startFrame":1189,"endFrame":1191},{"text":"had","startFrame":1193,"endFrame":1198},{"text":"been","startFrame":1198,"endFrame":1203},{"text":"absent","startFrame":1203,"endFrame":1210},{"text":"a","startFrame":1210,"endFrame":1219},{"text":"lot","startFrame":1219,"endFrame":1219},{"text":"recently","startFrame":1219,"endFrame":1230},{"text":"That","startFrame":1236,"endFrame":1238},{"text":"afternoon","startFrame":1238,"endFrame":1250},{"text":"I","startFrame":1253,"endFrame":1257},{"text":"decided","startFrame":1257,"endFrame":1265},{"text":"to","startFrame":1265,"endFrame":1272},{"text":"pick","startFrame":1272,"endFrame":1274},{"text":"Lily","startFrame":1274,"endFrame":1279},{"text":"up","startFrame":1279,"endFrame":1287},{"text":"early","startFrame":1287,"endFrame":1292},{"text":"from","startFrame":1292,"endFrame":1299},{"text":"school","startFrame":1299,"endFrame":1306},{"text":"instead","startFrame":1306,"endFrame":1315},{"text":"of","startFrame":1315,"endFrame":1324},{"text":"waiting","startFrame":1324,"endFrame":1324},{"text":"for","startFrame":1324,"endFrame":1334},{"text":"her","startFrame":1334,"endFrame":1336},{"text":"The","startFrame":1337,"endFrame":1341},{"text":"bus","startFrame":1341,"endFrame":1346},{"text":"when","startFrame":1350,"endFrame":1350},{"text":"I","startFrame":1350,"endFrame":1353},{"text":"got","startFrame":1353,"endFrame":1357},{"text":"there","startFrame":1357,"endFrame":1363},{"text":"I","startFrame":1363,"endFrame":1371},{"text":"saw","startFrame":1371,"endFrame":1374},{"text":"something","startFrame":1374,"endFrame":1382},{"text":"that","startFrame":1382,"endFrame":1390},{"text":"made","startFrame":1390,"endFrame":1393},{"text":"my","startFrame":1393,"endFrame":1405},{"text":"blood","startFrame":1405,"endFrame":1407},{"text":"boil","startFrame":1407,"endFrame":1417},{"text":"Three","startFrame":1428,"endFrame":1428},{"text":"boys","startFrame":1428,"endFrame":1435},{"text":"from","startFrame":1435,"endFrame":1443},{"text":"her","startFrame":1443,"endFrame":1448},{"text":"class","startFrame":1448,"endFrame":1454},{"text":"were","startFrame":1454,"endFrame":1462},{"text":"blocking","startFrame":1462,"endFrame":1467},{"text":"her","startFrame":1467,"endFrame":1474},{"text":"wheelchair","startFrame":1474,"endFrame":1483},{"text":"in","startFrame":1483,"endFrame":1490},{"text":"the","startFrame":1490,"endFrame":1502},{"text":"hallway","startFrame":1502,"endFrame":1502},{"text":"laughing","startFrame":1516,"endFrame":1516},{"text":"as","startFrame":1516,"endFrame":1522},{"text":"she","startFrame":1522,"endFrame":1527},{"text":"tried","startFrame":1527,"endFrame":1532},{"text":"to","startFrame":1532,"endFrame":1537},{"text":"get","startFrame":1537,"endFrame":1541},{"text":"around","startFrame":1541,"endFrame":1546},{"text":"them","startFrame":1546,"endFrame":1552},{"text":"I","startFrame":1553,"endFrame":1556},{"text":"was","startFrame":1556,"endFrame":1561},{"text":"about","startFrame":1561,"endFrame":1566},{"text":"to","startFrame":1566,"endFrame":1575},{"text":"march","startFrame":1575,"endFrame":1575},{"text":"over","startFrame":1575,"endFrame":1584},{"text":"there","startFrame":1584,"endFrame":1590},{"text":"when","startFrame":1590,"endFrame":1596},{"text":"I","startFrame":1596,"endFrame":1602},{"text":"saw","startFrame":1602,"endFrame":1608},{"text":"Emma","startFrame":1608,"endFrame":1617},{"text":"appear","startFrame":1617,"endFrame":1627},{"text":"out","startFrame":1627,"endFrame":1631},{"text":"of","startFrame":1631,"endFrame":1644},{"text":"nowhere","startFrame":1644,"endFrame":1644},{"text":"This","startFrame":1647,"endFrame":1653},{"text":"tiny","startFrame":1653,"endFrame":1662},{"text":"six","startFrame":1662,"endFrame":1672},{"text":"year","startFrame":1672,"endFrame":1674},{"text":"old","startFrame":1674,"endFrame":1680},{"text":"girl","startFrame":1680,"endFrame":1689},{"text":"walked","startFrame":1689,"endFrame":1696},{"text":"right","startFrame":1696,"endFrame":1707},{"text":"up","startFrame":1707,"endFrame":1710},{"text":"to","startFrame":1710,"endFrame":1714},{"text":"those","startFrame":1714,"endFrame":1721},{"text":"boys","startFrame":1721,"endFrame":1725},{"text":"and","startFrame":1725,"endFrame":1734},{"text":"said","startFrame":1734,"endFrame":1743},{"text":"in","startFrame":1743,"endFrame":1748},{"text":"the","startFrame":1748,"endFrame":1756},{"text":"loudest","startFrame":1756,"endFrame":1763},{"text":"voice","startFrame":1763,"endFrame":1773},{"text":"you","startFrame":1775,"endFrame":1777},{"text":"need","startFrame":1777,"endFrame":1782},{"text":"to","startFrame":1782,"endFrame":1790},{"text":"move","startFrame":1790,"endFrame":1797},{"text":"right","startFrame":1797,"endFrame":1805},{"text":"now","startFrame":1805,"endFrame":1815},{"text":"or","startFrame":1816,"endFrame":1822},{"text":"I'm","startFrame":1822,"endFrame":1831},{"text":"getting","startFrame":1831,"endFrame":1834},{"text":"the","startFrame":1834,"endFrame":1841},{"text":"principal","startFrame":1841,"endFrame":1851},{"text":"The","startFrame":1855,"endFrame":1857},{"text":"boys","startFrame":1857,"endFrame":1861},{"text":"just","startFrame":1861,"endFrame":1874},{"text":"laughed","startFrame":1874,"endFrame":1874},{"text":"at","startFrame":1874,"endFrame":1882},{"text":"her","startFrame":1882,"endFrame":1885},{"text":"but","startFrame":1887,"endFrame":1893},{"text":"Emma","startFrame":1893,"endFrame":1897},{"text":"didn't","startFrame":1897,"endFrame":1908},{"text":"back","startFrame":1908,"endFrame":1915},{"text":"down","startFrame":1915,"endFrame":1921},{"text":"She","startFrame":1926,"endFrame":1929},{"text":"planted","startFrame":1929,"endFrame":1936},{"text":"herself","startFrame":1936,"endFrame":1947},{"text":"between","startFrame":1947,"endFrame":1957},{"text":"them","startFrame":1957,"endFrame":1965},{"text":"and","startFrame":1965,"endFrame":1975},{"text":"Lily","startFrame":1975,"endFrame":1980},{"text":"and","startFrame":1984,"endFrame":1992},{"text":"I","startFrame":1992,"endFrame":1996},{"text":"started","startFrame":1996,"endFrame":2003},{"text":"yelling","startFrame":2003,"endFrame":2008},{"text":"for","startFrame":2008,"endFrame":2017},{"text":"help","startFrame":2017,"endFrame":2022},{"text":"until","startFrame":2022,"endFrame":2027},{"text":"a","startFrame":2027,"endFrame":2039},{"text":"teacher","startFrame":2039,"endFrame":2039},{"text":"came","startFrame":2039,"endFrame":2046},{"text":"running","startFrame":2046,"endFrame":2053},{"text":"The","startFrame":2059,"endFrame":2060},{"text":"boys","startFrame":2060,"endFrame":2067},{"text":"scattered","startFrame":2067,"endFrame":2077},{"text":"and","startFrame":2077,"endFrame":2084},{"text":"Emma","startFrame":2084,"endFrame":2088},{"text":"helped","startFrame":2088,"endFrame":2095},{"text":"Lily","startFrame":2095,"endFrame":2100},{"text":"get","startFrame":2100,"endFrame":2104},{"text":"to","startFrame":2104,"endFrame":2113},{"text":"class","startFrame":2113,"endFrame":2113},{"text":"that","startFrame":2113,"endFrame":2122},{"text":"night","startFrame":2122,"endFrame":2125},{"text":"I","startFrame":2127,"endFrame":2130},{"text":"asked","startFrame":2130,"endFrame":2135},{"text":"Lily","startFrame":2135,"endFrame":2140},{"text":"about","startFrame":2140,"endFrame":2147},{"text":"what","startFrame":2147,"endFrame":2151},{"text":"I'd","startFrame":2151,"endFrame":2158},{"text":"seen","startFrame":2158,"endFrame":2163},{"text":"She","startFrame":2169,"endFrame":2172},{"text":"finally","startFrame":2172,"endFrame":2181},{"text":"broke","startFrame":2181,"endFrame":2187},{"text":"down","startFrame":2187,"endFrame":2192},{"text":"and","startFrame":2192,"endFrame":2200},{"text":"told","startFrame":2200,"endFrame":2200},{"text":"me","startFrame":2200,"endFrame":2205},{"text":"those","startFrame":2205,"endFrame":2211},{"text":"boys","startFrame":2211,"endFrame":2214},{"text":"had","startFrame":2214,"endFrame":2219},{"text":"been","startFrame":2219,"endFrame":2225},{"text":"bothering","startFrame":2225,"endFrame":2230},{"text":"her","startFrame":2230,"endFrame":2238},{"text":"for","startFrame":2238,"endFrame":2252},{"text":"weeks","startFrame":2252,"endFrame":2252},{"text":"calling","startFrame":2259,"endFrame":2259},{"text":"her","startFrame":2259,"endFrame":2267},{"text":"names","startFrame":2267,"endFrame":2274},{"text":"and","startFrame":2274,"endFrame":2280},{"text":"making","startFrame":2280,"endFrame":2286},{"text":"it","startFrame":2286,"endFrame":2295},{"text":"hard","startFrame":2295,"endFrame":2296},{"text":"for","startFrame":2296,"endFrame":2301},{"text":"her","startFrame":2301,"endFrame":2302},{"text":"to","startFrame":2302,"endFrame":2307},{"text":"get","startFrame":2307,"endFrame":2310},{"text":"around","startFrame":2310,"endFrame":2316},{"text":"school","startFrame":2316,"endFrame":2325},{"text":"She'd","startFrame":2329,"endFrame":2335},{"text":"been","startFrame":2335,"endFrame":2338},{"text":"too","startFrame":2338,"endFrame":2350},{"text":"embarrassed","startFrame":2350,"endFrame":2350},{"text":"to","startFrame":2350,"endFrame":2361},{"text":"tell","startFrame":2361,"endFrame":2361},{"text":"me","startFrame":2361,"endFrame":2367},{"text":"but","startFrame":2370,"endFrame":2373},{"text":"Emma","startFrame":2373,"endFrame":2377},{"text":"had","startFrame":2377,"endFrame":2383},{"text":"been","startFrame":2383,"endFrame":2388},{"text":"protecting","startFrame":2388,"endFrame":2395},{"text":"her","startFrame":2395,"endFrame":2403},{"text":"every","startFrame":2403,"endFrame":2413},{"text":"day","startFrame":2413,"endFrame":2421},{"text":"walking","startFrame":2431,"endFrame":2431},{"text":"with","startFrame":2431,"endFrame":2437},{"text":"her","startFrame":2437,"endFrame":2439},{"text":"to","startFrame":2439,"endFrame":2454},{"text":"class","startFrame":2454,"endFrame":2454},{"text":"sitting","startFrame":2462,"endFrame":2463},{"text":"with","startFrame":2463,"endFrame":2468},{"text":"her","startFrame":2468,"endFrame":2470},{"text":"at","startFrame":2470,"endFrame":2480},{"text":"lunch","startFrame":2480,"endFrame":2482},{"text":"and","startFrame":2483,"endFrame":2488},{"text":"even","startFrame":2488,"endFrame":2496},{"text":"getting","startFrame":2496,"endFrame":2501},{"text":"in","startFrame":2501,"endFrame":2511},{"text":"trouble","startFrame":2511,"endFrame":2512},{"text":"for","startFrame":2512,"endFrame":2521},{"text":"being","startFrame":2521,"endFrame":2527},{"text":"late","startFrame":2527,"endFrame":2531},{"text":"to","startFrame":2531,"endFrame":2536},{"text":"her","startFrame":2536,"endFrame":2540},{"text":"own","startFrame":2540,"endFrame":2547},{"text":"classes","startFrame":2547,"endFrame":2556},{"text":"because","startFrame":2556,"endFrame":2566},{"text":"she","startFrame":2566,"endFrame":2571},{"text":"was","startFrame":2571,"endFrame":2577},{"text":"helping","startFrame":2577,"endFrame":2586},{"text":"Lily","startFrame":2586,"endFrame":2592},{"text":"navigate","startFrame":2592,"endFrame":2606},{"text":"the","startFrame":2606,"endFrame":2620},{"text":"crowded","startFrame":2620,"endFrame":2620},{"text":"hallways","startFrame":2620,"endFrame":2632},{"text":"I","startFrame":2638,"endFrame":2639},{"text":"called","startFrame":2639,"endFrame":2646},{"text":"Emma's","startFrame":2646,"endFrame":2656},{"text":"mom","startFrame":2656,"endFrame":2658},{"text":"to","startFrame":2658,"endFrame":2669},{"text":"thank","startFrame":2669,"endFrame":2669},{"text":"her","startFrame":2669,"endFrame":2674},{"text":"but","startFrame":2677,"endFrame":2679},{"text":"she","startFrame":2679,"endFrame":2684},{"text":"said","startFrame":2684,"endFrame":2688},{"text":"she","startFrame":2688,"endFrame":2693},{"text":"had","startFrame":2693,"endFrame":2698},{"text":"no","startFrame":2698,"endFrame":2704},{"text":"idea","startFrame":2704,"endFrame":2713},{"text":"Emma","startFrame":2713,"endFrame":2719},{"text":"had","startFrame":2719,"endFrame":2724},{"text":"been","startFrame":2724,"endFrame":2728},{"text":"doing","startFrame":2728,"endFrame":2733},{"text":"any","startFrame":2733,"endFrame":2740},{"text":"of","startFrame":2740,"endFrame":2745},{"text":"this","startFrame":2745,"endFrame":2750},{"text":"When","startFrame":2752,"endFrame":2755},{"text":"we","startFrame":2755,"endFrame":2761},{"text":"asked","startFrame":2761,"endFrame":2766},{"text":"Emma","startFrame":2766,"endFrame":2772},{"text":"why","startFrame":2772,"endFrame":2778},{"text":"she","startFrame":2778,"endFrame":2781},{"text":"was","startFrame":2781,"endFrame":2793},{"text":"helping","startFrame":2793,"endFrame":2793},{"text":"Lily","startFrame":2793,"endFrame":2801},{"text":"she","startFrame":2807,"endFrame":2809},{"text":"just","startFrame":2809,"endFrame":2824},{"text":"shrugged","startFrame":2824,"endFrame":2826},{"text":"and","startFrame":2826,"endFrame":2840},{"text":"said","startFrame":2840,"endFrame":2840},{"text":"because","startFrame":2847,"endFrame":2847},{"text":"she's","startFrame":2847,"endFrame":2856},{"text":"my","startFrame":2856,"endFrame":2862},{"text":"friend","startFrame":2862,"endFrame":2869},{"text":"and","startFrame":2869,"endFrame":2881},{"text":"friends","startFrame":2881,"endFrame":2889},{"text":"help","startFrame":2889,"endFrame":2896},{"text":"each","startFrame":2896,"endFrame":2902},{"text":"other","startFrame":2902,"endFrame":2908},{"text":"The","startFrame":2910,"endFrame":2914},{"text":"next","startFrame":2914,"endFrame":2919},{"text":"day","startFrame":2919,"endFrame":2922},{"text":"I","startFrame":2922,"endFrame":2925},{"text":"went","startFrame":2925,"endFrame":2928},{"text":"to","startFrame":2928,"endFrame":2934},{"text":"school","startFrame":2934,"endFrame":2937},{"text":"to","startFrame":2937,"endFrame":2943},{"text":"talk","startFrame":2943,"endFrame":2946},{"text":"to","startFrame":2946,"endFrame":2949},{"text":"the","startFrame":2949,"endFrame":2955},{"text":"principal","startFrame":2955,"endFrame":2961},{"text":"about","startFrame":2961,"endFrame":2969},{"text":"the","startFrame":2969,"endFrame":2977},{"text":"bullying","startFrame":2977,"endFrame":2981},{"text":"but","startFrame":2986,"endFrame":2989},{"text":"when","startFrame":2989,"endFrame":2994},{"text":"I","startFrame":2994,"endFrame":2998},{"text":"got","startFrame":2998,"endFrame":3003},{"text":"there","startFrame":3003,"endFrame":3012},{"text":"Emma's","startFrame":3018,"endFrame":3024},{"text":"mom","startFrame":3024,"endFrame":3027},{"text":"was","startFrame":3027,"endFrame":3031},{"text":"already","startFrame":3031,"endFrame":3039},{"text":"in","startFrame":3039,"endFrame":3044},{"text":"the","startFrame":3044,"endFrame":3055},{"text":"office","startFrame":3055,"endFrame":3055},{"text":"with","startFrame":3055,"endFrame":3067},{"text":"Emma","startFrame":3067,"endFrame":3070},{"text":"They'd","startFrame":3075,"endFrame":3082},{"text":"come","startFrame":3082,"endFrame":3088},{"text":"to","startFrame":3088,"endFrame":3100},{"text":"report","startFrame":3100,"endFrame":3100},{"text":"the","startFrame":3100,"endFrame":3105},{"text":"boys","startFrame":3105,"endFrame":3109},{"text":"behavior","startFrame":3122,"endFrame":3122},{"text":"and","startFrame":3129,"endFrame":3141},{"text":"Emma","startFrame":3141,"endFrame":3141},{"text":"had","startFrame":3141,"endFrame":3149},{"text":"brought","startFrame":3149,"endFrame":3154},{"text":"a","startFrame":3154,"endFrame":3168},{"text":"notebook","startFrame":3168,"endFrame":3168},{"text":"where","startFrame":3168,"endFrame":3180},{"text":"she'd","startFrame":3180,"endFrame":3189},{"text":"been","startFrame":3189,"endFrame":3194},{"text":"writing","startFrame":3194,"endFrame":3199},{"text":"down","startFrame":3199,"endFrame":3208},{"text":"every","startFrame":3208,"endFrame":3219},{"text":"incident","startFrame":3219,"endFrame":3228},{"text":"this","startFrame":3228,"endFrame":3240},{"text":"six","startFrame":3240,"endFrame":3249},{"text":"year","startFrame":3249,"endFrame":3251},{"text":"old","startFrame":3251,"endFrame":3256},{"text":"had","startFrame":3256,"endFrame":3263},{"text":"been","startFrame":3263,"endFrame":3269},{"text":"documenting","startFrame":3269,"endFrame":3283},{"text":"Everything","startFrame":3287,"endFrame":3299},{"text":"dates","startFrame":3315,"endFrame":3315},{"text":"times","startFrame":3328,"endFrame":3333},{"text":"what","startFrame":3342,"endFrame":3345},{"text":"the","startFrame":3345,"endFrame":3352},{"text":"boys","startFrame":3352,"endFrame":3358},{"text":"said","startFrame":3358,"endFrame":3372},{"text":"and","startFrame":3375,"endFrame":3382},{"text":"did","startFrame":3382,"endFrame":3393},{"text":"she'd","startFrame":3393,"endFrame":3400},{"text":"even","startFrame":3400,"endFrame":3406},{"text":"drawn","startFrame":3406,"endFrame":3413},{"text":"pictures","startFrame":3413,"endFrame":3423},{"text":"of","startFrame":3423,"endFrame":3427},{"text":"where","startFrame":3427,"endFrame":3432},{"text":"the","startFrame":3432,"endFrame":3439},{"text":"incidents","startFrame":3439,"endFrame":3448},{"text":"happened","startFrame":3448,"endFrame":3460},{"text":"Emma","startFrame":3467,"endFrame":3467},{"text":"had","startFrame":3467,"endFrame":3474},{"text":"created","startFrame":3474,"endFrame":3483},{"text":"her","startFrame":3483,"endFrame":3490},{"text":"own","startFrame":3490,"endFrame":3498},{"text":"evidence","startFrame":3498,"endFrame":3507},{"text":"file","startFrame":3507,"endFrame":3514},{"text":"to","startFrame":3514,"endFrame":3519},{"text":"protect","startFrame":3519,"endFrame":3526},{"text":"my","startFrame":3526,"endFrame":3533},{"text":"daughter","startFrame":3533,"endFrame":3540},{"text":"The","startFrame":3544,"endFrame":3547},{"text":"principal","startFrame":3547,"endFrame":3555},{"text":"was","startFrame":3555,"endFrame":3563},{"text":"amazed","startFrame":3563,"endFrame":3571},{"text":"by","startFrame":3571,"endFrame":3579},{"text":"Emma's","startFrame":3579,"endFrame":3587},{"text":"detailed","startFrame":3587,"endFrame":3594},{"text":"records","startFrame":3594,"endFrame":3604},{"text":"and","startFrame":3604,"endFrame":3618},{"text":"immediately","startFrame":3618,"endFrame":3629},{"text":"called","startFrame":3629,"endFrame":3636},{"text":"in","startFrame":3636,"endFrame":3643},{"text":"the","startFrame":3643,"endFrame":3645},{"text":"boys","startFrame":3645,"endFrame":3648},{"text":"and","startFrame":3648,"endFrame":3654},{"text":"their","startFrame":3654,"endFrame":3659},{"text":"parents","startFrame":3659,"endFrame":3670},{"text":"The","startFrame":3676,"endFrame":3679},{"text":"bullying","startFrame":3679,"endFrame":3685},{"text":"stopped","startFrame":3685,"endFrame":3699},{"text":"that","startFrame":3699,"endFrame":3708},{"text":"day","startFrame":3708,"endFrame":3715},{"text":"but","startFrame":3717,"endFrame":3721},{"text":"Emma's","startFrame":3721,"endFrame":3741},{"text":"protection","startFrame":3741,"endFrame":3741},{"text":"didn't","startFrame":3741,"endFrame":3749},{"text":"She","startFrame":3755,"endFrame":3755},{"text":"continued","startFrame":3755,"endFrame":3767},{"text":"walking","startFrame":3767,"endFrame":3775},{"text":"with","startFrame":3775,"endFrame":3787},{"text":"Lily","startFrame":3787,"endFrame":3787},{"text":"and","startFrame":3787,"endFrame":3801},{"text":"including","startFrame":3801,"endFrame":3816},{"text":"her","startFrame":3816,"endFrame":3826},{"text":"in","startFrame":3826,"endFrame":3834},{"text":"everything","startFrame":3834,"endFrame":3843},{"text":"last","startFrame":3843,"endFrame":3855},{"text":"month","startFrame":3855,"endFrame":3860},{"text":"Was","startFrame":3862,"endFrame":3866},{"text":"Lily's","startFrame":3866,"endFrame":3877},{"text":"birthday","startFrame":3877,"endFrame":3882},{"text":"party","startFrame":3882,"endFrame":3890},{"text":"I","startFrame":3894,"endFrame":3896},{"text":"was","startFrame":3896,"endFrame":3901},{"text":"worried","startFrame":3901,"endFrame":3905},{"text":"about","startFrame":3905,"endFrame":3919},{"text":"inviting","startFrame":3919,"endFrame":3919},{"text":"kids","startFrame":3919,"endFrame":3927},{"text":"from","startFrame":3927,"endFrame":3933},{"text":"school","startFrame":3933,"endFrame":3940},{"text":"because","startFrame":3940,"endFrame":3949},{"text":"of","startFrame":3949,"endFrame":3954},{"text":"the","startFrame":3954,"endFrame":3960},{"text":"accessibility","startFrame":3960,"endFrame":3974},{"text":"issues","startFrame":3974,"endFrame":3986},{"text":"with","startFrame":3986,"endFrame":3992},{"text":"our","startFrame":3992,"endFrame":3998},{"text":"house","startFrame":3998,"endFrame":4005},{"text":"but","startFrame":4006,"endFrame":4013},{"text":"Lily","startFrame":4013,"endFrame":4015},{"text":"really","startFrame":4015,"endFrame":4026},{"text":"wanted","startFrame":4026,"endFrame":4030},{"text":"a","startFrame":4030,"endFrame":4037},{"text":"normal","startFrame":4037,"endFrame":4044},{"text":"party","startFrame":4044,"endFrame":4050},{"text":"with","startFrame":4050,"endFrame":4055},{"text":"her","startFrame":4055,"endFrame":4062},{"text":"friends","startFrame":4062,"endFrame":4068},{"text":"when","startFrame":4068,"endFrame":4074},{"text":"the","startFrame":4074,"endFrame":4082},{"text":"kids","startFrame":4082,"endFrame":4082},{"text":"arrived","startFrame":4082,"endFrame":4092},{"text":"Emma","startFrame":4099,"endFrame":4099},{"text":"immediately","startFrame":4099,"endFrame":4115},{"text":"started","startFrame":4115,"endFrame":4125},{"text":"organizing","startFrame":4125,"endFrame":4137},{"text":"games","startFrame":4137,"endFrame":4149},{"text":"that","startFrame":4149,"endFrame":4158},{"text":"Lily","startFrame":4158,"endFrame":4159},{"text":"could","startFrame":4159,"endFrame":4165},{"text":"participate","startFrame":4165,"endFrame":4176},{"text":"in","startFrame":4176,"endFrame":4184},{"text":"She'd","startFrame":4186,"endFrame":4193},{"text":"clearly","startFrame":4193,"endFrame":4200},{"text":"thought","startFrame":4200,"endFrame":4206},{"text":"about","startFrame":4206,"endFrame":4211},{"text":"this","startFrame":4211,"endFrame":4218},{"text":"ahead","startFrame":4218,"endFrame":4221},{"text":"of","startFrame":4221,"endFrame":4231},{"text":"time","startFrame":4231,"endFrame":4231},{"text":"because","startFrame":4231,"endFrame":4238},{"text":"she","startFrame":4238,"endFrame":4244},{"text":"had","startFrame":4244,"endFrame":4249},{"text":"ideas","startFrame":4249,"endFrame":4258},{"text":"for","startFrame":4258,"endFrame":4269},{"text":"wheelchair","startFrame":4269,"endFrame":4281},{"text":"friendly","startFrame":4281,"endFrame":4290},{"text":"activities","startFrame":4290,"endFrame":4305},{"text":"that","startFrame":4305,"endFrame":4310},{"text":"made","startFrame":4310,"endFrame":4318},{"text":"Lily","startFrame":4318,"endFrame":4321},{"text":"feel","startFrame":4321,"endFrame":4333},{"text":"included","startFrame":4333,"endFrame":4348},{"text":"rather","startFrame":4348,"endFrame":4360},{"text":"than","startFrame":4360,"endFrame":4371},{"text":"accommodated","startFrame":4371,"endFrame":4385},{"text":"But","startFrame":4390,"endFrame":4391},{"text":"the","startFrame":4391,"endFrame":4395},{"text":"moment","startFrame":4395,"endFrame":4401},{"text":"that","startFrame":4401,"endFrame":4405},{"text":"really","startFrame":4405,"endFrame":4412},{"text":"got","startFrame":4412,"endFrame":4417},{"text":"me","startFrame":4417,"endFrame":4422},{"text":"was","startFrame":4422,"endFrame":4428},{"text":"when","startFrame":4428,"endFrame":4434},{"text":"one","startFrame":4434,"endFrame":4438},{"text":"of","startFrame":4438,"endFrame":4441},{"text":"the","startFrame":4441,"endFrame":4444},{"text":"other","startFrame":4444,"endFrame":4453},{"text":"kids","startFrame":4453,"endFrame":4458},{"text":"asked","startFrame":4458,"endFrame":4467},{"text":"why","startFrame":4467,"endFrame":4474},{"text":"Lily","startFrame":4474,"endFrame":4479},{"text":"couldn't","startFrame":4479,"endFrame":4487},{"text":"just","startFrame":4487,"endFrame":4494},{"text":"get","startFrame":4494,"endFrame":4498},{"text":"out","startFrame":4498,"endFrame":4501},{"text":"of","startFrame":4501,"endFrame":4503},{"text":"her","startFrame":4503,"endFrame":4508},{"text":"wheelchair","startFrame":4508,"endFrame":4517},{"text":"and","startFrame":4517,"endFrame":4527},{"text":"walk","startFrame":4527,"endFrame":4533},{"text":"Emma","startFrame":4533,"endFrame":4540},{"text":"Very","startFrame":4543,"endFrame":4550},{"text":"seriously","startFrame":4550,"endFrame":4562},{"text":"explained","startFrame":4562,"endFrame":4576},{"text":"that","startFrame":4576,"endFrame":4585},{"text":"Lily's","startFrame":4585,"endFrame":4596},{"text":"legs","startFrame":4596,"endFrame":4598},{"text":"don't","startFrame":4598,"endFrame":4605},{"text":"work","startFrame":4605,"endFrame":4609},{"text":"the","startFrame":4609,"endFrame":4615},{"text":"same","startFrame":4615,"endFrame":4618},{"text":"way","startFrame":4618,"endFrame":4628},{"text":"but","startFrame":4635,"endFrame":4638},{"text":"her","startFrame":4638,"endFrame":4643},{"text":"brain","startFrame":4643,"endFrame":4649},{"text":"and","startFrame":4649,"endFrame":4656},{"text":"heart","startFrame":4656,"endFrame":4659},{"text":"work","startFrame":4659,"endFrame":4667},{"text":"perfectly","startFrame":4667,"endFrame":4678},{"text":"and","startFrame":4684,"endFrame":4687},{"text":"that's","startFrame":4687,"endFrame":4694},{"text":"what","startFrame":4694,"endFrame":4701},{"text":"matters","startFrame":4701,"endFrame":4710},{"text":"Then","startFrame":4715,"endFrame":4724},{"text":"Emma","startFrame":4724,"endFrame":4731},{"text":"said","startFrame":4731,"endFrame":4738},{"text":"something","startFrame":4738,"endFrame":4746},{"text":"that","startFrame":4746,"endFrame":4752},{"text":"made","startFrame":4752,"endFrame":4755},{"text":"every","startFrame":4755,"endFrame":4765},{"text":"adult","startFrame":4765,"endFrame":4771},{"text":"in","startFrame":4771,"endFrame":4776},{"text":"the","startFrame":4776,"endFrame":4783},{"text":"room","startFrame":4783,"endFrame":4783},{"text":"tear","startFrame":4783,"endFrame":4793},{"text":"up","startFrame":4793,"endFrame":4799},{"text":"She","startFrame":4801,"endFrame":4804},{"text":"said","startFrame":4804,"endFrame":4813},{"text":"Lily","startFrame":4820,"endFrame":4820},{"text":"is","startFrame":4820,"endFrame":4825},{"text":"the","startFrame":4825,"endFrame":4830},{"text":"bravest","startFrame":4830,"endFrame":4836},{"text":"person","startFrame":4836,"endFrame":4846},{"text":"I","startFrame":4846,"endFrame":4852},{"text":"know","startFrame":4852,"endFrame":4857},{"text":"because","startFrame":4857,"endFrame":4864},{"text":"she","startFrame":4864,"endFrame":4872},{"text":"never","startFrame":4872,"endFrame":4878},{"text":"gives","startFrame":4878,"endFrame":4884},{"text":"up","startFrame":4884,"endFrame":4891},{"text":"even","startFrame":4891,"endFrame":4897},{"text":"when","startFrame":4897,"endFrame":4903},{"text":"things","startFrame":4903,"endFrame":4908},{"text":"are","startFrame":4908,"endFrame":4915},{"text":"hard","startFrame":4915,"endFrame":4922},{"text":"And","startFrame":4924,"endFrame":4933},{"text":"she","startFrame":4933,"endFrame":4941},{"text":"always","startFrame":4941,"endFrame":4951},{"text":"shares","startFrame":4951,"endFrame":4959},{"text":"her","startFrame":4959,"endFrame":4968},{"text":"snacks","startFrame":4968,"endFrame":4974},{"text":"with","startFrame":4974,"endFrame":4980},{"text":"me","startFrame":4980,"endFrame":4986},{"text":"When","startFrame":4988,"endFrame":4990},{"text":"I","startFrame":4990,"endFrame":4995},{"text":"tried","startFrame":4995,"endFrame":5000},{"text":"to","startFrame":5000,"endFrame":5009},{"text":"thank","startFrame":5009,"endFrame":5011},{"text":"Emma","startFrame":5011,"endFrame":5016},{"text":"for","startFrame":5016,"endFrame":5026},{"text":"everything","startFrame":5026,"endFrame":5035},{"text":"she'd","startFrame":5035,"endFrame":5050},{"text":"done","startFrame":5050,"endFrame":5052},{"text":"she","startFrame":5054,"endFrame":5058},{"text":"looked","startFrame":5058,"endFrame":5064},{"text":"confused","startFrame":5064,"endFrame":5078},{"text":"and","startFrame":5078,"endFrame":5088},{"text":"said","startFrame":5088,"endFrame":5092},{"text":"but","startFrame":5094,"endFrame":5098},{"text":"Lily","startFrame":5098,"endFrame":5103},{"text":"would","startFrame":5103,"endFrame":5109},{"text":"do","startFrame":5109,"endFrame":5112},{"text":"the","startFrame":5112,"endFrame":5118},{"text":"same","startFrame":5118,"endFrame":5120},{"text":"for","startFrame":5120,"endFrame":5127},{"text":"me","startFrame":5127,"endFrame":5133},{"text":"That's","startFrame":5134,"endFrame":5141},{"text":"what","startFrame":5141,"endFrame":5145},{"text":"best","startFrame":5145,"endFrame":5151},{"text":"friends","startFrame":5151,"endFrame":5157},{"text":"do","startFrame":5157,"endFrame":5166},{"text":"I'm","startFrame":5166,"endFrame":5173},{"text":"crying","startFrame":5173,"endFrame":5181},{"text":"writing","startFrame":5181,"endFrame":5190},{"text":"this","startFrame":5190,"endFrame":5197},{"text":"because","startFrame":5197,"endFrame":5203},{"text":"I","startFrame":5203,"endFrame":5209},{"text":"realized","startFrame":5209,"endFrame":5218},{"text":"my","startFrame":5218,"endFrame":5224},{"text":"daughter","startFrame":5224,"endFrame":5231},{"text":"found","startFrame":5231,"endFrame":5239},{"text":"something","startFrame":5239,"endFrame":5249},{"text":"I'd","startFrame":5249,"endFrame":5255},{"text":"been","startFrame":5255,"endFrame":5259},{"text":"worried","startFrame":5259,"endFrame":5266},{"text":"she'd","startFrame":5266,"endFrame":5278},{"text":"never","startFrame":5278,"endFrame":5282},{"text":"have","startFrame":5282,"endFrame":5290},{"text":"a","startFrame":5290,"endFrame":5293},{"text":"true","startFrame":5293,"endFrame":5300},{"text":"friend","startFrame":5300,"endFrame":5308},{"text":"who","startFrame":5312,"endFrame":5316},{"text":"sees","startFrame":5316,"endFrame":5322},{"text":"her","startFrame":5322,"endFrame":5327},{"text":"for","startFrame":5327,"endFrame":5332},{"text":"who","startFrame":5332,"endFrame":5337},{"text":"she","startFrame":5337,"endFrame":5344},{"text":"is","startFrame":5344,"endFrame":5352},{"text":"not","startFrame":5356,"endFrame":5359},{"text":"what","startFrame":5359,"endFrame":5364},{"text":"she","startFrame":5364,"endFrame":5369},{"text":"can't","startFrame":5369,"endFrame":5377},{"text":"do","startFrame":5377,"endFrame":5382}],"animatedSubtitleType":"word","fontFamily":"Jellee","fontSize":50,"fontStrokeSize":3,"textColor":"#FFFFFF","highlightColor":"#FCA5A5","backgroundVideoStyle":"satisfying","backgroundVideoPath":"s3://remotion-reddit-start/Clips/Satisfying/8edz8nr0.mp4","backgroundColor":"#1A1A1A","has_background_music":false,"background_music_volume":0.05,"watermarkOpacity":0.7,"showChannelWatermark":true,"showVideoLength":true,"totalDurationInFrames":5387}' --log=verbose --chrome-flags="--no-sandbox --disable-dev-shm-usage"
+/bin/sh: line 1: /var/task/remotion-frontend/node_modules/.bin/remotion: No such file or directory
+Error during Remotion CLI execution: Error: Command failed: HOME=/tmp NPM_CONFIG_CACHE=/tmp/.npm-cache NPM_CONFIG_PREFIX=/tmp/.npm-prefix /var/task/remotion-frontend/node_modules/.bin/remotion render "/var/task/remotion-frontend/remotion" MainComposition "/tmp/54228542-5e01-49e7-8f0a-2390edabb8fd.mp4" --props='{"channelName":"RealTestChannel","channelImage":"https://rdtt.fun/ChannelLogos/2291f8b4-cf8f-430a-92a3-6a4718abde2f-object-logo.png","hookText":"What has your child done that brought you to tears?","hook_animation_type":"fall","audioUrl":"https://slicr-me.s3.eu-north-1.amazonaws.com/Story21.mp3","srtFileUrl":"https://slicr-me.s3.eu-north-1.amazonaws.com/processed_5225f667-0903-440e-b79a-6c39388dfac7-stream_1748282020205_final.srt","hookDurationInSeconds":0,"subtitleText":"What\nhas\nyour\nchild\ndone\nthat\nbrought\nyou\nto\ntears\nMy\ndaughter\nLily\nhas\nbeen\nin\na\nwheelchair\nsince\nshe\nwas\nthree\nSpina\nbifida\nmeans\nshe'll\nnever\nwalk\nbut\nshe's\nnever\nlet\nthat\nstop\nher\nfrom\ntrying\neverything\nWhen\nshe\nstarted\nfirst\ngrade\nI\nwas\nterrified\nKids\ncan\nbe\ncruel\nand\nI\ndidn't\nknow\nhow\nthey'd\ntreat\nher\nThe\nfirst\nfew\nweeks\nseemed\nokay\nLily\nwould\ncome\nhome\nchattering\nabout\nher\nnew\nfriends\nand\nher\nteacher\nMrs\nChen\nbut\nthen\nthings\nstarted\nchanging\nShe'd\nget\nquiet\non\nthe\nride\nhome\nand\nthey\nstopped\ntalking\nabout\nschool\nwhen\nI\nasked\nabout\nher\nday\nShe'd\njust\nsay\nit\nwas\nfine\nOne\nmorning\nI\nfound\nher\ncrying\nin\nher\nroom\nShe\nwouldn't\ntell\nme\nwhat\nwas\nwrong\njust\nkept\nsaying\nshe\ndidn't\nwant\nto\ngo\nto\nschool\nanymore\nMy\nheart\nbroke\nbecause\nLily\nhad\nalways\nloved\nlearning\nand\nbeing\naround\nother\nkids\nI\ncalled\nMrs\nChen\nwho\nsaid\nLily\nseemed\nwithdrawn\nlately\nand\nhad\nbeen\nasking\nto\neat\nlunch\nin\nthe\nclassroom\ninstead\nof\nthe\ncafeteria\nShe\nalso\nmentioned\nthat\nLily's\nbest\nfriend\nEmma\nhad\nbeen\nabsent\na\nlot\nrecently\nThat\nafternoon\nI\ndecided\nto\npick\nLily\nup\nearly\nfrom\nschool\ninstead\nof\nwaiting\nfor\nher\nThe\nbus\nwhen\nI\ngot\nthere\nI\nsaw\nsomething\nthat\nmade\nmy\nblood\nboil\nThree\nboys\nfrom\nher\nclass\nwere\nblocking\nher\nwheelchair\nin\nthe\nhallway\nlaughing\nas\nshe\ntried\nto\nget\naround\nthem\nI\nwas\nabout\nto\nmarch\nover\nthere\nwhen\nI\nsaw\nEmma\nappear\nout\nof\nnowhere\nThis\ntiny\nsix\nyear\nold\ngirl\nwalked\nright\nup\nto\nthose\nboys\nand\nsaid\nin\nthe\nloudest\nvoice\nyou\nneed\nto\nmove\nright\nnow\nor\nI'm\ngetting\nthe\nprincipal\nThe\nboys\njust\nlaughed\nat\nher\nbut\nEmma\ndidn't\nback\ndown\nShe\nplanted\nherself\nbetween\nthem\nand\nLily\nand\nI\nstarted\nyelling\nfor\nhelp\nuntil\na\nteacher\ncame\nrunning\nThe\nboys\nscattered\nand\nEmma\nhelped\nLily\nget\nto\nclass\nthat\nnight\nI\nasked\nLily\nabout\nwhat\nI'd\nseen\nShe\nfinally\nbroke\ndown\nand\ntold\nme\nthose\nboys\nhad\nbeen\nbothering\nher\nfor\nweeks\ncalling\nher\nnames\nand\nmaking\nit\nhard\nfor\nher\nto\nget\naround\nschool\nShe'd\nbeen\ntoo\nembarrassed\nto\ntell\nme\nbut\nEmma\nhad\nbeen\nprotecting\nher\nevery\nday\nwalking\nwith\nher\nto\nclass\nsitting\nwith\nher\nat\nlunch\nand\neven\ngetting\nin\ntrouble\nfor\nbeing\nlate\nto\nher\nown\nclasses\nbecause\nshe\nwas\nhelping\nLily\nnavigate\nthe\ncrowded\nhallways\nI\ncalled\nEmma's\nmom\nto\nthank\nher\nbut\nshe\nsaid\nshe\nhad\nno\nidea\nEmma\nhad\nbeen\ndoing\nany\nof\nthis\nWhen\nwe\nasked\nEmma\nwhy\nshe\nwas\nhelping\nLily\nshe\njust\nshrugged\nand\nsaid\nbecause\nshe's\nmy\nfriend\nand\nfriends\nhelp\neach\nother\nThe\nnext\nday\nI\nwent\nto\nschool\nto\ntalk\nto\nthe\nprincipal\nabout\nthe\nbullying\nbut\nwhen\nI\ngot\nthere\nEmma's\nmom\nwas\nalready\nin\nthe\noffice\nwith\nEmma\nThey'd\ncome\nto\nreport\nthe\nboys\nbehavior\nand\nEmma\nhad\nbrought\na\nnotebook\nwhere\nshe'd\nbeen\nwriting\ndown\nevery\nincident\nthis\nsix\nyear\nold\nhad\nbeen\ndocumenting\nEverything\ndates\ntimes\nwhat\nthe\nboys\nsaid\nand\ndid\nshe'd\neven\ndrawn\npictures\nof\nwhere\nthe\nincidents\nhappened\nEmma\nhad\ncreated\nher\nown\nevidence\nfile\nto\nprotect\nmy\ndaughter\nThe\nprincipal\nwas\namazed\nby\nEmma's\ndetailed\nrecords\nand\nimmediately\ncalled\nin\nthe\nboys\nand\ntheir\nparents\nThe\nbullying\nstopped\nthat\nday\nbut\nEmma's\nprotection\ndidn't\nShe\ncontinued\nwalking\nwith\nLily\nand\nincluding\nher\nin\neverything\nlast\nmonth\nWas\nLily's\nbirthday\nparty\nI\nwas\nworried\nabout\ninviting\nkids\nfrom\nschool\nbecause\nof\nthe\naccessibility\nissues\nwith\nour\nhouse\nbut\nLily\nreally\nwanted\na\nnormal\nparty\nwith\nher\nfriends\nwhen\nthe\nkids\narrived\nEmma\nimmediately\nstarted\norganizing\ngames\nthat\nLily\ncould\nparticipate\nin\nShe'd\nclearly\nthought\nabout\nthis\nahead\nof\ntime\nbecause\nshe\nhad\nideas\nfor\nwheelchair\nfriendly\nactivities\nthat\nmade\nLily\nfeel\nincluded\nrather\nthan\naccommodated\nBut\nthe\nmoment\nthat\nreally\ngot\nme\nwas\nwhen\none\nof\nthe\nother\nkids\nasked\nwhy\nLily\ncouldn't\njust\nget\nout\nof\nher\nwheelchair\nand\nwalk\nEmma\nVery\nseriously\nexplained\nthat\nLily's\nlegs\ndon't\nwork\nthe\nsame\nway\nbut\nher\nbrain\nand\nheart\nwork\nperfectly\nand\nthat's\nwhat\nmatters\nThen\nEmma\nsaid\nsomething\nthat\nmade\nevery\nadult\nin\nthe\nroom\ntear\nup\nShe\nsaid\nLily\nis\nthe\nbravest\nperson\nI\nknow\nbecause\nshe\nnever\ngives\nup\neven\nwhen\nthings\nare\nhard\nAnd\nshe\nalways\nshares\nher\nsnacks\nwith\nme\nWhen\nI\ntried\nto\nthank\nEmma\nfor\neverything\nshe'd\ndone\nshe\nlooked\nconfused\nand\nsaid\nbut\nLily\nwould\ndo\nthe\nsame\nfor\nme\nThat's\nwhat\nbest\nfriends\ndo\nI'm\ncrying\nwriting\nthis\nbecause\nI\nrealized\nmy\ndaughter\nfound\nsomething\nI'd\nbeen\nworried\nshe'd\nnever\nhave\na\ntrue\nfriend\nwho\nsees\nher\nfor\nwho\nshe\nis\nnot\nwhat\nshe\ncan't\ndo","wordTimings":[{"text":"What","startFrame":0,"endFrame":2},{"text":"has","startFrame":2,"endFrame":7},{"text":"your","startFrame":7,"endFrame":12},{"text":"child","startFrame":12,"endFrame":19},{"text":"done","startFrame":19,"endFrame":24},{"text":"that","startFrame":24,"endFrame":30},{"text":"brought","startFrame":30,"endFrame":34},{"text":"you","startFrame":34,"endFrame":39},{"text":"to","startFrame":39,"endFrame":53},{"text":"tears","startFrame":53,"endFrame":53},{"text":"My","startFrame":60,"endFrame":60},{"text":"daughter","startFrame":60,"endFrame":67},{"text":"Lily","startFrame":67,"endFrame":73},{"text":"has","startFrame":73,"endFrame":81},{"text":"been","startFrame":81,"endFrame":85},{"text":"in","startFrame":85,"endFrame":88},{"text":"a","startFrame":88,"endFrame":94},{"text":"wheelchair","startFrame":94,"endFrame":98},{"text":"since","startFrame":98,"endFrame":106},{"text":"she","startFrame":106,"endFrame":112},{"text":"was","startFrame":112,"endFrame":117},{"text":"three","startFrame":117,"endFrame":126},{"text":"Spina","startFrame":137,"endFrame":138},{"text":"bifida","startFrame":138,"endFrame":145},{"text":"means","startFrame":145,"endFrame":157},{"text":"she'll","startFrame":157,"endFrame":167},{"text":"never","startFrame":167,"endFrame":172},{"text":"walk","startFrame":172,"endFrame":182},{"text":"but","startFrame":184,"endFrame":187},{"text":"she's","startFrame":187,"endFrame":198},{"text":"never","startFrame":198,"endFrame":200},{"text":"let","startFrame":200,"endFrame":206},{"text":"that","startFrame":206,"endFrame":213},{"text":"stop","startFrame":213,"endFrame":216},{"text":"her","startFrame":216,"endFrame":220},{"text":"from","startFrame":220,"endFrame":226},{"text":"trying","startFrame":226,"endFrame":231},{"text":"everything","startFrame":231,"endFrame":245},{"text":"When","startFrame":249,"endFrame":252},{"text":"she","startFrame":252,"endFrame":256},{"text":"started","startFrame":256,"endFrame":262},{"text":"first","startFrame":262,"endFrame":273},{"text":"grade","startFrame":273,"endFrame":280},{"text":"I","startFrame":282,"endFrame":285},{"text":"was","startFrame":285,"endFrame":292},{"text":"terrified","startFrame":292,"endFrame":309},{"text":"Kids","startFrame":318,"endFrame":318},{"text":"can","startFrame":318,"endFrame":324},{"text":"be","startFrame":324,"endFrame":338},{"text":"cruel","startFrame":338,"endFrame":338},{"text":"and","startFrame":340,"endFrame":344},{"text":"I","startFrame":344,"endFrame":349},{"text":"didn't","startFrame":349,"endFrame":351},{"text":"know","startFrame":351,"endFrame":357},{"text":"how","startFrame":357,"endFrame":361},{"text":"they'd","startFrame":361,"endFrame":375},{"text":"treat","startFrame":375,"endFrame":375},{"text":"her","startFrame":375,"endFrame":379},{"text":"The","startFrame":382,"endFrame":385},{"text":"first","startFrame":385,"endFrame":391},{"text":"few","startFrame":391,"endFrame":397},{"text":"weeks","startFrame":397,"endFrame":402},{"text":"seemed","startFrame":402,"endFrame":409},{"text":"okay","startFrame":409,"endFrame":423},{"text":"Lily","startFrame":432,"endFrame":432},{"text":"would","startFrame":432,"endFrame":436},{"text":"come","startFrame":436,"endFrame":443},{"text":"home","startFrame":443,"endFrame":450},{"text":"chattering","startFrame":450,"endFrame":457},{"text":"about","startFrame":457,"endFrame":464},{"text":"her","startFrame":464,"endFrame":469},{"text":"new","startFrame":469,"endFrame":476},{"text":"friends","startFrame":476,"endFrame":482},{"text":"and","startFrame":482,"endFrame":487},{"text":"her","startFrame":487,"endFrame":501},{"text":"teacher","startFrame":501,"endFrame":501},{"text":"Mrs","startFrame":504,"endFrame":511},{"text":"Chen","startFrame":513,"endFrame":520},{"text":"but","startFrame":524,"endFrame":528},{"text":"then","startFrame":528,"endFrame":536},{"text":"things","startFrame":536,"endFrame":543},{"text":"started","startFrame":543,"endFrame":551},{"text":"changing","startFrame":551,"endFrame":562},{"text":"She'd","startFrame":568,"endFrame":575},{"text":"get","startFrame":575,"endFrame":579},{"text":"quiet","startFrame":579,"endFrame":584},{"text":"on","startFrame":584,"endFrame":589},{"text":"the","startFrame":589,"endFrame":591},{"text":"ride","startFrame":591,"endFrame":598},{"text":"home","startFrame":598,"endFrame":603},{"text":"and","startFrame":603,"endFrame":607},{"text":"they","startFrame":607,"endFrame":614},{"text":"stopped","startFrame":614,"endFrame":619},{"text":"talking","startFrame":619,"endFrame":629},{"text":"about","startFrame":629,"endFrame":637},{"text":"school","startFrame":637,"endFrame":643},{"text":"when","startFrame":643,"endFrame":648},{"text":"I","startFrame":648,"endFrame":656},{"text":"asked","startFrame":656,"endFrame":657},{"text":"about","startFrame":657,"endFrame":662},{"text":"her","startFrame":662,"endFrame":666},{"text":"day","startFrame":666,"endFrame":673},{"text":"She'd","startFrame":676,"endFrame":685},{"text":"just","startFrame":685,"endFrame":690},{"text":"say","startFrame":690,"endFrame":695},{"text":"it","startFrame":695,"endFrame":699},{"text":"was","startFrame":699,"endFrame":705},{"text":"fine","startFrame":705,"endFrame":713},{"text":"One","startFrame":717,"endFrame":721},{"text":"morning","startFrame":721,"endFrame":726},{"text":"I","startFrame":729,"endFrame":732},{"text":"found","startFrame":732,"endFrame":735},{"text":"her","startFrame":735,"endFrame":741},{"text":"crying","startFrame":741,"endFrame":747},{"text":"in","startFrame":747,"endFrame":752},{"text":"her","startFrame":752,"endFrame":759},{"text":"room","startFrame":759,"endFrame":762},{"text":"She","startFrame":766,"endFrame":770},{"text":"wouldn't","startFrame":770,"endFrame":774},{"text":"tell","startFrame":774,"endFrame":780},{"text":"me","startFrame":780,"endFrame":783},{"text":"what","startFrame":783,"endFrame":786},{"text":"was","startFrame":786,"endFrame":792},{"text":"wrong","startFrame":792,"endFrame":798},{"text":"just","startFrame":801,"endFrame":806},{"text":"kept","startFrame":806,"endFrame":811},{"text":"saying","startFrame":811,"endFrame":818},{"text":"she","startFrame":818,"endFrame":826},{"text":"didn't","startFrame":826,"endFrame":831},{"text":"want","startFrame":831,"endFrame":834},{"text":"to","startFrame":834,"endFrame":837},{"text":"go","startFrame":837,"endFrame":838},{"text":"to","startFrame":838,"endFrame":844},{"text":"school","startFrame":844,"endFrame":847},{"text":"anymore","startFrame":847,"endFrame":856},{"text":"My","startFrame":856,"endFrame":863},{"text":"heart","startFrame":863,"endFrame":868},{"text":"broke","startFrame":868,"endFrame":874},{"text":"because","startFrame":874,"endFrame":883},{"text":"Lily","startFrame":883,"endFrame":886},{"text":"had","startFrame":886,"endFrame":892},{"text":"always","startFrame":892,"endFrame":901},{"text":"loved","startFrame":901,"endFrame":909},{"text":"learning","startFrame":909,"endFrame":918},{"text":"and","startFrame":918,"endFrame":924},{"text":"being","startFrame":924,"endFrame":929},{"text":"around","startFrame":929,"endFrame":936},{"text":"other","startFrame":936,"endFrame":944},{"text":"kids","startFrame":944,"endFrame":951},{"text":"I","startFrame":958,"endFrame":958},{"text":"called","startFrame":958,"endFrame":964},{"text":"Mrs","startFrame":964,"endFrame":973},{"text":"Chen","startFrame":979,"endFrame":980},{"text":"who","startFrame":985,"endFrame":988},{"text":"said","startFrame":988,"endFrame":994},{"text":"Lily","startFrame":994,"endFrame":999},{"text":"seemed","startFrame":999,"endFrame":1010},{"text":"withdrawn","startFrame":1010,"endFrame":1021},{"text":"lately","startFrame":1021,"endFrame":1031},{"text":"and","startFrame":1031,"endFrame":1040},{"text":"had","startFrame":1040,"endFrame":1050},{"text":"been","startFrame":1050,"endFrame":1056},{"text":"asking","startFrame":1056,"endFrame":1061},{"text":"to","startFrame":1061,"endFrame":1068},{"text":"eat","startFrame":1068,"endFrame":1074},{"text":"lunch","startFrame":1074,"endFrame":1079},{"text":"in","startFrame":1079,"endFrame":1083},{"text":"the","startFrame":1083,"endFrame":1086},{"text":"classroom","startFrame":1086,"endFrame":1096},{"text":"instead","startFrame":1096,"endFrame":1105},{"text":"of","startFrame":1105,"endFrame":1108},{"text":"the","startFrame":1108,"endFrame":1112},{"text":"cafeteria","startFrame":1112,"endFrame":1123},{"text":"She","startFrame":1132,"endFrame":1135},{"text":"also","startFrame":1135,"endFrame":1147},{"text":"mentioned","startFrame":1147,"endFrame":1155},{"text":"that","startFrame":1155,"endFrame":1165},{"text":"Lily's","startFrame":1165,"endFrame":1173},{"text":"best","startFrame":1173,"endFrame":1180},{"text":"friend","startFrame":1180,"endFrame":1185},{"text":"Emma","startFrame":1189,"endFrame":1191},{"text":"had","startFrame":1193,"endFrame":1198},{"text":"been","startFrame":1198,"endFrame":1203},{"text":"absent","startFrame":1203,"endFrame":1210},{"text":"a","startFrame":1210,"endFrame":1219},{"text":"lot","startFrame":1219,"endFrame":1219},{"text":"recently","startFrame":1219,"endFrame":1230},{"text":"That","startFrame":1236,"endFrame":1238},{"text":"afternoon","startFrame":1238,"endFrame":1250},{"text":"I","startFrame":1253,"endFrame":1257},{"text":"decided","startFrame":1257,"endFrame":1265},{"text":"to","startFrame":1265,"endFrame":1272},{"text":"pick","startFrame":1272,"endFrame":1274},{"text":"Lily","startFrame":1274,"endFrame":1279},{"text":"up","startFrame":1279,"endFrame":1287},{"text":"early","startFrame":1287,"endFrame":1292},{"text":"from","startFrame":1292,"endFrame":1299},{"text":"school","startFrame":1299,"endFrame":1306},{"text":"instead","startFrame":1306,"endFrame":1315},{"text":"of","startFrame":1315,"endFrame":1324},{"text":"waiting","startFrame":1324,"endFrame":1324},{"text":"for","startFrame":1324,"endFrame":1334},{"text":"her","startFrame":1334,"endFrame":1336},{"text":"The","startFrame":1337,"endFrame":1341},{"text":"bus","startFrame":1341,"endFrame":1346},{"text":"when","startFrame":1350,"endFrame":1350},{"text":"I","startFrame":1350,"endFrame":1353},{"text":"got","startFrame":1353,"endFrame":1357},{"text":"there","startFrame":1357,"endFrame":1363},{"text":"I","startFrame":1363,"endFrame":1371},{"text":"saw","startFrame":1371,"endFrame":1374},{"text":"something","startFrame":1374,"endFrame":1382},{"text":"that","startFrame":1382,"endFrame":1390},{"text":"made","startFrame":1390,"endFrame":1393},{"text":"my","startFrame":1393,"endFrame":1405},{"text":"blood","startFrame":1405,"endFrame":1407},{"text":"boil","startFrame":1407,"endFrame":1417},{"text":"Three","startFrame":1428,"endFrame":1428},{"text":"boys","startFrame":1428,"endFrame":1435},{"text":"from","startFrame":1435,"endFrame":1443},{"text":"her","startFrame":1443,"endFrame":1448},{"text":"class","startFrame":1448,"endFrame":1454},{"text":"were","startFrame":1454,"endFrame":1462},{"text":"blocking","startFrame":1462,"endFrame":1467},{"text":"her","startFrame":1467,"endFrame":1474},{"text":"wheelchair","startFrame":1474,"endFrame":1483},{"text":"in","startFrame":1483,"endFrame":1490},{"text":"the","startFrame":1490,"endFrame":1502},{"text":"hallway","startFrame":1502,"endFrame":1502},{"text":"laughing","startFrame":1516,"endFrame":1516},{"text":"as","startFrame":1516,"endFrame":1522},{"text":"she","startFrame":1522,"endFrame":1527},{"text":"tried","startFrame":1527,"endFrame":1532},{"text":"to","startFrame":1532,"endFrame":1537},{"text":"get","startFrame":1537,"endFrame":1541},{"text":"around","startFrame":1541,"endFrame":1546},{"text":"them","startFrame":1546,"endFrame":1552},{"text":"I","startFrame":1553,"endFrame":1556},{"text":"was","startFrame":1556,"endFrame":1561},{"text":"about","startFrame":1561,"endFrame":1566},{"text":"to","startFrame":1566,"endFrame":1575},{"text":"march","startFrame":1575,"endFrame":1575},{"text":"over","startFrame":1575,"endFrame":1584},{"text":"there","startFrame":1584,"endFrame":1590},{"text":"when","startFrame":1590,"endFrame":1596},{"text":"I","startFrame":1596,"endFrame":1602},{"text":"saw","startFrame":1602,"endFrame":1608},{"text":"Emma","startFrame":1608,"endFrame":1617},{"text":"appear","startFrame":1617,"endFrame":1627},{"text":"out","startFrame":1627,"endFrame":1631},{"text":"of","startFrame":1631,"endFrame":1644},{"text":"nowhere","startFrame":1644,"endFrame":1644},{"text":"This","startFrame":1647,"endFrame":1653},{"text":"tiny","startFrame":1653,"endFrame":1662},{"text":"six","startFrame":1662,"endFrame":1672},{"text":"year","startFrame":1672,"endFrame":1674},{"text":"old","startFrame":1674,"endFrame":1680},{"text":"girl","startFrame":1680,"endFrame":1689},{"text":"walked","startFrame":1689,"endFrame":1696},{"text":"right","startFrame":1696,"endFrame":1707},{"text":"up","startFrame":1707,"endFrame":1710},{"text":"to","startFrame":1710,"endFrame":1714},{"text":"those","startFrame":1714,"endFrame":1721},{"text":"boys","startFrame":1721,"endFrame":1725},{"text":"and","startFrame":1725,"endFrame":1734},{"text":"said","startFrame":1734,"endFrame":1743},{"text":"in","startFrame":1743,"endFrame":1748},{"text":"the","startFrame":1748,"endFrame":1756},{"text":"loudest","startFrame":1756,"endFrame":1763},{"text":"voice","startFrame":1763,"endFrame":1773},{"text":"you","startFrame":1775,"endFrame":1777},{"text":"need","startFrame":1777,"endFrame":1782},{"text":"to","startFrame":1782,"endFrame":1790},{"text":"move","startFrame":1790,"endFrame":1797},{"text":"right","startFrame":1797,"endFrame":1805},{"text":"now","startFrame":1805,"endFrame":1815},{"text":"or","startFrame":1816,"endFrame":1822},{"text":"I'm","startFrame":1822,"endFrame":1831},{"text":"getting","startFrame":1831,"endFrame":1834},{"text":"the","startFrame":1834,"endFrame":1841},{"text":"principal","startFrame":1841,"endFrame":1851},{"text":"The","startFrame":1855,"endFrame":1857},{"text":"boys","startFrame":1857,"endFrame":1861},{"text":"just","startFrame":1861,"endFrame":1874},{"text":"laughed","startFrame":1874,"endFrame":1874},{"text":"at","startFrame":1874,"endFrame":1882},{"text":"her","startFrame":1882,"endFrame":1885},{"text":"but","startFrame":1887,"endFrame":1893},{"text":"Emma","startFrame":1893,"endFrame":1897},{"text":"didn't","startFrame":1897,"endFrame":1908},{"text":"back","startFrame":1908,"endFrame":1915},{"text":"down","startFrame":1915,"endFrame":1921},{"text":"She","startFrame":1926,"endFrame":1929},{"text":"planted","startFrame":1929,"endFrame":1936},{"text":"herself","startFrame":1936,"endFrame":1947},{"text":"between","startFrame":1947,"endFrame":1957},{"text":"them","startFrame":1957,"endFrame":1965},{"text":"and","startFrame":1965,"endFrame":1975},{"text":"Lily","startFrame":1975,"endFrame":1980},{"text":"and","startFrame":1984,"endFrame":1992},{"text":"I","startFrame":1992,"endFrame":1996},{"text":"started","startFrame":1996,"endFrame":2003},{"text":"yelling","startFrame":2003,"endFrame":2008},{"text":"for","startFrame":2008,"endFrame":2017},{"text":"help","startFrame":2017,"endFrame":2022},{"text":"until","startFrame":2022,"endFrame":2027},{"text":"a","startFrame":2027,"endFrame":2039},{"text":"teacher","startFrame":2039,"endFrame":2039},{"text":"came","startFrame":2039,"endFrame":2046},{"text":"running","startFrame":2046,"endFrame":2053},{"text":"The","startFrame":2059,"endFrame":2060},{"text":"boys","startFrame":2060,"endFrame":2067},{"text":"scattered","startFrame":2067,"endFrame":2077},{"text":"and","startFrame":2077,"endFrame":2084},{"text":"Emma","startFrame":2084,"endFrame":2088},{"text":"helped","startFrame":2088,"endFrame":2095},{"text":"Lily","startFrame":2095,"endFrame":2100},{"text":"get","startFrame":2100,"endFrame":2104},{"text":"to","startFrame":2104,"endFrame":2113},{"text":"class","startFrame":2113,"endFrame":2113},{"text":"that","startFrame":2113,"endFrame":2122},{"text":"night","startFrame":2122,"endFrame":2125},{"text":"I","startFrame":2127,"endFrame":2130},{"text":"asked","startFrame":2130,"endFrame":2135},{"text":"Lily","startFrame":2135,"endFrame":2140},{"text":"about","startFrame":2140,"endFrame":2147},{"text":"what","startFrame":2147,"endFrame":2151},{"text":"I'd","startFrame":2151,"endFrame":2158},{"text":"seen","startFrame":2158,"endFrame":2163},{"text":"She","startFrame":2169,"endFrame":2172},{"text":"finally","startFrame":2172,"endFrame":2181},{"text":"broke","startFrame":2181,"endFrame":2187},{"text":"down","startFrame":2187,"endFrame":2192},{"text":"and","startFrame":2192,"endFrame":2200},{"text":"told","startFrame":2200,"endFrame":2200},{"text":"me","startFrame":2200,"endFrame":2205},{"text":"those","startFrame":2205,"endFrame":2211},{"text":"boys","startFrame":2211,"endFrame":2214},{"text":"had","startFrame":2214,"endFrame":2219},{"text":"been","startFrame":2219,"endFrame":2225},{"text":"bothering","startFrame":2225,"endFrame":2230},{"text":"her","startFrame":2230,"endFrame":2238},{"text":"for","startFrame":2238,"endFrame":2252},{"text":"weeks","startFrame":2252,"endFrame":2252},{"text":"calling","startFrame":2259,"endFrame":2259},{"text":"her","startFrame":2259,"endFrame":2267},{"text":"names","startFrame":2267,"endFrame":2274},{"text":"and","startFrame":2274,"endFrame":2280},{"text":"making","startFrame":2280,"endFrame":2286},{"text":"it","startFrame":2286,"endFrame":2295},{"text":"hard","startFrame":2295,"endFrame":2296},{"text":"for","startFrame":2296,"endFrame":2301},{"text":"her","startFrame":2301,"endFrame":2302},{"text":"to","startFrame":2302,"endFrame":2307},{"text":"get","startFrame":2307,"endFrame":2310},{"text":"around","startFrame":2310,"endFrame":2316},{"text":"school","startFrame":2316,"endFrame":2325},{"text":"She'd","startFrame":2329,"endFrame":2335},{"text":"been","startFrame":2335,"endFrame":2338},{"text":"too","startFrame":2338,"endFrame":2350},{"text":"embarrassed","startFrame":2350,"endFrame":2350},{"text":"to","startFrame":2350,"endFrame":2361},{"text":"tell","startFrame":2361,"endFrame":2361},{"text":"me","startFrame":2361,"endFrame":2367},{"text":"but","startFrame":2370,"endFrame":2373},{"text":"Emma","startFrame":2373,"endFrame":2377},{"text":"had","startFrame":2377,"endFrame":2383},{"text":"been","startFrame":2383,"endFrame":2388},{"text":"protecting","startFrame":2388,"endFrame":2395},{"text":"her","startFrame":2395,"endFrame":2403},{"text":"every","startFrame":2403,"endFrame":2413},{"text":"day","startFrame":2413,"endFrame":2421},{"text":"walking","startFrame":2431,"endFrame":2431},{"text":"with","startFrame":2431,"endFrame":2437},{"text":"her","startFrame":2437,"endFrame":2439},{"text":"to","startFrame":2439,"endFrame":2454},{"text":"class","startFrame":2454,"endFrame":2454},{"text":"sitting","startFrame":2462,"endFrame":2463},{"text":"with","startFrame":2463,"endFrame":2468},{"text":"her","startFrame":2468,"endFrame":2470},{"text":"at","startFrame":2470,"endFrame":2480},{"text":"lunch","startFrame":2480,"endFrame":2482},{"text":"and","startFrame":2483,"endFrame":2488},{"text":"even","startFrame":2488,"endFrame":2496},{"text":"getting","startFrame":2496,"endFrame":2501},{"text":"in","startFrame":2501,"endFrame":2511},{"text":"trouble","startFrame":2511,"endFrame":2512},{"text":"for","startFrame":2512,"endFrame":2521},{"text":"being","startFrame":2521,"endFrame":2527},{"text":"late","startFrame":2527,"endFrame":2531},{"text":"to","startFrame":2531,"endFrame":2536},{"text":"her","startFrame":2536,"endFrame":2540},{"text":"own","startFrame":2540,"endFrame":2547},{"text":"classes","startFrame":2547,"endFrame":2556},{"text":"because","startFrame":2556,"endFrame":2566},{"text":"she","startFrame":2566,"endFrame":2571},{"text":"was","startFrame":2571,"endFrame":2577},{"text":"helping","startFrame":2577,"endFrame":2586},{"text":"Lily","startFrame":2586,"endFrame":2592},{"text":"navigate","startFrame":2592,"endFrame":2606},{"text":"the","startFrame":2606,"endFrame":2620},{"text":"crowded","startFrame":2620,"endFrame":2620},{"text":"hallways","startFrame":2620,"endFrame":2632},{"text":"I","startFrame":2638,"endFrame":2639},{"text":"called","startFrame":2639,"endFrame":2646},{"text":"Emma's","startFrame":2646,"endFrame":2656},{"text":"mom","startFrame":2656,"endFrame":2658},{"text":"to","startFrame":2658,"endFrame":2669},{"text":"thank","startFrame":2669,"endFrame":2669},{"text":"her","startFrame":2669,"endFrame":2674},{"text":"but","startFrame":2677,"endFrame":2679},{"text":"she","startFrame":2679,"endFrame":2684},{"text":"said","startFrame":2684,"endFrame":2688},{"text":"she","startFrame":2688,"endFrame":2693},{"text":"had","startFrame":2693,"endFrame":2698},{"text":"no","startFrame":2698,"endFrame":2704},{"text":"idea","startFrame":2704,"endFrame":2713},{"text":"Emma","startFrame":2713,"endFrame":2719},{"text":"had","startFrame":2719,"endFrame":2724},{"text":"been","startFrame":2724,"endFrame":2728},{"text":"doing","startFrame":2728,"endFrame":2733},{"text":"any","startFrame":2733,"endFrame":2740},{"text":"of","startFrame":2740,"endFrame":2745},{"text":"this","startFrame":2745,"endFrame":2750},{"text":"When","startFrame":2752,"endFrame":2755},{"text":"we","startFrame":2755,"endFrame":2761},{"text":"asked","startFrame":2761,"endFrame":2766},{"text":"Emma","startFrame":2766,"endFrame":2772},{"text":"why","startFrame":2772,"endFrame":2778},{"text":"she","startFrame":2778,"endFrame":2781},{"text":"was","startFrame":2781,"endFrame":2793},{"text":"helping","startFrame":2793,"endFrame":2793},{"text":"Lily","startFrame":2793,"endFrame":2801},{"text":"she","startFrame":2807,"endFrame":2809},{"text":"just","startFrame":2809,"endFrame":2824},{"text":"shrugged","startFrame":2824,"endFrame":2826},{"text":"and","startFrame":2826,"endFrame":2840},{"text":"said","startFrame":2840,"endFrame":2840},{"text":"because","startFrame":2847,"endFrame":2847},{"text":"she's","startFrame":2847,"endFrame":2856},{"text":"my","startFrame":2856,"endFrame":2862},{"text":"friend","startFrame":2862,"endFrame":2869},{"text":"and","startFrame":2869,"endFrame":2881},{"text":"friends","startFrame":2881,"endFrame":2889},{"text":"help","startFrame":2889,"endFrame":2896},{"text":"each","startFrame":2896,"endFrame":2902},{"text":"other","startFrame":2902,"endFrame":2908},{"text":"The","startFrame":2910,"endFrame":2914},{"text":"next","startFrame":2914,"endFrame":2919},{"text":"day","startFrame":2919,"endFrame":2922},{"text":"I","startFrame":2922,"endFrame":2925},{"text":"went","startFrame":2925,"endFrame":2928},{"text":"to","startFrame":2928,"endFrame":2934},{"text":"school","startFrame":2934,"endFrame":2937},{"text":"to","startFrame":2937,"endFrame":2943},{"text":"talk","startFrame":2943,"endFrame":2946},{"text":"to","startFrame":2946,"endFrame":2949},{"text":"the","startFrame":2949,"endFrame":2955},{"text":"principal","startFrame":2955,"endFrame":2961},{"text":"about","startFrame":2961,"endFrame":2969},{"text":"the","startFrame":2969,"endFrame":2977},{"text":"bullying","startFrame":2977,"endFrame":2981},{"text":"but","startFrame":2986,"endFrame":2989},{"text":"when","startFrame":2989,"endFrame":2994},{"text":"I","startFrame":2994,"endFrame":2998},{"text":"got","startFrame":2998,"endFrame":3003},{"text":"there","startFrame":3003,"endFrame":3012},{"text":"Emma's","startFrame":3018,"endFrame":3024},{"text":"mom","startFrame":3024,"endFrame":3027},{"text":"was","startFrame":3027,"endFrame":3031},{"text":"already","startFrame":3031,"endFrame":3039},{"text":"in","startFrame":3039,"endFrame":3044},{"text":"the","startFrame":3044,"endFrame":3055},{"text":"office","startFrame":3055,"endFrame":3055},{"text":"with","startFrame":3055,"endFrame":3067},{"text":"Emma","startFrame":3067,"endFrame":3070},{"text":"They'd","startFrame":3075,"endFrame":3082},{"text":"come","startFrame":3082,"endFrame":3088},{"text":"to","startFrame":3088,"endFrame":3100},{"text":"report","startFrame":3100,"endFrame":3100},{"text":"the","startFrame":3100,"endFrame":3105},{"text":"boys","startFrame":3105,"endFrame":3109},{"text":"behavior","startFrame":3122,"endFrame":3122},{"text":"and","startFrame":3129,"endFrame":3141},{"text":"Emma","startFrame":3141,"endFrame":3141},{"text":"had","startFrame":3141,"endFrame":3149},{"text":"brought","startFrame":3149,"endFrame":3154},{"text":"a","startFrame":3154,"endFrame":3168},{"text":"notebook","startFrame":3168,"endFrame":3168},{"text":"where","startFrame":3168,"endFrame":3180},{"text":"she'd","startFrame":3180,"endFrame":3189},{"text":"been","startFrame":3189,"endFrame":3194},{"text":"writing","startFrame":3194,"endFrame":3199},{"text":"down","startFrame":3199,"endFrame":3208},{"text":"every","startFrame":3208,"endFrame":3219},{"text":"incident","startFrame":3219,"endFrame":3228},{"text":"this","startFrame":3228,"endFrame":3240},{"text":"six","startFrame":3240,"endFrame":3249},{"text":"year","startFrame":3249,"endFrame":3251},{"text":"old","startFrame":3251,"endFrame":3256},{"text":"had","startFrame":3256,"endFrame":3263},{"text":"been","startFrame":3263,"endFrame":3269},{"text":"documenting","startFrame":3269,"endFrame":3283},{"text":"Everything","startFrame":3287,"endFrame":3299},{"text":"dates","startFrame":3315,"endFrame":3315},{"text":"times","startFrame":3328,"endFrame":3333},{"text":"what","startFrame":3342,"endFrame":3345},{"text":"the","startFrame":3345,"endFrame":3352},{"text":"boys","startFrame":3352,"endFrame":3358},{"text":"said","startFrame":3358,"endFrame":3372},{"text":"and","startFrame":3375,"endFrame":3382},{"text":"did","startFrame":3382,"endFrame":3393},{"text":"she'd","startFrame":3393,"endFrame":3400},{"text":"even","startFrame":3400,"endFrame":3406},{"text":"drawn","startFrame":3406,"endFrame":3413},{"text":"pictures","startFrame":3413,"endFrame":3423},{"text":"of","startFrame":3423,"endFrame":3427},{"text":"where","startFrame":3427,"endFrame":3432},{"text":"the","startFrame":3432,"endFrame":3439},{"text":"incidents","startFrame":3439,"endFrame":3448},{"text":"happened","startFrame":3448,"endFrame":3460},{"text":"Emma","startFrame":3467,"endFrame":3467},{"text":"had","startFrame":3467,"endFrame":3474},{"text":"created","startFrame":3474,"endFrame":3483},{"text":"her","startFrame":3483,"endFrame":3490},{"text":"own","startFrame":3490,"endFrame":3498},{"text":"evidence","startFrame":3498,"endFrame":3507},{"text":"file","startFrame":3507,"endFrame":3514},{"text":"to","startFrame":3514,"endFrame":3519},{"text":"protect","startFrame":3519,"endFrame":3526},{"text":"my","startFrame":3526,"endFrame":3533},{"text":"daughter","startFrame":3533,"endFrame":3540},{"text":"The","startFrame":3544,"endFrame":3547},{"text":"principal","startFrame":3547,"endFrame":3555},{"text":"was","startFrame":3555,"endFrame":3563},{"text":"amazed","startFrame":3563,"endFrame":3571},{"text":"by","startFrame":3571,"endFrame":3579},{"text":"Emma's","startFrame":3579,"endFrame":3587},{"text":"detailed","startFrame":3587,"endFrame":3594},{"text":"records","startFrame":3594,"endFrame":3604},{"text":"and","startFrame":3604,"endFrame":3618},{"text":"immediately","startFrame":3618,"endFrame":3629},{"text":"called","startFrame":3629,"endFrame":3636},{"text":"in","startFrame":3636,"endFrame":3643},{"text":"the","startFrame":3643,"endFrame":3645},{"text":"boys","startFrame":3645,"endFrame":3648},{"text":"and","startFrame":3648,"endFrame":3654},{"text":"their","startFrame":3654,"endFrame":3659},{"text":"parents","startFrame":3659,"endFrame":3670},{"text":"The","startFrame":3676,"endFrame":3679},{"text":"bullying","startFrame":3679,"endFrame":3685},{"text":"stopped","startFrame":3685,"endFrame":3699},{"text":"that","startFrame":3699,"endFrame":3708},{"text":"day","startFrame":3708,"endFrame":3715},{"text":"but","startFrame":3717,"endFrame":3721},{"text":"Emma's","startFrame":3721,"endFrame":3741},{"text":"protection","startFrame":3741,"endFrame":3741},{"text":"didn't","startFrame":3741,"endFrame":3749},{"text":"She","startFrame":3755,"endFrame":3755},{"text":"continued","startFrame":3755,"endFrame":3767},{"text":"walking","startFrame":3767,"endFrame":3775},{"text":"with","startFrame":3775,"endFrame":3787},{"text":"Lily","startFrame":3787,"endFrame":3787},{"text":"and","startFrame":3787,"endFrame":3801},{"text":"including","startFrame":3801,"endFrame":3816},{"text":"her","startFrame":3816,"endFrame":3826},{"text":"in","startFrame":3826,"endFrame":3834},{"text":"everything","startFrame":3834,"endFrame":3843},{"text":"last","startFrame":3843,"endFrame":3855},{"text":"month","startFrame":3855,"endFrame":3860},{"text":"Was","startFrame":3862,"endFrame":3866},{"text":"Lily's","startFrame":3866,"endFrame":3877},{"text":"birthday","startFrame":3877,"endFrame":3882},{"text":"party","startFrame":3882,"endFrame":3890},{"text":"I","startFrame":3894,"endFrame":3896},{"text":"was","startFrame":3896,"endFrame":3901},{"text":"worried","startFrame":3901,"endFrame":3905},{"text":"about","startFrame":3905,"endFrame":3919},{"text":"inviting","startFrame":3919,"endFrame":3919},{"text":"kids","startFrame":3919,"endFrame":3927},{"text":"from","startFrame":3927,"endFrame":3933},{"text":"school","startFrame":3933,"endFrame":3940},{"text":"because","startFrame":3940,"endFrame":3949},{"text":"of","startFrame":3949,"endFrame":3954},{"text":"the","startFrame":3954,"endFrame":3960},{"text":"accessibility","startFrame":3960,"endFrame":3974},{"text":"issues","startFrame":3974,"endFrame":3986},{"text":"with","startFrame":3986,"endFrame":3992},{"text":"our","startFrame":3992,"endFrame":3998},{"text":"house","startFrame":3998,"endFrame":4005},{"text":"but","startFrame":4006,"endFrame":4013},{"text":"Lily","startFrame":4013,"endFrame":4015},{"text":"really","startFrame":4015,"endFrame":4026},{"text":"wanted","startFrame":4026,"endFrame":4030},{"text":"a","startFrame":4030,"endFrame":4037},{"text":"normal","startFrame":4037,"endFrame":4044},{"text":"party","startFrame":4044,"endFrame":4050},{"text":"with","startFrame":4050,"endFrame":4055},{"text":"her","startFrame":4055,"endFrame":4062},{"text":"friends","startFrame":4062,"endFrame":4068},{"text":"when","startFrame":4068,"endFrame":4074},{"text":"the","startFrame":4074,"endFrame":4082},{"text":"kids","startFrame":4082,"endFrame":4082},{"text":"arrived","startFrame":4082,"endFrame":4092},{"text":"Emma","startFrame":4099,"endFrame":4099},{"text":"immediately","startFrame":4099,"endFrame":4115},{"text":"started","startFrame":4115,"endFrame":4125},{"text":"organizing","startFrame":4125,"endFrame":4137},{"text":"games","startFrame":4137,"endFrame":4149},{"text":"that","startFrame":4149,"endFrame":4158},{"text":"Lily","startFrame":4158,"endFrame":4159},{"text":"could","startFrame":4159,"endFrame":4165},{"text":"participate","startFrame":4165,"endFrame":4176},{"text":"in","startFrame":4176,"endFrame":4184},{"text":"She'd","startFrame":4186,"endFrame":4193},{"text":"clearly","startFrame":4193,"endFrame":4200},{"text":"thought","startFrame":4200,"endFrame":4206},{"text":"about","startFrame":4206,"endFrame":4211},{"text":"this","startFrame":4211,"endFrame":4218},{"text":"ahead","startFrame":4218,"endFrame":4221},{"text":"of","startFrame":4221,"endFrame":4231},{"text":"time","startFrame":4231,"endFrame":4231},{"text":"because","startFrame":4231,"endFrame":4238},{"text":"she","startFrame":4238,"endFrame":4244},{"text":"had","startFrame":4244,"endFrame":4249},{"text":"ideas","startFrame":4249,"endFrame":4258},{"text":"for","startFrame":4258,"endFrame":4269},{"text":"wheelchair","startFrame":4269,"endFrame":4281},{"text":"friendly","startFrame":4281,"endFrame":4290},{"text":"activities","startFrame":4290,"endFrame":4305},{"text":"that","startFrame":4305,"endFrame":4310},{"text":"made","startFrame":4310,"endFrame":4318},{"text":"Lily","startFrame":4318,"endFrame":4321},{"text":"feel","startFrame":4321,"endFrame":4333},{"text":"included","startFrame":4333,"endFrame":4348},{"text":"rather","startFrame":4348,"endFrame":4360},{"text":"than","startFrame":4360,"endFrame":4371},{"text":"accommodated","startFrame":4371,"endFrame":4385},{"text":"But","startFrame":4390,"endFrame":4391},{"text":"the","startFrame":4391,"endFrame":4395},{"text":"moment","startFrame":4395,"endFrame":4401},{"text":"that","startFrame":4401,"endFrame":4405},{"text":"really","startFrame":4405,"endFrame":4412},{"text":"got","startFrame":4412,"endFrame":4417},{"text":"me","startFrame":4417,"endFrame":4422},{"text":"was","startFrame":4422,"endFrame":4428},{"text":"when","startFrame":4428,"endFrame":4434},{"text":"one","startFrame":4434,"endFrame":4438},{"text":"of","startFrame":4438,"endFrame":4441},{"text":"the","startFrame":4441,"endFrame":4444},{"text":"other","startFrame":4444,"endFrame":4453},{"text":"kids","startFrame":4453,"endFrame":4458},{"text":"asked","startFrame":4458,"endFrame":4467},{"text":"why","startFrame":4467,"endFrame":4474},{"text":"Lily","startFrame":4474,"endFrame":4479},{"text":"couldn't","startFrame":4479,"endFrame":4487},{"text":"just","startFrame":4487,"endFrame":4494},{"text":"get","startFrame":4494,"endFrame":4498},{"text":"out","startFrame":4498,"endFrame":4501},{"text":"of","startFrame":4501,"endFrame":4503},{"text":"her","startFrame":4503,"endFrame":4508},{"text":"wheelchair","startFrame":4508,"endFrame":4517},{"text":"and","startFrame":4517,"endFrame":4527},{"text":"walk","startFrame":4527,"endFrame":4533},{"text":"Emma","startFrame":4533,"endFrame":4540},{"text":"Very","startFrame":4543,"endFrame":4550},{"text":"seriously","startFrame":4550,"endFrame":4562},{"text":"explained","startFrame":4562,"endFrame":4576},{"text":"that","startFrame":4576,"endFrame":4585},{"text":"Lily's","startFrame":4585,"endFrame":4596},{"text":"legs","startFrame":4596,"endFrame":4598},{"text":"don't","startFrame":4598,"endFrame":4605},{"text":"work","startFrame":4605,"endFrame":4609},{"text":"the","startFrame":4609,"endFrame":4615},{"text":"same","startFrame":4615,"endFrame":4618},{"text":"way","startFrame":4618,"endFrame":4628},{"text":"but","startFrame":4635,"endFrame":4638},{"text":"her","startFrame":4638,"endFrame":4643},{"text":"brain","startFrame":4643,"endFrame":4649},{"text":"and","startFrame":4649,"endFrame":4656},{"text":"heart","startFrame":4656,"endFrame":4659},{"text":"work","startFrame":4659,"endFrame":4667},{"text":"perfectly","startFrame":4667,"endFrame":4678},{"text":"and","startFrame":4684,"endFrame":4687},{"text":"that's","startFrame":4687,"endFrame":4694},{"text":"what","startFrame":4694,"endFrame":4701},{"text":"matters","startFrame":4701,"endFrame":4710},{"text":"Then","startFrame":4715,"endFrame":4724},{"text":"Emma","startFrame":4724,"endFrame":4731},{"text":"said","startFrame":4731,"endFrame":4738},{"text":"something","startFrame":4738,"endFrame":4746},{"text":"that","startFrame":4746,"endFrame":4752},{"text":"made","startFrame":4752,"endFrame":4755},{"text":"every","startFrame":4755,"endFrame":4765},{"text":"adult","startFrame":4765,"endFrame":4771},{"text":"in","startFrame":4771,"endFrame":4776},{"text":"the","startFrame":4776,"endFrame":4783},{"text":"room","startFrame":4783,"endFrame":4783},{"text":"tear","startFrame":4783,"endFrame":4793},{"text":"up","startFrame":4793,"endFrame":4799},{"text":"She","startFrame":4801,"endFrame":4804},{"text":"said","startFrame":4804,"endFrame":4813},{"text":"Lily","startFrame":4820,"endFrame":4820},{"text":"is","startFrame":4820,"endFrame":4825},{"text":"the","startFrame":4825,"endFrame":4830},{"text":"bravest","startFrame":4830,"endFrame":4836},{"text":"person","startFrame":4836,"endFrame":4846},{"text":"I","startFrame":4846,"endFrame":4852},{"text":"know","startFrame":4852,"endFrame":4857},{"text":"because","startFrame":4857,"endFrame":4864},{"text":"she","startFrame":4864,"endFrame":4872},{"text":"never","startFrame":4872,"endFrame":4878},{"text":"gives","startFrame":4878,"endFrame":4884},{"text":"up","startFrame":4884,"endFrame":4891},{"text":"even","startFrame":4891,"endFrame":4897},{"text":"when","startFrame":4897,"endFrame":4903},{"text":"things","startFrame":4903,"endFrame":4908},{"text":"are","startFrame":4908,"endFrame":4915},{"text":"hard","startFrame":4915,"endFrame":4922},{"text":"And","startFrame":4924,"endFrame":4933},{"text":"she","startFrame":4933,"endFrame":4941},{"text":"always","startFrame":4941,"endFrame":4951},{"text":"shares","startFrame":4951,"endFrame":4959},{"text":"her","startFrame":4959,"endFrame":4968},{"text":"snacks","startFrame":4968,"endFrame":4974},{"text":"with","startFrame":4974,"endFrame":4980},{"text":"me","startFrame":4980,"endFrame":4986},{"text":"When","startFrame":4988,"endFrame":4990},{"text":"I","startFrame":4990,"endFrame":4995},{"text":"tried","startFrame":4995,"endFrame":5000},{"text":"to","startFrame":5000,"endFrame":5009},{"text":"thank","startFrame":5009,"endFrame":5011},{"text":"Emma","startFrame":5011,"endFrame":5016},{"text":"for","startFrame":5016,"endFrame":5026},{"text":"everything","startFrame":5026,"endFrame":5035},{"text":"she'd","startFrame":5035,"endFrame":5050},{"text":"done","startFrame":5050,"endFrame":5052},{"text":"she","startFrame":5054,"endFrame":5058},{"text":"looked","startFrame":5058,"endFrame":5064},{"text":"confused","startFrame":5064,"endFrame":5078},{"text":"and","startFrame":5078,"endFrame":5088},{"text":"said","startFrame":5088,"endFrame":5092},{"text":"but","startFrame":5094,"endFrame":5098},{"text":"Lily","startFrame":5098,"endFrame":5103},{"text":"would","startFrame":5103,"endFrame":5109},{"text":"do","startFrame":5109,"endFrame":5112},{"text":"the","startFrame":5112,"endFrame":5118},{"text":"same","startFrame":5118,"endFrame":5120},{"text":"for","startFrame":5120,"endFrame":5127},{"text":"me","startFrame":5127,"endFrame":5133},{"text":"That's","startFrame":5134,"endFrame":5141},{"text":"what","startFrame":5141,"endFrame":5145},{"text":"best","startFrame":5145,"endFrame":5151},{"text":"friends","startFrame":5151,"endFrame":5157},{"text":"do","startFrame":5157,"endFrame":5166},{"text":"I'm","startFrame":5166,"endFrame":5173},{"text":"crying","startFrame":5173,"endFrame":5181},{"text":"writing","startFrame":5181,"endFrame":5190},{"text":"this","startFrame":5190,"endFrame":5197},{"text":"because","startFrame":5197,"endFrame":5203},{"text":"I","startFrame":5203,"endFrame":5209},{"text":"realized","startFrame":5209,"endFrame":5218},{"text":"my","startFrame":5218,"endFrame":5224},{"text":"daughter","startFrame":5224,"endFrame":5231},{"text":"found","startFrame":5231,"endFrame":5239},{"text":"something","startFrame":5239,"endFrame":5249},{"text":"I'd","startFrame":5249,"endFrame":5255},{"text":"been","startFrame":5255,"endFrame":5259},{"text":"worried","startFrame":5259,"endFrame":5266},{"text":"she'd","startFrame":5266,"endFrame":5278},{"text":"never","startFrame":5278,"endFrame":5282},{"text":"have","startFrame":5282,"endFrame":5290},{"text":"a","startFrame":5290,"endFrame":5293},{"text":"true","startFrame":5293,"endFrame":5300},{"text":"friend","startFrame":5300,"endFrame":5308},{"text":"who","startFrame":5312,"endFrame":5316},{"text":"sees","startFrame":5316,"endFrame":5322},{"text":"her","startFrame":5322,"endFrame":5327},{"text":"for","startFrame":5327,"endFrame":5332},{"text":"who","startFrame":5332,"endFrame":5337},{"text":"she","startFrame":5337,"endFrame":5344},{"text":"is","startFrame":5344,"endFrame":5352},{"text":"not","startFrame":5356,"endFrame":5359},{"text":"what","startFrame":5359,"endFrame":5364},{"text":"she","startFrame":5364,"endFrame":5369},{"text":"can't","startFrame":5369,"endFrame":5377},{"text":"do","startFrame":5377,"endFrame":5382}],"animatedSubtitleType":"word","fontFamily":"Jellee","fontSize":50,"fontStrokeSize":3,"textColor":"#FFFFFF","highlightColor":"#FCA5A5","backgroundVideoStyle":"satisfying","backgroundVideoPath":"s3://remotion-reddit-start/Clips/Satisfying/8edz8nr0.mp4","backgroundColor":"#1A1A1A","has_background_music":false,"background_music_volume":0.05,"watermarkOpacity":0.7,"showChannelWatermark":true,"showVideoLength":true,"totalDurationInFrames":5387}' --log=verbose --chrome-flags="--no-sandbox --disable-dev-shm-usage"
+/bin/sh: line 1: /var/task/remotion-frontend/node_modules/.bin/remotion: No such file or directory
+
+    at genericNodeError (node:internal/errors:983:15)
+    at wrappedFn (node:internal/errors:537:14)
+    at checkExecSyncError (node:child_process:882:11)
+    at execSync (node:child_process:954:15)
+    at v (/var/task/remotion-frontend/.next/server/pages/api/create-video.js:1:10705)
+    at T (/var/task/remotion-frontend/.next/server/pages/api/create-video.js:3:3719)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async K (/var/task/remotion-frontend/node_modules/next/dist/compiled/next-server/pages-api.runtime.prod.js:20:16545)
+    at async U.render (/var/task/remotion-frontend/node_modules/next/dist/compiled/next-server/pages-api.runtime.prod.js:20:16981)
+    at async r3.runApi (/var/task/remotion-frontend/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:17:41752) {
+  status: 127,
+  signal: null,
+  output: [
+    null,
+    <Buffer >,
+    <Buffer 2f 62 69 6e 2f 73 68 3a 20 6c 69 6e 65 20 31 3a 20 2f 76 61 72 2f 74 61 73 6b 2f 72 65 6d 6f 74 69 6f 6e 2d 66 72 6f 6e 74 65 6e 64 2f 6e 6f 64 65 5f ... 49 more bytes>
+  ],
+  pid: 20,
+  stdout: <Buffer >,
+  stderr: <Buffer 2f 62 69 6e 2f 73 68 3a 20 6c 69 6e 65 20 31 3a 20 2f 76 61 72 2f 74 61 73 6b 2f 72 65 6d 6f 74 69 6f 6e 2d 66 72 6f 6e 74 65 6e 64 2f 6e 6f 64 65 5f ... 49 more bytes>
+}
+Remotion stdout:
+Remotion stderr: /bin/sh: line 1: /var/task/remotion-frontend/node_modules/.bin/remotion: No such file or directory
+Error in API handler: Error: Remotion render failed: Command failed: HOME=/tmp NPM_CONFIG_CACHE=/tmp/.npm-cache NPM_CONFIG_PREFIX=/tmp/.npm-prefix /var/task/remotion-frontend/node_modules/.bin/remotion render "/var/task/remotion-frontend/remotion" MainComposition "/tmp/54228542-5e01-49e7-8f0a-2390edabb8fd.mp4" --props='{"channelName":"RealTestChannel","channelImage":"https://rdtt.fun/ChannelLogos/2291f8b4-cf8f-430a-92a3-6a4718abde2f-object-logo.png","hookText":"What has your child done that brought you to tears?","hook_animation_type":"fall","audioUrl":"https://slicr-me.s3.eu-north-1.amazonaws.com/Story21.mp3","srtFileUrl":"https://slicr-me.s3.eu-north-1.amazonaws.com/processed_5225f667-0903-440e-b79a-6c39388dfac7-stream_1748282020205_final.srt","hookDurationInSeconds":0,"subtitleText":"What\nhas\nyour\nchild\ndone\nthat\nbrought\nyou\nto\ntears\nMy\ndaughter\nLily\nhas\nbeen\nin\na\nwheelchair\nsince\nshe\nwas\nthree\nSpina\nbifida\nmeans\nshe'll\nnever\nwalk\nbut\nshe's\nnever\nlet\nthat\nstop\nher\nfrom\ntrying\neverything\nWhen\nshe\nstarted\nfirst\ngrade\nI\nwas\nterrified\nKids\ncan\nbe\ncruel\nand\nI\ndidn't\nknow\nhow\nthey'd\ntreat\nher\nThe\nfirst\nfew\nweeks\nseemed\nokay\nLily\nwould\ncome\nhome\nchattering\nabout\nher\nnew\nfriends\nand\nher\nteacher\nMrs\nChen\nbut\nthen\nthings\nstarted\nchanging\nShe'd\nget\nquiet\non\nthe\nride\nhome\nand\nthey\nstopped\ntalking\nabout\nschool\nwhen\nI\nasked\nabout\nher\nday\nShe'd\njust\nsay\nit\nwas\nfine\nOne\nmorning\nI\nfound\nher\ncrying\nin\nher\nroom\nShe\nwouldn't\ntell\nme\nwhat\nwas\nwrong\njust\nkept\nsaying\nshe\ndidn't\nwant\nto\ngo\nto\nschool\nanymore\nMy\nheart\nbroke\nbecause\nLily\nhad\nalways\nloved\nlearning\nand\nbeing\naround\nother\nkids\nI\ncalled\nMrs\nChen\nwho\nsaid\nLily\nseemed\nwithdrawn\nlately\nand\nhad\nbeen\nasking\nto\neat\nlunch\nin\nthe\nclassroom\ninstead\nof\nthe\ncafeteria\nShe\nalso\nmentioned\nthat\nLily's\nbest\nfriend\nEmma\nhad\nbeen\nabsent\na\nlot\nrecently\nThat\nafternoon\nI\ndecided\nto\npick\nLily\nup\nearly\nfrom\nschool\ninstead\nof\nwaiting\nfor\nher\nThe\nbus\nwhen\nI\ngot\nthere\nI\nsaw\nsomething\nthat\nmade\nmy\nblood\nboil\nThree\nboys\nfrom\nher\nclass\nwere\nblocking\nher\nwheelchair\nin\nthe\nhallway\nlaughing\nas\nshe\ntried\nto\nget\naround\nthem\nI\nwas\nabout\nto\nmarch\nover\nthere\nwhen\nI\nsaw\nEmma\nappear\nout\nof\nnowhere\nThis\ntiny\nsix\nyear\nold\ngirl\nwalked\nright\nup\nto\nthose\nboys\nand\nsaid\nin\nthe\nloudest\nvoice\nyou\nneed\nto\nmove\nright\nnow\nor\nI'm\ngetting\nthe\nprincipal\nThe\nboys\njust\nlaughed\nat\nher\nbut\nEmma\ndidn't\nback\ndown\nShe\nplanted\nherself\nbetween\nthem\nand\nLily\nand\nI\nstarted\nyelling\nfor\nhelp\nuntil\na\nteacher\ncame\nrunning\nThe\nboys\nscattered\nand\nEmma\nhelped\nLily\nget\nto\nclass\nthat\nnight\nI\nasked\nLily\nabout\nwhat\nI'd\nseen\nShe\nfinally\nbroke\ndown\nand\ntold\nme\nthose\nboys\nhad\nbeen\nbothering\nher\nfor\nweeks\ncalling\nher\nnames\nand\nmaking\nit\nhard\nfor\nher\nto\nget\naround\nschool\nShe'd\nbeen\ntoo\nembarrassed\nto\ntell\nme\nbut\nEmma\nhad\nbeen\nprotecting\nher\nevery\nday\nwalking\nwith\nher\nto\nclass\nsitting\nwith\nher\nat\nlunch\nand\neven\ngetting\nin\ntrouble\nfor\nbeing\nlate\nto\nher\nown\nclasses\nbecause\nshe\nwas\nhelping\nLily\nnavigate\nthe\ncrowded\nhallways\nI\ncalled\nEmma's\nmom\nto\nthank\nher\nbut\nshe\nsaid\nshe\nhad\nno\nidea\nEmma\nhad\nbeen\ndoing\nany\nof\nthis\nWhen\nwe\nasked\nEmma\nwhy\nshe\nwas\nhelping\nLily\nshe\njust\nshrugged\nand\nsaid\nbecause\nshe's\nmy\nfriend\nand\nfriends\nhelp\neach\nother\nThe\nnext\nday\nI\nwent\nto\nschool\nto\ntalk\nto\nthe\nprincipal\nabout\nthe\nbullying\nbut\nwhen\nI\ngot\nthere\nEmma's\nmom\nwas\nalready\nin\nthe\noffice\nwith\nEmma\nThey'd\ncome\nto\nreport\nthe\nboys\nbehavior\nand\nEmma\nhad\nbrought\na\nnotebook\nwhere\nshe'd\nbeen\nwriting\ndown\nevery\nincident\nthis\nsix\nyear\nold\nhad\nbeen\ndocumenting\nEverything\ndates\ntimes\nwhat\nthe\nboys\nsaid\nand\ndid\nshe'd\neven\ndrawn\npictures\nof\nwhere\nthe\nincidents\nhappened\nEmma\nhad\ncreated\nher\nown\nevidence\nfile\nto\nprotect\nmy\ndaughter\nThe\nprincipal\nwas\namazed\nby\nEmma's\ndetailed\nrecords\nand\nimmediately\ncalled\nin\nthe\nboys\nand\ntheir\nparents\nThe\nbullying\nstopped\nthat\nday\nbut\nEmma's\nprotection\ndidn't\nShe\ncontinued\nwalking\nwith\nLily\nand\nincluding\nher\nin\neverything\nlast\nmonth\nWas\nLily's\nbirthday\nparty\nI\nwas\nworried\nabout\ninviting\nkids\nfrom\nschool\nbecause\nof\nthe\naccessibility\nissues\nwith\nour\nhouse\nbut\nLily\nreally\nwanted\na\nnormal\nparty\nwith\nher\nfriends\nwhen\nthe\nkids\narrived\nEmma\nimmediately\nstarted\norganizing\ngames\nthat\nLily\ncould\nparticipate\nin\nShe'd\nclearly\nthought\nabout\nthis\nahead\nof\ntime\nbecause\nshe\nhad\nideas\nfor\nwheelchair\nfriendly\nactivities\nthat\nmade\nLily\nfeel\nincluded\nrather\nthan\naccommodated\nBut\nthe\nmoment\nthat\nreally\ngot\nme\nwas\nwhen\none\nof\nthe\nother\nkids\nasked\nwhy\nLily\ncouldn't\njust\nget\nout\nof\nher\nwheelchair\nand\nwalk\nEmma\nVery\nseriously\nexplained\nthat\nLily's\nlegs\ndon't\nwork\nthe\nsame\nway\nbut\nher\nbrain\nand\nheart\nwork\nperfectly\nand\nthat's\nwhat\nmatters\nThen\nEmma\nsaid\nsomething\nthat\nmade\nevery\nadult\nin\nthe\nroom\ntear\nup\nShe\nsaid\nLily\nis\nthe\nbravest\nperson\nI\nknow\nbecause\nshe\nnever\ngives\nup\neven\nwhen\nthings\nare\nhard\nAnd\nshe\nalways\nshares\nher\nsnacks\nwith\nme\nWhen\nI\ntried\nto\nthank\nEmma\nfor\neverything\nshe'd\ndone\nshe\nlooked\nconfused\nand\nsaid\nbut\nLily\nwould\ndo\nthe\nsame\nfor\nme\nThat's\nwhat\nbest\nfriends\ndo\nI'm\ncrying\nwriting\nthis\nbecause\nI\nrealized\nmy\ndaughter\nfound\nsomething\nI'd\nbeen\nworried\nshe'd\nnever\nhave\na\ntrue\nfriend\nwho\nsees\nher\nfor\nwho\nshe\nis\nnot\nwhat\nshe\ncan't\ndo","wordTimings":[{"text":"What","startFrame":0,"endFrame":2},{"text":"has","startFrame":2,"endFrame":7},{"text":"your","startFrame":7,"endFrame":12},{"text":"child","startFrame":12,"endFrame":19},{"text":"done","startFrame":19,"endFrame":24},{"text":"that","startFrame":24,"endFrame":30},{"text":"brought","startFrame":30,"endFrame":34},{"text":"you","startFrame":34,"endFrame":39},{"text":"to","startFrame":39,"endFrame":53},{"text":"tears","startFrame":53,"endFrame":53},{"text":"My","startFrame":60,"endFrame":60},{"text":"daughter","startFrame":60,"endFrame":67},{"text":"Lily","startFrame":67,"endFrame":73},{"text":"has","startFrame":73,"endFrame":81},{"text":"been","startFrame":81,"endFrame":85},{"text":"in","startFrame":85,"endFrame":88},{"text":"a","startFrame":88,"endFrame":94},{"text":"wheelchair","startFrame":94,"endFrame":98},{"text":"since","startFrame":98,"endFrame":106},{"text":"she","startFrame":106,"endFrame":112},{"text":"was","startFrame":112,"endFrame":117},{"text":"three","startFrame":117,"endFrame":126},{"text":"Spina","startFrame":137,"endFrame":138},{"text":"bifida","startFrame":138,"endFrame":145},{"text":"means","startFrame":145,"endFrame":157},{"text":"she'll","startFrame":157,"endFrame":167},{"text":"never","startFrame":167,"endFrame":172},{"text":"walk","startFrame":172,"endFrame":182},{"text":"but","startFrame":184,"endFrame":187},{"text":"she's","startFrame":187,"endFrame":198},{"text":"never","startFrame":198,"endFrame":200},{"text":"let","startFrame":200,"endFrame":206},{"text":"that","startFrame":206,"endFrame":213},{"text":"stop","startFrame":213,"endFrame":216},{"text":"her","startFrame":216,"endFrame":220},{"text":"from","startFrame":220,"endFrame":226},{"text":"trying","startFrame":226,"endFrame":231},{"text":"everything","startFrame":231,"endFrame":245},{"text":"When","startFrame":249,"endFrame":252},{"text":"she","startFrame":252,"endFrame":256},{"text":"started","startFrame":256,"endFrame":262},{"text":"first","startFrame":262,"endFrame":273},{"text":"grade","startFrame":273,"endFrame":280},{"text":"I","startFrame":282,"endFrame":285},{"text":"was","startFrame":285,"endFrame":292},{"text":"terrified","startFrame":292,"endFrame":309},{"text":"Kids","startFrame":318,"endFrame":318},{"text":"can","startFrame":318,"endFrame":324},{"text":"be","startFrame":324,"endFrame":338},{"text":"cruel","startFrame":338,"endFrame":338},{"text":"and","startFrame":340,"endFrame":344},{"text":"I","startFrame":344,"endFrame":349},{"text":"didn't","startFrame":349,"endFrame":351},{"text":"know","startFrame":351,"endFrame":357},{"text":"how","startFrame":357,"endFrame":361},{"text":"they'd","startFrame":361,"endFrame":375},{"text":"treat","startFrame":375,"endFrame":375},{"text":"her","startFrame":375,"endFrame":379},{"text":"The","startFrame":382,"endFrame":385},{"text":"first","startFrame":385,"endFrame":391},{"text":"few","startFrame":391,"endFrame":397},{"text":"weeks","startFrame":397,"endFrame":402},{"text":"seemed","startFrame":402,"endFrame":409},{"text":"okay","startFrame":409,"endFrame":423},{"text":"Lily","startFrame":432,"endFrame":432},{"text":"would","startFrame":432,"endFrame":436},{"text":"come","startFrame":436,"endFrame":443},{"text":"home","startFrame":443,"endFrame":450},{"text":"chattering","startFrame":450,"endFrame":457},{"text":"about","startFrame":457,"endFrame":464},{"text":"her","startFrame":464,"endFrame":469},{"text":"new","startFrame":469,"endFrame":476},{"text":"friends","startFrame":476,"endFrame":482},{"text":"and","startFrame":482,"endFrame":487},{"text":"her","startFrame":487,"endFrame":501},{"text":"teacher","startFrame":501,"endFrame":501},{"text":"Mrs","startFrame":504,"endFrame":511},{"text":"Chen","startFrame":513,"endFrame":520},{"text":"but","startFrame":524,"endFrame":528},{"text":"then","startFrame":528,"endFrame":536},{"text":"things","startFrame":536,"endFrame":543},{"text":"started","startFrame":543,"endFrame":551},{"text":"changing","startFrame":551,"endFrame":562},{"text":"She'd","startFrame":568,"endFrame":575},{"text":"get","startFrame":575,"endFrame":579},{"text":"quiet","startFrame":579,"endFrame":584},{"text":"on","startFrame":584,"endFrame":589},{"text":"the","startFrame":589,"endFrame":591},{"text":"ride","startFrame":591,"endFrame":598},{"text":"home","startFrame":598,"endFrame":603},{"text":"and","startFrame":603,"endFrame":607},{"text":"they","startFrame":607,"endFrame":614},{"text":"stopped","startFrame":614,"endFrame":619},{"text":"talking","startFrame":619,"endFrame":629},{"text":"about","startFrame":629,"endFrame":637},{"text":"school","startFrame":637,"endFrame":643},{"text":"when","startFrame":643,"endFrame":648},{"text":"I","startFrame":648,"endFrame":656},{"text":"asked","startFrame":656,"endFrame":657},{"text":"about","startFrame":657,"endFrame":662},{"text":"her","startFrame":662,"endFrame":666},{"text":"day","startFrame":666,"endFrame":673},{"text":"She'd","startFrame":676,"endFrame":685},{"text":"just","startFrame":685,"endFrame":690},{"text":"say","startFrame":690,"endFrame":695},{"text":"it","startFrame":695,"endFrame":699},{"text":"was","startFrame":699,"endFrame":705},{"text":"fine","startFrame":705,"endFrame":713},{"text":"One","startFrame":717,"endFrame":721},{"text":"morning","startFrame":721,"endFrame":726},{"text":"I","startFrame":729,"endFrame":732},{"text":"found","startFrame":732,"endFrame":735},{"text":"her","startFrame":735,"endFrame":741},{"text":"crying","startFrame":741,"endFrame":747},{"text":"in","startFrame":747,"endFrame":752},{"text":"her","startFrame":752,"endFrame":759},{"text":"room","startFrame":759,"endFrame":762},{"text":"She","startFrame":766,"endFrame":770},{"text":"wouldn't","startFrame":770,"endFrame":774},{"text":"tell","startFrame":774,"endFrame":780},{"text":"me","startFrame":780,"endFrame":783},{"text":"what","startFrame":783,"endFrame":786},{"text":"was","startFrame":786,"endFrame":792},{"text":"wrong","startFrame":792,"endFrame":798},{"text":"just","startFrame":801,"endFrame":806},{"text":"kept","startFrame":806,"endFrame":811},{"text":"saying","startFrame":811,"endFrame":818},{"text":"she","startFrame":818,"endFrame":826},{"text":"didn't","startFrame":826,"endFrame":831},{"text":"want","startFrame":831,"endFrame":834},{"text":"to","startFrame":834,"endFrame":837},{"text":"go","startFrame":837,"endFrame":838},{"text":"to","startFrame":838,"endFrame":844},{"text":"school","startFrame":844,"endFrame":847},{"text":"anymore","startFrame":847,"endFrame":856},{"text":"My","startFrame":856,"endFrame":863},{"text":"heart","startFrame":863,"endFrame":868},{"text":"broke","startFrame":868,"endFrame":874},{"text":"because","startFrame":874,"endFrame":883},{"text":"Lily","startFrame":883,"endFrame":886},{"text":"had","startFrame":886,"endFrame":892},{"text":"always","startFrame":892,"endFrame":901},{"text":"loved","startFrame":901,"endFrame":909},{"text":"learning","startFrame":909,"endFrame":918},{"text":"and","startFrame":918,"endFrame":924},{"text":"being","startFrame":924,"endFrame":929},{"text":"around","startFrame":929,"endFrame":936},{"text":"other","startFrame":936,"endFrame":944},{"text":"kids","startFrame":944,"endFrame":951},{"text":"I","startFrame":958,"endFrame":958},{"text":"called","startFrame":958,"endFrame":964},{"text":"Mrs","startFrame":964,"endFrame":973},{"text":"Chen","startFrame":979,"endFrame":980},{"text":"who","startFrame":985,"endFrame":988},{"text":"said","startFrame":988,"endFrame":994},{"text":"Lily","startFrame":994,"endFrame":999},{"text":"seemed","startFrame":999,"endFrame":1010},{"text":"withdrawn","startFrame":1010,"endFrame":1021},{"text":"lately","startFrame":1021,"endFrame":1031},{"text":"and","startFrame":1031,"endFrame":1040},{"text":"had","startFrame":1040,"endFrame":1050},{"text":"been","startFrame":1050,"endFrame":1056},{"text":"asking","startFrame":1056,"endFrame":1061},{"text":"to","startFrame":1061,"endFrame":1068},{"text":"eat","startFrame":1068,"endFrame":1074},{"text":"lunch","startFrame":1074,"endFrame":1079},{"text":"in","startFrame":1079,"endFrame":1083},{"text":"the","startFrame":1083,"endFrame":1086},{"text":"classroom","startFrame":1086,"endFrame":1096},{"text":"instead","startFrame":1096,"endFrame":1105},{"text":"of","startFrame":1105,"endFrame":1108},{"text":"the","startFrame":1108,"endFrame":1112},{"text":"cafeteria","startFrame":1112,"endFrame":1123},{"text":"She","startFrame":1132,"endFrame":1135},{"text":"also","startFrame":1135,"endFrame":1147},{"text":"mentioned","startFrame":1147,"endFrame":1155},{"text":"that","startFrame":1155,"endFrame":1165},{"text":"Lily's","startFrame":1165,"endFrame":1173},{"text":"best","startFrame":1173,"endFrame":1180},{"text":"friend","startFrame":1180,"endFrame":1185},{"text":"Emma","startFrame":1189,"endFrame":1191},{"text":"had","startFrame":1193,"endFrame":1198},{"text":"been","startFrame":1198,"endFrame":1203},{"text":"absent","startFrame":1203,"endFrame":1210},{"text":"a","startFrame":1210,"endFrame":1219},{"text":"lot","startFrame":1219,"endFrame":1219},{"text":"recently","startFrame":1219,"endFrame":1230},{"text":"That","startFrame":1236,"endFrame":1238},{"text":"afternoon","startFrame":1238,"endFrame":1250},{"text":"I","startFrame":1253,"endFrame":1257},{"text":"decided","startFrame":1257,"endFrame":1265},{"text":"to","startFrame":1265,"endFrame":1272},{"text":"pick","startFrame":1272,"endFrame":1274},{"text":"Lily","startFrame":1274,"endFrame":1279},{"text":"up","startFrame":1279,"endFrame":1287},{"text":"early","startFrame":1287,"endFrame":1292},{"text":"from","startFrame":1292,"endFrame":1299},{"text":"school","startFrame":1299,"endFrame":1306},{"text":"instead","startFrame":1306,"endFrame":1315},{"text":"of","startFrame":1315,"endFrame":1324},{"text":"waiting","startFrame":1324,"endFrame":1324},{"text":"for","startFrame":1324,"endFrame":1334},{"text":"her","startFrame":1334,"endFrame":1336},{"text":"The","startFrame":1337,"endFrame":1341},{"text":"bus","startFrame":1341,"endFrame":1346},{"text":"when","startFrame":1350,"endFrame":1350},{"text":"I","startFrame":1350,"endFrame":1353},{"text":"got","startFrame":1353,"endFrame":1357},{"text":"there","startFrame":1357,"endFrame":1363},{"text":"I","startFrame":1363,"endFrame":1371},{"text":"saw","startFrame":1371,"endFrame":1374},{"text":"something","startFrame":1374,"endFrame":1382},{"text":"that","startFrame":1382,"endFrame":1390},{"text":"made","startFrame":1390,"endFrame":1393},{"text":"my","startFrame":1393,"endFrame":1405},{"text":"blood","startFrame":1405,"endFrame":1407},{"text":"boil","startFrame":1407,"endFrame":1417},{"text":"Three","startFrame":1428,"endFrame":1428},{"text":"boys","startFrame":1428,"endFrame":1435},{"text":"from","startFrame":1435,"endFrame":1443},{"text":"her","startFrame":1443,"endFrame":1448},{"text":"class","startFrame":1448,"endFrame":1454},{"text":"were","startFrame":1454,"endFrame":1462},{"text":"blocking","startFrame":1462,"endFrame":1467},{"text":"her","startFrame":1467,"endFrame":1474},{"text":"wheelchair","startFrame":1474,"endFrame":1483},{"text":"in","startFrame":1483,"endFrame":1490},{"text":"the","startFrame":1490,"endFrame":1502},{"text":"hallway","startFrame":1502,"endFrame":1502},{"text":"laughing","startFrame":1516,"endFrame":1516},{"text":"as","startFrame":1516,"endFrame":1522},{"text":"she","startFrame":1522,"endFrame":1527},{"text":"tried","startFrame":1527,"endFrame":1532},{"text":"to","startFrame":1532,"endFrame":1537},{"text":"get","startFrame":1537,"endFrame":1541},{"text":"around","startFrame":1541,"endFrame":1546},{"text":"them","startFrame":1546,"endFrame":1552},{"text":"I","startFrame":1553,"endFrame":1556},{"text":"was","startFrame":1556,"endFrame":1561},{"text":"about","startFrame":1561,"endFrame":1566},{"text":"to","startFrame":1566,"endFrame":1575},{"text":"march","startFrame":1575,"endFrame":1575},{"text":"over","startFrame":1575,"endFrame":1584},{"text":"there","startFrame":1584,"endFrame":1590},{"text":"when","startFrame":1590,"endFrame":1596},{"text":"I","startFrame":1596,"endFrame":1602},{"text":"saw","startFrame":1602,"endFrame":1608},{"text":"Emma","startFrame":1608,"endFrame":1617},{"text":"appear","startFrame":1617,"endFrame":1627},{"text":"out","startFrame":1627,"endFrame":1631},{"text":"of","startFrame":1631,"endFrame":1644},{"text":"nowhere","startFrame":1644,"endFrame":1644},{"text":"This","startFrame":1647,"endFrame":1653},{"text":"tiny","startFrame":1653,"endFrame":1662},{"text":"six","startFrame":1662,"endFrame":1672},{"text":"year","startFrame":1672,"endFrame":1674},{"text":"old","startFrame":1674,"endFrame":1680},{"text":"girl","startFrame":1680,"endFrame":1689},{"text":"walked","startFrame":1689,"endFrame":1696},{"text":"right","startFrame":1696,"endFrame":1707},{"text":"up","startFrame":1707,"endFrame":1710},{"text":"to","startFrame":1710,"endFrame":1714},{"text":"those","startFrame":1714,"endFrame":1721},{"text":"boys","startFrame":1721,"endFrame":1725},{"text":"and","startFrame":1725,"endFrame":1734},{"text":"said","startFrame":1734,"endFrame":1743},{"text":"in","startFrame":1743,"endFrame":1748},{"text":"the","startFrame":1748,"endFrame":1756},{"text":"loudest","startFrame":1756,"endFrame":1763},{"text":"voice","startFrame":1763,"endFrame":1773},{"text":"you","startFrame":1775,"endFrame":1777},{"text":"need","startFrame":1777,"endFrame":1782},{"text":"to","startFrame":1782,"endFrame":1790},{"text":"move","startFrame":1790,"endFrame":1797},{"text":"right","startFrame":1797,"endFrame":1805},{"text":"now","startFrame":1805,"endFrame":1815},{"text":"or","startFrame":1816,"endFrame":1822},{"text":"I'm","startFrame":1822,"endFrame":1831},{"text":"getting","startFrame":1831,"endFrame":1834},{"text":"the","startFrame":1834,"endFrame":1841},{"text":"principal","startFrame":1841,"endFrame":1851},{"text":"The","startFrame":1855,"endFrame":1857},{"text":"boys","startFrame":1857,"endFrame":1861},{"text":"just","startFrame":1861,"endFrame":1874},{"text":"laughed","startFrame":1874,"endFrame":1874},{"text":"at","startFrame":1874,"endFrame":1882},{"text":"her","startFrame":1882,"endFrame":1885},{"text":"but","startFrame":1887,"endFrame":1893},{"text":"Emma","startFrame":1893,"endFrame":1897},{"text":"didn't","startFrame":1897,"endFrame":1908},{"text":"back","startFrame":1908,"endFrame":1915},{"text":"down","startFrame":1915,"endFrame":1921},{"text":"She","startFrame":1926,"endFrame":1929},{"text":"planted","startFrame":1929,"endFrame":1936},{"text":"herself","startFrame":1936,"endFrame":1947},{"text":"between","startFrame":1947,"endFrame":1957},{"text":"them","startFrame":1957,"endFrame":1965},{"text":"and","startFrame":1965,"endFrame":1975},{"text":"Lily","startFrame":1975,"endFrame":1980},{"text":"and","startFrame":1984,"endFrame":1992},{"text":"I","startFrame":1992,"endFrame":1996},{"text":"started","startFrame":1996,"endFrame":2003},{"text":"yelling","startFrame":2003,"endFrame":2008},{"text":"for","startFrame":2008,"endFrame":2017},{"text":"help","startFrame":2017,"endFrame":2022},{"text":"until","startFrame":2022,"endFrame":2027},{"text":"a","startFrame":2027,"endFrame":2039},{"text":"teacher","startFrame":2039,"endFrame":2039},{"text":"came","startFrame":2039,"endFrame":2046},{"text":"running","startFrame":2046,"endFrame":2053},{"text":"The","startFrame":2059,"endFrame":2060},{"text":"boys","startFrame":2060,"endFrame":2067},{"text":"scattered","startFrame":2067,"endFrame":2077},{"text":"and","startFrame":2077,"endFrame":2084},{"text":"Emma","startFrame":2084,"endFrame":2088},{"text":"helped","startFrame":2088,"endFrame":2095},{"text":"Lily","startFrame":2095,"endFrame":2100},{"text":"get","startFrame":2100,"endFrame":2104},{"text":"to","startFrame":2104,"endFrame":2113},{"text":"class","startFrame":2113,"endFrame":2113},{"text":"that","startFrame":2113,"endFrame":2122},{"text":"night","startFrame":2122,"endFrame":2125},{"text":"I","startFrame":2127,"endFrame":2130},{"text":"asked","startFrame":2130,"endFrame":2135},{"text":"Lily","startFrame":2135,"endFrame":2140},{"text":"about","startFrame":2140,"endFrame":2147},{"text":"what","startFrame":2147,"endFrame":2151},{"text":"I'd","startFrame":2151,"endFrame":2158},{"text":"seen","startFrame":2158,"endFrame":2163},{"text":"She","startFrame":2169,"endFrame":2172},{"text":"finally","startFrame":2172,"endFrame":2181},{"text":"broke","startFrame":2181,"endFrame":2187},{"text":"down","startFrame":2187,"endFrame":2192},{"text":"and","startFrame":2192,"endFrame":2200},{"text":"told","startFrame":2200,"endFrame":2200},{"text":"me","startFrame":2200,"endFrame":2205},{"text":"those","startFrame":2205,"endFrame":2211},{"text":"boys","startFrame":2211,"endFrame":2214},{"text":"had","startFrame":2214,"endFrame":2219},{"text":"been","startFrame":2219,"endFrame":2225},{"text":"bothering","startFrame":2225,"endFrame":2230},{"text":"her","startFrame":2230,"endFrame":2238},{"text":"for","startFrame":2238,"endFrame":2252},{"text":"weeks","startFrame":2252,"endFrame":2252},{"text":"calling","startFrame":2259,"endFrame":2259},{"text":"her","startFrame":2259,"endFrame":2267},{"text":"names","startFrame":2267,"endFrame":2274},{"text":"and","startFrame":2274,"endFrame":2280},{"text":"making","startFrame":2280,"endFrame":2286},{"text":"it","startFrame":2286,"endFrame":2295},{"text":"hard","startFrame":2295,"endFrame":2296},{"text":"for","startFrame":2296,"endFrame":2301},{"text":"her","startFrame":2301,"endFrame":2302},{"text":"to","startFrame":2302,"endFrame":2307},{"text":"get","startFrame":2307,"endFrame":2310},{"text":"around","startFrame":2310,"endFrame":2316},{"text":"school","startFrame":2316,"endFrame":2325},{"text":"She'd","startFrame":2329,"endFrame":2335},{"text":"been","startFrame":2335,"endFrame":2338},{"text":"too","startFrame":2338,"endFrame":2350},{"text":"embarrassed","startFrame":2350,"endFrame":2350},{"text":"to","startFrame":2350,"endFrame":2361},{"text":"tell","startFrame":2361,"endFrame":2361},{"text":"me","startFrame":2361,"endFrame":2367},{"text":"but","startFrame":2370,"endFrame":2373},{"text":"Emma","startFrame":2373,"endFrame":2377},{"text":"had","startFrame":2377,"endFrame":2383},{"text":"been","startFrame":2383,"endFrame":2388},{"text":"protecting","startFrame":2388,"endFrame":2395},{"text":"her","startFrame":2395,"endFrame":2403},{"text":"every","startFrame":2403,"endFrame":2413},{"text":"day","startFrame":2413,"endFrame":2421},{"text":"walking","startFrame":2431,"endFrame":2431},{"text":"with","startFrame":2431,"endFrame":2437},{"text":"her","startFrame":2437,"endFrame":2439},{"text":"to","startFrame":2439,"endFrame":2454},{"text":"class","startFrame":2454,"endFrame":2454},{"text":"sitting","startFrame":2462,"endFrame":2463},{"text":"with","startFrame":2463,"endFrame":2468},{"text":"her","startFrame":2468,"endFrame":2470},{"text":"at","startFrame":2470,"endFrame":2480},{"text":"lunch","startFrame":2480,"endFrame":2482},{"text":"and","startFrame":2483,"endFrame":2488},{"text":"even","startFrame":2488,"endFrame":2496},{"text":"getting","startFrame":2496,"endFrame":2501},{"text":"in","startFrame":2501,"endFrame":2511},{"text":"trouble","startFrame":2511,"endFrame":2512},{"text":"for","startFrame":2512,"endFrame":2521},{"text":"being","startFrame":2521,"endFrame":2527},{"text":"late","startFrame":2527,"endFrame":2531},{"text":"to","startFrame":2531,"endFrame":2536},{"text":"her","startFrame":2536,"endFrame":2540},{"text":"own","startFrame":2540,"endFrame":2547},{"text":"classes","startFrame":2547,"endFrame":2556},{"text":"because","startFrame":2556,"endFrame":2566},{"text":"she","startFrame":2566,"endFrame":2571},{"text":"was","startFrame":2571,"endFrame":2577},{"text":"helping","startFrame":2577,"endFrame":2586},{"text":"Lily","startFrame":2586,"endFrame":2592},{"text":"navigate","startFrame":2592,"endFrame":2606},{"text":"the","startFrame":2606,"endFrame":2620},{"text":"crowded","startFrame":2620,"endFrame":2620},{"text":"hallways","startFrame":2620,"endFrame":2632},{"text":"I","startFrame":2638,"endFrame":2639},{"text":"called","startFrame":2639,"endFrame":2646},{"text":"Emma's","startFrame":2646,"endFrame":2656},{"text":"mom","startFrame":2656,"endFrame":2658},{"text":"to","startFrame":2658,"endFrame":2669},{"text":"thank","startFrame":2669,"endFrame":2669},{"text":"her","startFrame":2669,"endFrame":2674},{"text":"but","startFrame":2677,"endFrame":2679},{"text":"she","startFrame":2679,"endFrame":2684},{"text":"said","startFrame":2684,"endFrame":2688},{"text":"she","startFrame":2688,"endFrame":2693},{"text":"had","startFrame":2693,"endFrame":2698},{"text":"no","startFrame":2698,"endFrame":2704},{"text":"idea","startFrame":2704,"endFrame":2713},{"text":"Emma","startFrame":2713,"endFrame":2719},{"text":"had","startFrame":2719,"endFrame":2724},{"text":"been","startFrame":2724,"endFrame":2728},{"text":"doing","startFrame":2728,"endFrame":2733},{"text":"any","startFrame":2733,"endFrame":2740},{"text":"of","startFrame":2740,"endFrame":2745},{"text":"this","startFrame":2745,"endFrame":2750},{"text":"When","startFrame":2752,"endFrame":2755},{"text":"we","startFrame":2755,"endFrame":2761},{"text":"asked","startFrame":2761,"endFrame":2766},{"text":"Emma","startFrame":2766,"endFrame":2772},{"text":"why","startFrame":2772,"endFrame":2778},{"text":"she","startFrame":2778,"endFrame":2781},{"text":"was","startFrame":2781,"endFrame":2793},{"text":"helping","startFrame":2793,"endFrame":2793},{"text":"Lily","startFrame":2793,"endFrame":2801},{"text":"she","startFrame":2807,"endFrame":2809},{"text":"just","startFrame":2809,"endFrame":2824},{"text":"shrugged","startFrame":2824,"endFrame":2826},{"text":"and","startFrame":2826,"endFrame":2840},{"text":"said","startFrame":2840,"endFrame":2840},{"text":"because","startFrame":2847,"endFrame":2847},{"text":"she's","startFrame":2847,"endFrame":2856},{"text":"my","startFrame":2856,"endFrame":2862},{"text":"friend","startFrame":2862,"endFrame":2869},{"text":"and","startFrame":2869,"endFrame":2881},{"text":"friends","startFrame":2881,"endFrame":2889},{"text":"help","startFrame":2889,"endFrame":2896},{"text":"each","startFrame":2896,"endFrame":2902},{"text":"other","startFrame":2902,"endFrame":2908},{"text":"The","startFrame":2910,"endFrame":2914},{"text":"next","startFrame":2914,"endFrame":2919},{"text":"day","startFrame":2919,"endFrame":2922},{"text":"I","startFrame":2922,"endFrame":2925},{"text":"went","startFrame":2925,"endFrame":2928},{"text":"to","startFrame":2928,"endFrame":2934},{"text":"school","startFrame":2934,"endFrame":2937},{"text":"to","startFrame":2937,"endFrame":2943},{"text":"talk","startFrame":2943,"endFrame":2946},{"text":"to","startFrame":2946,"endFrame":2949},{"text":"the","startFrame":2949,"endFrame":2955},{"text":"principal","startFrame":2955,"endFrame":2961},{"text":"about","startFrame":2961,"endFrame":2969},{"text":"the","startFrame":2969,"endFrame":2977},{"text":"bullying","startFrame":2977,"endFrame":2981},{"text":"but","startFrame":2986,"endFrame":2989},{"text":"when","startFrame":2989,"endFrame":2994},{"text":"I","startFrame":2994,"endFrame":2998},{"text":"got","startFrame":2998,"endFrame":3003},{"text":"there","startFrame":3003,"endFrame":3012},{"text":"Emma's","startFrame":3018,"endFrame":3024},{"text":"mom","startFrame":3024,"endFrame":3027},{"text":"was","startFrame":3027,"endFrame":3031},{"text":"already","startFrame":3031,"endFrame":3039},{"text":"in","startFrame":3039,"endFrame":3044},{"text":"the","startFrame":3044,"endFrame":3055},{"text":"office","startFrame":3055,"endFrame":3055},{"text":"with","startFrame":3055,"endFrame":3067},{"text":"Emma","startFrame":3067,"endFrame":3070},{"text":"They'd","startFrame":3075,"endFrame":3082},{"text":"come","startFrame":3082,"endFrame":3088},{"text":"to","startFrame":3088,"endFrame":3100},{"text":"report","startFrame":3100,"endFrame":3100},{"text":"the","startFrame":3100,"endFrame":3105},{"text":"boys","startFrame":3105,"endFrame":3109},{"text":"behavior","startFrame":3122,"endFrame":3122},{"text":"and","startFrame":3129,"endFrame":3141},{"text":"Emma","startFrame":3141,"endFrame":3141},{"text":"had","startFrame":3141,"endFrame":3149},{"text":"brought","startFrame":3149,"endFrame":3154},{"text":"a","startFrame":3154,"endFrame":3168},{"text":"notebook","startFrame":3168,"endFrame":3168},{"text":"where","startFrame":3168,"endFrame":3180},{"text":"she'd","startFrame":3180,"endFrame":3189},{"text":"been","startFrame":3189,"endFrame":3194},{"text":"writing","startFrame":3194,"endFrame":3199},{"text":"down","startFrame":3199,"endFrame":3208},{"text":"every","startFrame":3208,"endFrame":3219},{"text":"incident","startFrame":3219,"endFrame":3228},{"text":"this","startFrame":3228,"endFrame":3240},{"text":"six","startFrame":3240,"endFrame":3249},{"text":"year","startFrame":3249,"endFrame":3251},{"text":"old","startFrame":3251,"endFrame":3256},{"text":"had","startFrame":3256,"endFrame":3263},{"text":"been","startFrame":3263,"endFrame":3269},{"text":"documenting","startFrame":3269,"endFrame":3283},{"text":"Everything","startFrame":3287,"endFrame":3299},{"text":"dates","startFrame":3315,"endFrame":3315},{"text":"times","startFrame":3328,"endFrame":3333},{"text":"what","startFrame":3342,"endFrame":3345},{"text":"the","startFrame":3345,"endFrame":3352},{"text":"boys","startFrame":3352,"endFrame":3358},{"text":"said","startFrame":3358,"endFrame":3372},{"text":"and","startFrame":3375,"endFrame":3382},{"text":"did","startFrame":3382,"endFrame":3393},{"text":"she'd","startFrame":3393,"endFrame":3400},{"text":"even","startFrame":3400,"endFrame":3406},{"text":"drawn","startFrame":3406,"endFrame":3413},{"text":"pictures","startFrame":3413,"endFrame":3423},{"text":"of","startFrame":3423,"endFrame":3427},{"text":"where","startFrame":3427,"endFrame":3432},{"text":"the","startFrame":3432,"endFrame":3439},{"text":"incidents","startFrame":3439,"endFrame":3448},{"text":"happened","startFrame":3448,"endFrame":3460},{"text":"Emma","startFrame":3467,"endFrame":3467},{"text":"had","startFrame":3467,"endFrame":3474},{"text":"created","startFrame":3474,"endFrame":3483},{"text":"her","startFrame":3483,"endFrame":3490},{"text":"own","startFrame":3490,"endFrame":3498},{"text":"evidence","startFrame":3498,"endFrame":3507},{"text":"file","startFrame":3507,"endFrame":3514},{"text":"to","startFrame":3514,"endFrame":3519},{"text":"protect","startFrame":3519,"endFrame":3526},{"text":"my","startFrame":3526,"endFrame":3533},{"text":"daughter","startFrame":3533,"endFrame":3540},{"text":"The","startFrame":3544,"endFrame":3547},{"text":"principal","startFrame":3547,"endFrame":3555},{"text":"was","startFrame":3555,"endFrame":3563},{"text":"amazed","startFrame":3563,"endFrame":3571},{"text":"by","startFrame":3571,"endFrame":3579},{"text":"Emma's","startFrame":3579,"endFrame":3587},{"text":"detailed","startFrame":3587,"endFrame":3594},{"text":"records","startFrame":3594,"endFrame":3604},{"text":"and","startFrame":3604,"endFrame":3618},{"text":"immediately","startFrame":3618,"endFrame":3629},{"text":"called","startFrame":3629,"endFrame":3636},{"text":"in","startFrame":3636,"endFrame":3643},{"text":"the","startFrame":3643,"endFrame":3645},{"text":"boys","startFrame":3645,"endFrame":3648},{"text":"and","startFrame":3648,"endFrame":3654},{"text":"their","startFrame":3654,"endFrame":3659},{"text":"parents","startFrame":3659,"endFrame":3670},{"text":"The","startFrame":3676,"endFrame":3679},{"text":"bullying","startFrame":3679,"endFrame":3685},{"text":"stopped","startFrame":3685,"endFrame":3699},{"text":"that","startFrame":3699,"endFrame":3708},{"text":"day","startFrame":3708,"endFrame":3715},{"text":"but","startFrame":3717,"endFrame":3721},{"text":"Emma's","startFrame":3721,"endFrame":3741},{"text":"protection","startFrame":3741,"endFrame":3741},{"text":"didn't","startFrame":3741,"endFrame":3749},{"text":"She","startFrame":3755,"endFrame":3755},{"text":"continued","startFrame":3755,"endFrame":3767},{"text":"walking","startFrame":3767,"endFrame":3775},{"text":"with","startFrame":3775,"endFrame":3787},{"text":"Lily","startFrame":3787,"endFrame":3787},{"text":"and","startFrame":3787,"endFrame":3801},{"text":"including","startFrame":3801,"endFrame":3816},{"text":"her","startFrame":3816,"endFrame":3826},{"text":"in","startFrame":3826,"endFrame":3834},{"text":"everything","startFrame":3834,"endFrame":3843},{"text":"last","startFrame":3843,"endFrame":3855},{"text":"month","startFrame":3855,"endFrame":3860},{"text":"Was","startFrame":3862,"endFrame":3866},{"text":"Lily's","startFrame":3866,"endFrame":3877},{"text":"birthday","startFrame":3877,"endFrame":3882},{"text":"party","startFrame":3882,"endFrame":3890},{"text":"I","startFrame":3894,"endFrame":3896},{"text":"was","startFrame":3896,"endFrame":3901},{"text":"worried","startFrame":3901,"endFrame":3905},{"text":"about","startFrame":3905,"endFrame":3919},{"text":"inviting","startFrame":3919,"endFrame":3919},{"text":"kids","startFrame":3919,"endFrame":3927},{"text":"from","startFrame":3927,"endFrame":3933},{"text":"school","startFrame":3933,"endFrame":3940},{"text":"because","startFrame":3940,"endFrame":3949},{"text":"of","startFrame":3949,"endFrame":3954},{"text":"the","startFrame":3954,"endFrame":3960},{"text":"accessibility","startFrame":3960,"endFrame":3974},{"text":"issues","startFrame":3974,"endFrame":3986},{"text":"with","startFrame":3986,"endFrame":3992},{"text":"our","startFrame":3992,"endFrame":3998},{"text":"house","startFrame":3998,"endFrame":4005},{"text":"but","startFrame":4006,"endFrame":4013},{"text":"Lily","startFrame":4013,"endFrame":4015},{"text":"really","startFrame":4015,"endFrame":4026},{"text":"wanted","startFrame":4026,"endFrame":4030},{"text":"a","startFrame":4030,"endFrame":4037},{"text":"normal","startFrame":4037,"endFrame":4044},{"text":"party","startFrame":4044,"endFrame":4050},{"text":"with","startFrame":4050,"endFrame":4055},{"text":"her","startFrame":4055,"endFrame":4062},{"text":"friends","startFrame":4062,"endFrame":4068},{"text":"when","startFrame":4068,"endFrame":4074},{"text":"the","startFrame":4074,"endFrame":4082},{"text":"kids","startFrame":4082,"endFrame":4082},{"text":"arrived","startFrame":4082,"endFrame":4092},{"text":"Emma","startFrame":4099,"endFrame":4099},{"text":"immediately","startFrame":4099,"endFrame":4115},{"text":"started","startFrame":4115,"endFrame":4125},{"text":"organizing","startFrame":4125,"endFrame":4137},{"text":"games","startFrame":4137,"endFrame":4149},{"text":"that","startFrame":4149,"endFrame":4158},{"text":"Lily","startFrame":4158,"endFrame":4159},{"text":"could","startFrame":4159,"endFrame":4165},{"text":"participate","startFrame":4165,"endFrame":4176},{"text":"in","startFrame":4176,"endFrame":4184},{"text":"She'd","startFrame":4186,"endFrame":4193},{"text":"clearly","startFrame":4193,"endFrame":4200},{"text":"thought","startFrame":4200,"endFrame":4206},{"text":"about","startFrame":4206,"endFrame":4211},{"text":"this","startFrame":4211,"endFrame":4218},{"text":"ahead","startFrame":4218,"endFrame":4221},{"text":"of","startFrame":4221,"endFrame":4231},{"text":"time","startFrame":4231,"endFrame":4231},{"text":"because","startFrame":4231,"endFrame":4238},{"text":"she","startFrame":4238,"endFrame":4244},{"text":"had","startFrame":4244,"endFrame":4249},{"text":"ideas","startFrame":4249,"endFrame":4258},{"text":"for","startFrame":4258,"endFrame":4269},{"text":"wheelchair","startFrame":4269,"endFrame":4281},{"text":"friendly","startFrame":4281,"endFrame":4290},{"text":"activities","startFrame":4290,"endFrame":4305},{"text":"that","startFrame":4305,"endFrame":4310},{"text":"made","startFrame":4310,"endFrame":4318},{"text":"Lily","startFrame":4318,"endFrame":4321},{"text":"feel","startFrame":4321,"endFrame":4333},{"text":"included","startFrame":4333,"endFrame":4348},{"text":"rather","startFrame":4348,"endFrame":4360},{"text":"than","startFrame":4360,"endFrame":4371},{"text":"accommodated","startFrame":4371,"endFrame":4385},{"text":"But","startFrame":4390,"endFrame":4391},{"text":"the","startFrame":4391,"endFrame":4395},{"text":"moment","startFrame":4395,"endFrame":4401},{"text":"that","startFrame":4401,"endFrame":4405},{"text":"really","startFrame":4405,"endFrame":4412},{"text":"got","startFrame":4412,"endFrame":4417},{"text":"me","startFrame":4417,"endFrame":4422},{"text":"was","startFrame":4422,"endFrame":4428},{"text":"when","startFrame":4428,"endFrame":4434},{"text":"one","startFrame":4434,"endFrame":4438},{"text":"of","startFrame":4438,"endFrame":4441},{"text":"the","startFrame":4441,"endFrame":4444},{"text":"other","startFrame":4444,"endFrame":4453},{"text":"kids","startFrame":4453,"endFrame":4458},{"text":"asked","startFrame":4458,"endFrame":4467},{"text":"why","startFrame":4467,"endFrame":4474},{"text":"Lily","startFrame":4474,"endFrame":4479},{"text":"couldn't","startFrame":4479,"endFrame":4487},{"text":"just","startFrame":4487,"endFrame":4494},{"text":"get","startFrame":4494,"endFrame":4498},{"text":"out","startFrame":4498,"endFrame":4501},{"text":"of","startFrame":4501,"endFrame":4503},{"text":"her","startFrame":4503,"endFrame":4508},{"text":"wheelchair","startFrame":4508,"endFrame":4517},{"text":"and","startFrame":4517,"endFrame":4527},{"text":"walk","startFrame":4527,"endFrame":4533},{"text":"Emma","startFrame":4533,"endFrame":4540},{"text":"Very","startFrame":4543,"endFrame":4550},{"text":"seriously","startFrame":4550,"endFrame":4562},{"text":"explained","startFrame":4562,"endFrame":4576},{"text":"that","startFrame":4576,"endFrame":4585},{"text":"Lily's","startFrame":4585,"endFrame":4596},{"text":"legs","startFrame":4596,"endFrame":4598},{"text":"don't","startFrame":4598,"endFrame":4605},{"text":"work","startFrame":4605,"endFrame":4609},{"text":"the","startFrame":4609,"endFrame":4615},{"text":"same","startFrame":4615,"endFrame":4618},{"text":"way","startFrame":4618,"endFrame":4628},{"text":"but","startFrame":4635,"endFrame":4638},{"text":"her","startFrame":4638,"endFrame":4643},{"text":"brain","startFrame":4643,"endFrame":4649},{"text":"and","startFrame":4649,"endFrame":4656},{"text":"heart","startFrame":4656,"endFrame":4659},{"text":"work","startFrame":4659,"endFrame":4667},{"text":"perfectly","startFrame":4667,"endFrame":4678},{"text":"and","startFrame":4684,"endFrame":4687},{"text":"that's","startFrame":4687,"endFrame":4694},{"text":"what","startFrame":4694,"endFrame":4701},{"text":"matters","startFrame":4701,"endFrame":4710},{"text":"Then","startFrame":4715,"endFrame":4724},{"text":"Emma","startFrame":4724,"endFrame":4731},{"text":"said","startFrame":4731,"endFrame":4738},{"text":"something","startFrame":4738,"endFrame":4746},{"text":"that","startFrame":4746,"endFrame":4752},{"text":"made","startFrame":4752,"endFrame":4755},{"text":"every","startFrame":4755,"endFrame":4765},{"text":"adult","startFrame":4765,"endFrame":4771},{"text":"in","startFrame":4771,"endFrame":4776},{"text":"the","startFrame":4776,"endFrame":4783},{"text":"room","startFrame":4783,"endFrame":4783},{"text":"tear","startFrame":4783,"endFrame":4793},{"text":"up","startFrame":4793,"endFrame":4799},{"text":"She","startFrame":4801,"endFrame":4804},{"text":"said","startFrame":4804,"endFrame":4813},{"text":"Lily","startFrame":4820,"endFrame":4820},{"text":"is","startFrame":4820,"endFrame":4825},{"text":"the","startFrame":4825,"endFrame":4830},{"text":"bravest","startFrame":4830,"endFrame":4836},{"text":"person","startFrame":4836,"endFrame":4846},{"text":"I","startFrame":4846,"endFrame":4852},{"text":"know","startFrame":4852,"endFrame":4857},{"text":"because","startFrame":4857,"endFrame":4864},{"text":"she","startFrame":4864,"endFrame":4872},{"text":"never","startFrame":4872,"endFrame":4878},{"text":"gives","startFrame":4878,"endFrame":4884},{"text":"up","startFrame":4884,"endFrame":4891},{"text":"even","startFrame":4891,"endFrame":4897},{"text":"when","startFrame":4897,"endFrame":4903},{"text":"things","startFrame":4903,"endFrame":4908},{"text":"are","startFrame":4908,"endFrame":4915},{"text":"hard","startFrame":4915,"endFrame":4922},{"text":"And","startFrame":4924,"endFrame":4933},{"text":"she","startFrame":4933,"endFrame":4941},{"text":"always","startFrame":4941,"endFrame":4951},{"text":"shares","startFrame":4951,"endFrame":4959},{"text":"her","startFrame":4959,"endFrame":4968},{"text":"snacks","startFrame":4968,"endFrame":4974},{"text":"with","startFrame":4974,"endFrame":4980},{"text":"me","startFrame":4980,"endFrame":4986},{"text":"When","startFrame":4988,"endFrame":4990},{"text":"I","startFrame":4990,"endFrame":4995},{"text":"tried","startFrame":4995,"endFrame":5000},{"text":"to","startFrame":5000,"endFrame":5009},{"text":"thank","startFrame":5009,"endFrame":5011},{"text":"Emma","startFrame":5011,"endFrame":5016},{"text":"for","startFrame":5016,"endFrame":5026},{"text":"everything","startFrame":5026,"endFrame":5035},{"text":"she'd","startFrame":5035,"endFrame":5050},{"text":"done","startFrame":5050,"endFrame":5052},{"text":"she","startFrame":5054,"endFrame":5058},{"text":"looked","startFrame":5058,"endFrame":5064},{"text":"confused","startFrame":5064,"endFrame":5078},{"text":"and","startFrame":5078,"endFrame":5088},{"text":"said","startFrame":5088,"endFrame":5092},{"text":"but","startFrame":5094,"endFrame":5098},{"text":"Lily","startFrame":5098,"endFrame":5103},{"text":"would","startFrame":5103,"endFrame":5109},{"text":"do","startFrame":5109,"endFrame":5112},{"text":"the","startFrame":5112,"endFrame":5118},{"text":"same","startFrame":5118,"endFrame":5120},{"text":"for","startFrame":5120,"endFrame":5127},{"text":"me","startFrame":5127,"endFrame":5133},{"text":"That's","startFrame":5134,"endFrame":5141},{"text":"what","startFrame":5141,"endFrame":5145},{"text":"best","startFrame":5145,"endFrame":5151},{"text":"friends","startFrame":5151,"endFrame":5157},{"text":"do","startFrame":5157,"endFrame":5166},{"text":"I'm","startFrame":5166,"endFrame":5173},{"text":"crying","startFrame":5173,"endFrame":5181},{"text":"writing","startFrame":5181,"endFrame":5190},{"text":"this","startFrame":5190,"endFrame":5197},{"text":"because","startFrame":5197,"endFrame":5203},{"text":"I","startFrame":5203,"endFrame":5209},{"text":"realized","startFrame":5209,"endFrame":5218},{"text":"my","startFrame":5218,"endFrame":5224},{"text":"daughter","startFrame":5224,"endFrame":5231},{"text":"found","startFrame":5231,"endFrame":5239},{"text":"something","startFrame":5239,"endFrame":5249},{"text":"I'd","startFrame":5249,"endFrame":5255},{"text":"been","startFrame":5255,"endFrame":5259},{"text":"worried","startFrame":5259,"endFrame":5266},{"text":"she'd","startFrame":5266,"endFrame":5278},{"text":"never","startFrame":5278,"endFrame":5282},{"text":"have","startFrame":5282,"endFrame":5290},{"text":"a","startFrame":5290,"endFrame":5293},{"text":"true","startFrame":5293,"endFrame":5300},{"text":"friend","startFrame":5300,"endFrame":5308},{"text":"who","startFrame":5312,"endFrame":5316},{"text":"sees","startFrame":5316,"endFrame":5322},{"text":"her","startFrame":5322,"endFrame":5327},{"text":"for","startFrame":5327,"endFrame":5332},{"text":"who","startFrame":5332,"endFrame":5337},{"text":"she","startFrame":5337,"endFrame":5344},{"text":"is","startFrame":5344,"endFrame":5352},{"text":"not","startFrame":5356,"endFrame":5359},{"text":"what","startFrame":5359,"endFrame":5364},{"text":"she","startFrame":5364,"endFrame":5369},{"text":"can't","startFrame":5369,"endFrame":5377},{"text":"do","startFrame":5377,"endFrame":5382}],"animatedSubtitleType":"word","fontFamily":"Jellee","fontSize":50,"fontStrokeSize":3,"textColor":"#FFFFFF","highlightColor":"#FCA5A5","backgroundVideoStyle":"satisfying","backgroundVideoPath":"s3://remotion-reddit-start/Clips/Satisfying/8edz8nr0.mp4","backgroundColor":"#1A1A1A","has_background_music":false,"background_music_volume":0.05,"watermarkOpacity":0.7,"showChannelWatermark":true,"showVideoLength":true,"totalDurationInFrames":5387}' --log=verbose --chrome-flags="--no-sandbox --disable-dev-shm-usage"
+/bin/sh: line 1: /var/task/remotion-frontend/node_modules/.bin/remotion: No such file or directory
+
+STDOUT: 
+STDERR: /bin/sh: line 1: /var/task/remotion-frontend/node_modules/.bin/remotion: No such file or directory
+
+    at v (/var/task/remotion-frontend/.next/server/pages/api/create-video.js:3:21)
+    at T (/var/task/remotion-frontend/.next/server/pages/api/create-video.js:3:3719)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async K (/var/task/remotion-frontend/node_modules/next/dist/compiled/next-server/pages-api.runtime.prod.js:20:16545)
+    at async U.render (/var/task/remotion-frontend/node_modules/next/dist/compiled/next-server/pages-api.runtime.prod.js:20:16981)
+    at async r3.runApi (/var/task/remotion-frontend/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:17:41752)
+    at async r3.handleCatchallRenderRequest (/var/task/remotion-frontend/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:17:36452)
+    at async r3.runImpl (/var/task/remotion-frontend/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:16:17030)
+    at async r3.handleRequestImpl (/var/task/remotion-frontend/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:16:16123)
+    at async Object.handler (/var/task/remotion-frontend/___next_launcher.cjs:58:5)
