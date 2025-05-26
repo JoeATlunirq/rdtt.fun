@@ -607,19 +607,6 @@ export default function RedditVideoMakerPage() {
                           )}
                         </div>
                       </div>
-                      <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
-                        <h3 className="font-semibold mb-4">Optional Settings</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div>
-                            <label className="block text-sm font-medium mb-2">S3 Bucket Name<span className="text-gray-500 ml-2 text-xs">Optional</span></label>
-                            <input {...register('bucketName')} type="text" placeholder="remotion-reddit-start" className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:border-reddit-orangered focus:ring-reddit-orangered focus:outline-none transition-colors"/>
-                          </div>
-                          <div>
-                            <label className="block text-sm font-medium mb-2">AWS Region<span className="text-gray-500 ml-2 text-xs">Optional</span></label>
-                            <input {...register('bucketRegion')} type="text" placeholder="eu-north-1" className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:border-reddit-orangered focus:ring-reddit-orangered focus:outline-none transition-colors"/>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   )}
                   <div className="flex justify-end pt-4">
