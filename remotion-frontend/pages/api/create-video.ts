@@ -301,7 +301,8 @@ async function 실제Remotion랜더링 (props: RemotionFormProps, outputFileName
   try {
     // Increased timeout to 5 minutes (300,000 ms) as Remotion can be slow.
     // Vercel's max timeout will still apply.
-    execSync(command, { stdio: 'inherit', timeout: 300000 }); 
+    // Changed stdio to 'pipe' (or omit entirely) to buffer output for error reporting
+    execSync(command, { timeout: 300000 }); 
     console.log(`Remotion render successful: ${outputLocation}`);
     return outputLocation;
   } catch (error: any) { 
