@@ -294,7 +294,8 @@ async function 실제Remotion랜더링 (props: RemotionFormProps, outputFileName
   // Added --chrome-flags="--no-sandbox --disable-dev-shm-usage" for serverless environments
   const chromeFlags = "--no-sandbox --disable-dev-shm-usage";
   // Command now cds into the Remotion project subdirectory
-  const command = `HOME=/tmp cd "${remotionProjectSourceDir}" && ${remotionExecutable} render ${compositionId} "${outputLocation}" --props='${propsString}' --log=verbose --chrome-flags="${chromeFlags}"`;
+  // Added NPM_CONFIG_CACHE and NPM_CONFIG_PREFIX to use /tmp for npm's cache and prefix
+  const command = `HOME=/tmp NPM_CONFIG_CACHE=/tmp/.npm-cache NPM_CONFIG_PREFIX=/tmp/.npm-prefix cd "${remotionProjectSourceDir}" && ${remotionExecutable} render ${compositionId} "${outputLocation}" --props='${propsString}' --log=verbose --chrome-flags="${chromeFlags}"`;
   
   console.log(`Executing Remotion CLI: ${command}`);
   try {
