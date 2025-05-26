@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { S3Client, GetObjectCommand, PutObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
 import { Readable } from 'stream';
-import { uiFormSchema, remotionPropsSchema, RemotionFormProps, UIFormValues, WordTiming, SrtLine as AppSrtLine } from '../../lib/schema';
+import { uiFormSchema, remotionPropsSchema, RemotionFormProps, UIFormValues, WordTiming, SrtLine } from '../../lib/schema';
 import { ZodError } from 'zod';
 import { v4 as uuidv4 } from 'uuid';
 import SrtParser from 'srt-parser-2';
@@ -10,16 +10,6 @@ import path from 'path';
 import os from 'os';
 import { execSync } from 'child_process';
 import * as mm from 'music-metadata';
-
-// Define SrtLine interface locally based on srt-parser-2 output
-// This is already in schema.ts as AppSrtLine, but if schema.ts is not read first, this is a fallback.
-// However, the import from schema.ts (AppSrtLine) should be preferred.
-interface LocalSrtLine {
-  id: string;
-  startTime: string; 
-  endTime: string;
-  text: string;
-}
 
 const S3_BUCKET_NAME = process.env.AWS_S3_BUCKET_NAME;
 const S3_REGION = process.env.AWS_S3_REGION;
@@ -140,7 +130,7 @@ async function getAudioDurationFromS3(audioUrlString: string): Promise<number> {
   }
 }
 
-async function parseSrt(srtFileUrlString: string): Promise<AppSrtLine[]> {
+async function parseSrt(srtFileUrlString: string): Promise<SrtLine[]> {
   if (!srtFileUrlString) return [];
   let srtUrl;
   try {
@@ -172,7 +162,7 @@ async function parseSrt(srtFileUrlString: string): Promise<AppSrtLine[]> {
     }
     const srtContent = fs.readFileSync(tempFilePath, 'utf-8');
     const parser = new SrtParser();
-    const srtResult = parser.fromSrt(srtContent) as AppSrtLine[]; 
+    const srtResult = parser.fromSrt(srtContent) as SrtLine[]; 
     console.log(`SRT parsed. Found ${srtResult.length} lines.`);
     return srtResult;
   } catch (error) {
@@ -186,16 +176,26 @@ async function parseSrt(srtFileUrlString: string): Promise<AppSrtLine[]> {
   }
 }
 
-function srtLinesToWordTimings(srtLines: AppSrtLine[], fps: number): WordTiming[] {
+function srtTimeToSeconds(timeString: string): number {
+  const parts = timeString.split(':');
+  const secondsAndMillis = parts[2].split(',');
+  const hours = parseInt(parts[0], 10);
+  const minutes = parseInt(parts[1], 10);
+  const seconds = parseInt(secondsAndMillis[0], 10);
+  const milliseconds = parseInt(secondsAndMillis[1], 10);
+  return (hours * 3600) + (minutes * 60) + seconds + (milliseconds / 1000);
+}
+
+function srtLinesToWordTimings(srtLines: SrtLine[], fps: number): WordTiming[] {
   if (!srtLines || srtLines.length === 0) return [];
   return srtLines.map(line => ({
     text: line.text,
-    startFrame: Math.floor(parseFloat(line.startTime.replace(',', '.')) * fps),
-    endFrame: Math.floor(parseFloat(line.endTime.replace(',', '.')) * fps),
+    startFrame: Math.floor(srtTimeToSeconds(line.startTime) * fps),
+    endFrame: Math.floor(srtTimeToSeconds(line.endTime) * fps),
   }));
 }
 
-function srtLinesToSubtitleText(srtLines: AppSrtLine[]): string {
+function srtLinesToSubtitleText(srtLines: SrtLine[]): string {
   if (!srtLines || srtLines.length === 0) return '';
   return srtLines.map(line => line.text).join('\n'); 
 }
@@ -291,7 +291,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const hookAudioDuration = uiData.audioUrl ? await getAudioDurationFromS3(uiData.audioUrl) : 0;
     let scriptAudioDuration = uiData.scriptAudioUrl ? await getAudioDurationFromS3(uiData.scriptAudioUrl) : 0;
     
-    let srtLines: AppSrtLine[] = [];
+    let srtLines: SrtLine[] = [];
     let finalWordTimings: WordTiming[] | undefined = undefined;
     let finalSubtitleText: string | undefined = undefined;
 
