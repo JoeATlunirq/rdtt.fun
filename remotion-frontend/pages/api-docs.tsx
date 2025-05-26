@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect, FormEvent } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import Image from 'next/image';
+import { KeyRound, ShieldX, LogOut } from 'lucide-react';
 
 const CodeBlock: React.FC<{ code: string; language?: string }> = ({ code, language = 'json' }) => (
   <pre className={`bg-gray-800 p-4 rounded-md overflow-x-auto text-sm whitespace-pre-wrap break-all scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-700 language-${language}`}>
@@ -57,12 +59,168 @@ const apiParams: ApiParam[] = [
   { name: 'showVideoLength', type: 'boolean', required: 'No', defaultValue: 'true', description: 'Display video length information (if applicable in template).' },
 ];
 
+const AUTH_TIMESTAMP_KEY = 'rdttFunAuthTimestamp';
+const SESSION_DURATION_MS = 3 * 60 * 60 * 1000; // 3 hours
+
 const ApiDocsPage = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [seedPhrase, setSeedPhrase] = useState(Array(12).fill(''));
+  const [authError, setAuthError] = useState<string | null>(null);
+  const [isLoadingAuth, setIsLoadingAuth] = useState(true);
+
   const exampleSuccessResponse = {
     message: "Video processing initiated and completed successfully.",
     videoUrl: "https://rdtt.fun/Videos/generated-video-id.mp4",
     propsUsed: { /* Relevant subset of RemotionFormProps */ }
   };
+
+  const handleSeedWordChange = (index: number, value: string) => {
+    const newPhrase = [...seedPhrase];
+    const cleanedWord = value.replace(/[^a-zA-Z\s]/g, '').trim().split(' ')[0] || '';
+    newPhrase[index] = cleanedWord;
+    setSeedPhrase(newPhrase);
+    setAuthError(null);
+  };
+
+  const handleSeedSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    const enteredPhrase = seedPhrase.join(' ').toLowerCase().trim();
+    const correctPhrase = process.env.NEXT_PUBLIC_SEED_PHRASE_PASSWORD?.toLowerCase().trim();
+
+    if (enteredPhrase === correctPhrase) {
+      localStorage.setItem(AUTH_TIMESTAMP_KEY, Date.now().toString());
+      setIsAuthenticated(true);
+      setAuthError(null);
+    } else {
+      setAuthError('Invalid seed phrase. Please try again.');
+      localStorage.removeItem(AUTH_TIMESTAMP_KEY);
+    }
+  };
+  
+  const handleLogout = () => {
+    localStorage.removeItem(AUTH_TIMESTAMP_KEY);
+    setIsAuthenticated(false);
+    setSeedPhrase(Array(12).fill(''));
+    setAuthError(null);
+  };
+
+  useEffect(() => {
+    const inputs = document.querySelectorAll<HTMLInputElement>('.seed-input');
+    inputs.forEach((input, index) => {
+      const handleInput = (e: Event) => {
+        const target = e.target as HTMLInputElement;
+        if (target.value.length === target.maxLength && index < inputs.length - 1 && inputs[index+1]) {
+          (inputs[index + 1] as HTMLInputElement).focus();
+        }
+      };
+      
+      const handlePaste = (e: ClipboardEvent) => {
+        e.preventDefault();
+        const pasteData = e.clipboardData?.getData('text').trim().split(/\s+/);
+        if (pasteData) {
+          const newPhrase = [...seedPhrase];
+          for (let i = 0; i < Math.min(pasteData.length, 12 - index); i++) {
+            if (inputs[index + i]) {
+              (inputs[index+i] as HTMLInputElement).value = pasteData[i];
+               newPhrase[index+i] = pasteData[i];
+            }
+          }
+          setSeedPhrase(newPhrase);
+          const nextEmpty = newPhrase.findIndex((word, idx) => idx >= index && word === '');
+          if (nextEmpty !== -1 && inputs[nextEmpty]){
+             (inputs[nextEmpty] as HTMLInputElement).focus();
+          } else if (inputs[Math.min(index + pasteData.length, 11)]) {
+             (inputs[Math.min(index + pasteData.length, 11)] as HTMLInputElement).focus();
+          }
+        }
+      };
+
+      input.addEventListener('input', handleInput);
+      input.addEventListener('paste', handlePaste);
+
+      return () => {
+        input.removeEventListener('input', handleInput);
+        input.removeEventListener('paste', handlePaste);
+      };
+    });
+  }, [isAuthenticated, seedPhrase]);
+
+  useEffect(() => {
+    const storedTimestamp = localStorage.getItem(AUTH_TIMESTAMP_KEY);
+    if (storedTimestamp) {
+      const timestamp = parseInt(storedTimestamp, 10);
+      if (Date.now() - timestamp < SESSION_DURATION_MS) {
+        setIsAuthenticated(true);
+      } else {
+        localStorage.removeItem(AUTH_TIMESTAMP_KEY);
+        setIsAuthenticated(false);
+      }
+    }
+    setIsLoadingAuth(false);
+  }, []);
+
+  if (isLoadingAuth) {
+    return (
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-brand-gradient-from"></div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <>
+        <Head>
+          <title>Unlock API Docs - rdtt.fun</title>
+          <link rel="icon" href="/logo.png" />
+        </Head>
+        <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center p-4 font-sans">
+          <div className="bg-gray-800 p-8 rounded-xl shadow-2xl w-full max-w-lg border border-gray-700">
+            <div className="flex flex-col items-center mb-6">
+              <Image src="/logo.png" alt="rdtt.fun Logo" width={72} height={72} className="rounded-xl mb-4" />
+              <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-brand-gradient-from to-brand-gradient-to mb-2">rdtt.fun API Docs</h1>
+              <p className="text-gray-400">Enter your 12-word seed phrase to continue.</p>
+            </div>
+            <form onSubmit={handleSeedSubmit} className="space-y-6">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {seedPhrase.map((word, index) => (
+                  <div key={index} className="relative">
+                    <span className="absolute left-2 top-1/2 -translate-y-1/2 text-xs text-gray-500">{index + 1}.</span>
+                    <input
+                      type="text"
+                      value={word}
+                      onChange={(e) => handleSeedWordChange(index, e.target.value)}
+                      className="seed-input w-full pl-6 pr-2 py-2.5 bg-gray-700 border border-gray-600 rounded-md focus:border-reddit-orangered focus:ring-1 focus:ring-reddit-orangered outline-none transition-colors placeholder-gray-500 text-sm"
+                      placeholder={`Word ${index + 1}`}
+                      autoCapitalize="none"
+                      autoCorrect="off"
+                      spellCheck="false"
+                    />
+                  </div>
+                ))}
+              </div>
+              {authError && (
+                <div className="flex items-center text-sm text-red-400 bg-red-900/30 border border-red-700/50 p-3 rounded-md">
+                  <ShieldX className="w-5 h-5 mr-2 flex-shrink-0" />
+                  {authError}
+                </div>
+              )}
+              <button 
+                type="submit"
+                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-brand-gradient-from to-brand-gradient-to text-white px-6 py-3 rounded-lg font-semibold hover:from-youtube-red/90 hover:to-reddit-orangered/90 transition-all shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-reddit-orangered"
+              >
+                <KeyRound className="w-5 h-5" />
+                Unlock Access
+              </button>
+            </form>
+          </div>
+           <footer className="text-center mt-8 text-xs text-gray-600">
+            <p>&copy; {new Date().getFullYear()} rdtt.fun - Video Tools. All shenanigans reserved.</p>
+          </footer>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -71,12 +229,21 @@ const ApiDocsPage = () => {
         <link rel="icon" href="/logo.png" />
       </Head>
       <div className="min-h-screen bg-gray-900 text-white p-4 md:p-8 font-sans selection:bg-youtube-red selection:text-white">
-        <header className="mb-10 text-center">
+        <header className="mb-10 text-center relative">
           <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-brand-gradient-from to-brand-gradient-to">rdtt.fun API</h1>
           <p className="text-gray-400 mt-2">Programmatically create engaging videos with rdtt.fun.</p>
-          <Link href="/" legacyBehavior>
-            <a className="mt-4 inline-block text-reddit-orangered hover:text-youtube-red transition-colors">&larr; Back to rdtt.fun UI</a>
-          </Link>
+          <div className="flex justify-center items-center gap-4 mt-4">
+            <Link href="/" legacyBehavior>
+              <a className="inline-block text-reddit-orangered hover:text-youtube-red transition-colors">&larr; Back to rdtt.fun UI</a>
+            </Link>
+            <button
+                onClick={handleLogout}
+                title="Logout"
+                className="flex items-center gap-1 text-sm bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-3 py-1.5 rounded-md transition-colors"
+            >
+                <LogOut className="w-4 h-4" /> Logout
+            </button>
+          </div>
         </header>
 
         <section className="max-w-4xl mx-auto bg-gray-800 bg-opacity-70 backdrop-blur-md shadow-xl rounded-lg p-6 md:p-8">
@@ -91,8 +258,6 @@ const ApiDocsPage = () => {
             This endpoint allows you to programmatically generate videos. Provide your content details and styling preferences, and the API will orchestrate the video creation process. The API handles asset fetching, processing, timing calculations, rendering, and uploading the final video.
           </p>
           <p className="text-gray-400 text-sm mb-6">
-            <strong className="text-yellow-400">Authentication:</strong> Ensure your requests are authenticated if session-based auth is implemented for the UI (currently auth is frontend only).
-            <br />
             <strong className="text-yellow-400">Asset Hosting:</strong> It is recommended to use URLs from your S3 bucket (e.g., via <code className="text-xs">https://rdtt.fun/YourPrefix/...</code>) for assets like audio, SRTs, images, and fonts for reliable fetching by the API.
           </p>
 
@@ -148,7 +313,6 @@ const ApiDocsPage = () => {
             <li><strong className="text-youtube-red">405 Method Not Allowed:</strong> Sent if any method other than POST is used.</li>
             <li><strong className="text-youtube-red">500 Internal Server Error:</strong> Sent if an unexpected error occurs during server-side processing (e.g., asset fetching failure, Remotion render error). Check Vercel logs for details.</li>
           </ul>
-
         </section>
         <footer className="text-center mt-10 mb-6 text-xs text-gray-500">
           rdtt.fun API v1.1
