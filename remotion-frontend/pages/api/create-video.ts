@@ -304,12 +304,20 @@ async function 실제Remotion랜더링 (props: RemotionFormProps, outputFileName
     execSync(command, { stdio: 'inherit', timeout: 300000 }); 
     console.log(`Remotion render successful: ${outputLocation}`);
     return outputLocation;
-  } catch (error: any) { // Added :any to error type for stdout/stderr
+  } catch (error: any) { 
     console.error("Error during Remotion CLI execution:", error);
-    // Log stdout/stderr from the error object if available
-    if (error.stdout) console.error("Remotion stdout:", error.stdout.toString());
-    if (error.stderr) console.error("Remotion stderr:", error.stderr.toString());
-    throw new Error(`Remotion render failed: ${ (error as Error).message }`);
+    let errorMessage = `Remotion render failed: ${ (error as Error).message }`;
+    if (error.stdout) {
+      const stdout = error.stdout.toString();
+      console.error("Remotion stdout:", stdout);
+      errorMessage += `\nSTDOUT: ${stdout}`;
+    }
+    if (error.stderr) {
+      const stderr = error.stderr.toString();
+      console.error("Remotion stderr:", stderr);
+      errorMessage += `\nSTDERR: ${stderr}`;
+    }
+    throw new Error(errorMessage);
   }
 }
 
