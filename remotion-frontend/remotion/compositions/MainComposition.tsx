@@ -5,19 +5,7 @@ import { FloatingHookVideo } from './hooks/FloatingHookVideo';
 import { SubtitleComposition } from './subtitles/SubtitleComposition';
 import { BackgroundVideo } from './BackgroundVideo';
 import backgroundMusic from '../assets/music/music.mp3';
-
-interface WordTiming {
-  text: string;
-  startFrame: number;
-  endFrame: number;
-  color?: string;
-}
-
-interface VideoInfo {
-  path: string;
-  durationInFrames: number;
-  durationInSeconds?: number;
-}
+import type { VideoInfo, WordTiming } from '../types';
 
 interface Props {
   // Hook props

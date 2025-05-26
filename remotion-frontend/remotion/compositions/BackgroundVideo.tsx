@@ -1,19 +1,21 @@
 /// <reference lib="dom" />
 import React from 'react';
 import { OffthreadVideo, Series } from 'remotion';
+import type { VideoInfo } from '../types'; // Import from types.d.ts
 
-interface VideoInfo {
-  path: string;
-  durationInFrames: number;
-  durationInSeconds: number;
-}
+// interface VideoInfo { // REMOVE THIS
+//   path: string;
+//   durationInFrames: number;
+//   durationInSeconds: number; // Note this was required, imported one is optional
+// }
 
 interface Props {
-  backgroundVideoPath: string[] | VideoInfo[] | string;
+  backgroundVideoPath: string[] | VideoInfo[] | string; // Uses imported VideoInfo
   volume?: number;
+  totalDurationInFrames?: number; // Adding this prop as it was passed from MainComposition
 }
 
-export const BackgroundVideo: React.FC<Props> = ({ backgroundVideoPath, volume = 0 }) => {
+export const BackgroundVideo: React.FC<Props> = ({ backgroundVideoPath, volume = 0, totalDurationInFrames }) => {
   // Handle both string and array formats for backward compatibility
   const videoArray = Array.isArray(backgroundVideoPath) 
     ? backgroundVideoPath 
@@ -25,10 +27,10 @@ export const BackgroundVideo: React.FC<Props> = ({ backgroundVideoPath, volume =
     if (typeof item === 'string') {
       // If it's just a string path, we don't have duration info
       return { path: item };
-    } else if (typeof item === 'object' && item !== null && 'path' in item) {
+    } else if (typeof item === 'object' && item !== null && 'path' in item && 'durationInFrames' in item) {
       // If it's an object with path and durationInFrames, use those
       return { 
-        path: item.path as string,
+        path: (item as VideoInfo).path, // Type assertion to imported VideoInfo
         durationInFrames: (item as VideoInfo).durationInFrames
       };
     }
@@ -49,7 +51,7 @@ export const BackgroundVideo: React.FC<Props> = ({ backgroundVideoPath, volume =
         {videos.map((video, index) => (
           <Series.Sequence 
             key={`${video.path}-${index}`} 
-            durationInFrames={video.durationInFrames || 300} // Default to 10 seconds (at 30fps) if no duration provided
+            durationInFrames={video.durationInFrames || totalDurationInFrames || 300} // Use totalDurationInFrames as a better fallback
           >
             <OffthreadVideo
               src={video.path}

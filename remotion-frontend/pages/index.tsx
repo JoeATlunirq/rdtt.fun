@@ -10,7 +10,7 @@ import {
   Mic, 
   Type, 
   Image as LucideImage, 
-  Sparkles, 
+  Sparkles,
   Settings,
   FileText,
   Music,
@@ -155,7 +155,7 @@ export default function RedditVideoMakerPage() {
   const [appMode, setAppMode] = useState<'creator' | 'assets'>('creator');
   
   // States for Video Creator
-  const [activeTab, setActiveTab] = useState('content');
+  const [activeTab, setActiveTab] = useState('hook');
   const [generatedProps, setGeneratedProps] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -274,10 +274,9 @@ export default function RedditVideoMakerPage() {
   };
 
   const videoCreatorTabs = [
-    { id: 'content', label: 'Content', icon: <FileText className="w-4 h-4" /> },
-    { id: 'style', label: 'Style', icon: <Palette className="w-4 h-4" /> },
-    { id: 'branding', label: 'Branding', icon: <LucideImage className="w-4 h-4" /> },
-    { id: 'advanced', label: 'Advanced', icon: <Settings className="w-4 h-4" /> },
+    { id: 'hook', label: 'Hook', icon: <Sparkles className="w-4 h-4" /> },
+    { id: 'subtitles', label: 'Subtitles & Style', icon: <Palette className="w-4 h-4" /> },
+    { id: 'backgroundAudio', label: 'Backgrounds & Music', icon: <Music className="w-4 h-4" /> },
   ];
 
   const handleSeedWordChange = (index: number, value: string) => {
@@ -462,40 +461,109 @@ export default function RedditVideoMakerPage() {
                   ))}
                 </div>
                 <form onSubmit={handleSubmit(onSubmitVideoForm)} className="space-y-6">
-                  {activeTab === 'content' && (
+                  {activeTab === 'hook' && (
                     <div className="space-y-6">
-                    <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
-                      <h3 className="font-semibold mb-4 flex items-center gap-2"><Mic className="w-5 h-5 text-green-400" />Audio Content</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium mb-2">Hook Audio (S3 URL)<span className="text-gray-500 ml-2 text-xs font-normal">~5 seconds</span></label>
-                          <input {...register('audioUrl')} type="text" placeholder="s3://your-bucket/hook-audio.mp3" className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:border-reddit-orangered focus:ring-reddit-orangered focus:outline-none transition-colors"/>
-                          {formErrors.audioUrl && <p className="text-red-400 text-xs mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{formErrors.audioUrl.message}</p>}
+                      <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
+                        <h3 className="font-semibold mb-4 flex items-center gap-2"><Mic className="w-5 h-5 text-green-400" />Main Audio & Hook Text</h3>
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium mb-2">Main Audio (S3 URL)<span className="text-gray-500 ml-2 text-xs font-normal">Full length for video</span></label>
+                                <input {...register('audioUrl')} type="text" placeholder="s3://your-bucket/main-audio.mp3" className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:border-reddit-orangered focus:ring-reddit-orangered focus:outline-none transition-colors"/>
+                                {formErrors.audioUrl && <p className="text-red-400 text-xs mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{formErrors.audioUrl.message}</p>}
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium mb-2">Hook Text<span className="text-gray-500 ml-2 text-xs font-normal">Catchy opening text, determines hook duration</span></label>
+                                <textarea {...register('hookText')} rows={2} placeholder="This will blow your mind... The last word here sets the hook end time based on your SRT file." className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:border-reddit-orangered focus:ring-reddit-orangered focus:outline-none transition-colors resize-none"/>
+                                {formErrors.hookText && <p className="text-red-400 text-xs mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{formErrors.hookText.message}</p>}
+                            </div>
+                        </div>
+                      </div>
+
+                      {/* Combined Section for Hook Card Appearance */}
+                      <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
+                        <h3 className="font-semibold mb-4 flex items-center gap-2"><LucideImage className="w-5 h-5 text-blue-400"/>Hook Card Appearance</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium mb-2">Channel Name</label>
+                            <input {...register('channelName')} type="text" placeholder="MyAwesomeChannel" className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:border-reddit-orangered focus:ring-reddit-orangered focus:outline-none transition-colors"/>
+                            {formErrors.channelName && <p className="text-red-400 text-xs mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{formErrors.channelName.message}</p>}
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium mb-2">Channel Logo (S3 URL){uploadedLogo && (<span className="text-green-400 ml-2 text-xs"><CheckCircle className="inline w-3 h-3 mr-1" />Using uploaded logo</span>)}</label>
+                            <input {...register('channelImage')} type="text" placeholder={uploadedLogo || "s3://your-bucket/logo.png"} defaultValue={uploadedLogo} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:border-reddit-orangered focus:ring-reddit-orangered focus:outline-none transition-colors"/>
+                            {formErrors.channelImage && <p className="text-red-400 text-xs mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{formErrors.channelImage.message}</p>}
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium mb-2">Hook Card Animation</label>
+                            <select {...register('hook_animation_type')} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:border-reddit-orangered focus:ring-reddit-orangered focus:outline-none transition-colors">
+                                <option value="fall">Fall</option> <option value="float">Float</option>
+                            </select>
+                          </div>
                         </div>
                       </div>
                     </div>
-                    <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
-                      <h3 className="font-semibold mb-4 flex items-center gap-2"><FileText className="w-5 h-5 text-blue-400" />Text Content</h3>
-                      <div className="space-y-4">
-                        <div>
-                          <label className="block text-sm font-medium mb-2">Hook Text<span className="text-gray-500 ml-2 text-xs font-normal">Catchy opening text</span></label>
-                          <textarea {...register('hookText')} rows={2} placeholder="This will blow your mind..." className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:border-reddit-orangered focus:ring-reddit-orangered focus:outline-none transition-colors resize-none"/>
-                          {formErrors.hookText && <p className="text-red-400 text-xs mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{formErrors.hookText.message}</p>}
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium mb-2">Subtitles (SRT S3 URL)<span className="text-gray-500 ml-2 text-xs font-normal">Synced captions</span></label>
-                          <input {...register('srtFileUrl')} type="text" placeholder="s3://your-bucket/captions.srt" className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:border-reddit-orangered focus:ring-reddit-orangered focus:outline-none transition-colors"/>
-                          {formErrors.srtFileUrl && <p className="text-red-400 text-xs mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{formErrors.srtFileUrl.message}</p>}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                   )}
-                  {activeTab === 'style' && (
-                     <div className="space-y-6">
-                    <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
-                      <h3 className="font-semibold mb-4">Visual Style</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {activeTab === 'subtitles' && (
+                     <div className="space-y-4">
+                        <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
+                            <h3 className="font-semibold mb-4 flex items-center gap-2"><FileText className="w-5 h-5 text-blue-400" />Subtitle Content</h3>
+                            <div>
+                                <label className="block text-sm font-medium mb-2">Subtitles (SRT S3 URL)<span className="text-gray-500 ml-2 text-xs font-normal">Synced captions for main audio</span></label>
+                                <input {...register('srtFileUrl')} type="text" placeholder="s3://your-bucket/captions.srt" className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:border-reddit-orangered focus:ring-reddit-orangered focus:outline-none transition-colors"/>
+                                {formErrors.srtFileUrl && <p className="text-red-400 text-xs mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{formErrors.srtFileUrl.message}</p>}
+                            </div>
+                        </div>
+                        <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
+                            <h3 className="font-semibold mb-4 flex items-center gap-2"><Palette className="w-5 h-5 text-pink-400" />Subtitle Appearance & Font</h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                                <div>
+                                    <label className="block text-sm font-medium mb-2">Subtitle Animation</label>
+                                    <select {...register('animatedSubtitleType')} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:border-reddit-orangered focus:ring-reddit-orangered focus:outline-none transition-colors">
+                                        <option value="word">Word by Word</option> <option value="couple">Couple Combined</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium mb-2">Font Family</label>
+                                    <select {...register('fontFamily')} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:border-reddit-orangered focus:ring-reddit-orangered focus:outline-none transition-colors">
+                                        <option value="Jellee">Jellee</option> <option value="Arial">Arial</option> <option value="Helvetica">Helvetica</option> <option value="custom">Custom (use uploaded or provide URL)</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label className="block text-sm font-medium mb-2">Font Size</label>
+                                    <input {...register('fontSize', { valueAsNumber: true })} type="number" className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:border-reddit-orangered focus:ring-reddit-orangered focus:outline-none transition-colors"/>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium mb-2">Stroke Size</label>
+                                    <input {...register('fontStrokeSize', { valueAsNumber: true })} type="number" className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:border-reddit-orangered focus:ring-reddit-orangered focus:outline-none transition-colors"/>
+                                </div>
+
+                                {currentFontFamily === 'custom' && (
+                                <div className="sm:col-span-2 md:col-span-4"> {/* Spans 2 cols on sm, 4 on md if it appears */}
+                                    <label className="block text-sm font-medium mb-2">Custom Font URL</label>
+                                    <input {...register('customFontUrl')} type="text" placeholder={uploadedFont || "https://rdtt.fun/Fonts/font.ttf"} defaultValue={uploadedFont} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:border-reddit-orangered focus:ring-reddit-orangered focus:outline-none transition-colors"/>
+                                </div>
+                                )}
+                            </div>
+                            
+                            {(currentFontFamily || customFontUrl) && (
+                                <div className="mt-3 p-3 bg-gray-700 rounded-lg border border-gray-600">
+                                <h4 className="text-sm font-medium text-gray-300 mb-1">Font Preview:</h4>
+                                <div 
+                                    style={{ fontFamily: getPreviewFontFamily(), fontSize: '20px', color: 'white' }}
+                                    className="truncate p-2 bg-gray-800 rounded text-sm"
+                                >
+                                    The quick brown fox jumps over the lazy dog. 1234567890
+                                </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                  )}
+                  {activeTab === 'backgroundAudio' && (
+                    <div className="space-y-6">
+                      <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
+                        <h3 className="font-semibold mb-4 flex items-center gap-2"><LucideImage className="w-5 h-5 text-teal-400"/>Background Video Style</h3>
                         <div>
                           <label className="block text-sm font-medium mb-2">Background Style</label>
                           <select {...register('backgroundVideoStyle')} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:border-reddit-orangered focus:ring-reddit-orangered focus:outline-none transition-colors">
@@ -508,81 +576,9 @@ export default function RedditVideoMakerPage() {
                             </div>
                           )}
                         </div>
-                        <div>
-                          <label className="block text-sm font-medium mb-2">Hook Animation</label>
-                          <select {...register('hook_animation_type')} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:border-reddit-orangered focus:ring-reddit-orangered focus:outline-none transition-colors">
-                            <option value="fall">Fall</option> <option value="float">Float</option>
-                          </select>
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium mb-2">Subtitle Animation</label>
-                          <select {...register('animatedSubtitleType')} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:border-reddit-orangered focus:ring-reddit-orangered focus:outline-none transition-colors">
-                            <option value="word">Word by Word</option> <option value="couple">Couple Combined</option>
-                          </select>
-                        </div>
                       </div>
-                    </div>
-                    <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
-                      <h3 className="font-semibold mb-4">Typography</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium mb-2">Font Family</label>
-                          <select {...register('fontFamily')} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:border-reddit-orangered focus:ring-reddit-orangered focus:outline-none transition-colors">
-                            <option value="Jellee">Jellee</option> <option value="Arial">Arial</option> <option value="Helvetica">Helvetica</option> <option value="custom">Custom (use uploaded or provide URL)</option>
-                          </select>
-                        </div>
-                        {currentFontFamily === 'custom' && (
-                          <div>
-                            <label className="block text-sm font-medium mb-2">Custom Font URL</label>
-                            <input {...register('customFontUrl')} type="text" placeholder={uploadedFont || "https://rdtt.fun/Fonts/font.ttf"} defaultValue={uploadedFont} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:border-reddit-orangered focus:ring-reddit-orangered focus:outline-none transition-colors"/>
-                          </div>
-                        )}
-                        <div>
-                          <label className="block text-sm font-medium mb-2">Font Size (for Remotion)</label>
-                          <input {...register('fontSize', { valueAsNumber: true })} type="number" className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:border-reddit-orangered focus:ring-reddit-orangered focus:outline-none transition-colors"/>
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium mb-2">Stroke Size (for Remotion)</label>
-                          <input {...register('fontStrokeSize', { valueAsNumber: true })} type="number" className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:border-reddit-orangered focus:ring-reddit-orangered focus:outline-none transition-colors"/>
-                        </div>
-                      </div>
-                      {(currentFontFamily || customFontUrl) && (
-                        <div className="mt-4 p-4 bg-gray-700 rounded-lg border border-gray-600">
-                          <h4 className="text-sm font-medium text-gray-300 mb-2">Font Preview:</h4>
-                          <div 
-                            style={{ fontFamily: getPreviewFontFamily(), fontSize: '24px', color: 'white' }} 
-                            className="truncate p-2 bg-gray-800 rounded"
-                          >
-                            The quick brown fox jumps over the lazy dog. 1234567890
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  )}
-                  {activeTab === 'branding' && (
-                    <div className="space-y-6">
                       <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
-                        <h3 className="font-semibold mb-4">Channel Branding</h3>
-                        <div className="space-y-4">
-                          <div>
-                            <label className="block text-sm font-medium mb-2">Channel Name</label>
-                            <input {...register('channelName')} type="text" placeholder="MyAwesomeChannel" className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:border-reddit-orangered focus:ring-reddit-orangered focus:outline-none transition-colors"/>
-                            {formErrors.channelName && <p className="text-red-400 text-xs mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{formErrors.channelName.message}</p>}
-                          </div>
-                          <div>
-                            <label className="block text-sm font-medium mb-2">Channel Logo (S3 URL){uploadedLogo && (<span className="text-green-400 ml-2 text-xs"><CheckCircle className="inline w-3 h-3 mr-1" />Using uploaded logo</span>)}</label>
-                            <input {...register('channelImage')} type="text" placeholder={uploadedLogo || "s3://your-bucket/logo.png"} defaultValue={uploadedLogo} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:border-reddit-orangered focus:ring-reddit-orangered focus:outline-none transition-colors"/>
-                            {formErrors.channelImage && <p className="text-red-400 text-xs mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{formErrors.channelImage.message}</p>}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                  {activeTab === 'advanced' && (
-                    <div className="space-y-6">
-                      <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
-                        <h3 className="font-semibold mb-4 flex items-center gap-2"><Music className="w-5 h-5 text-purple-400" />Background Music</h3>
+                        <h3 className="font-semibold mb-4 flex items-center gap-2"><Music className="w-5 h-5 text-purple-400" />Background Music (Optional)</h3>
                         <div className="space-y-4">
                           <label className="flex items-center gap-3">
                             <input {...register('has_background_music')} type="checkbox" className="w-4 h-4 rounded border-gray-600 bg-gray-800 text-reddit-orangered focus:ring-reddit-orangered focus:ring-offset-0"/>

@@ -16,4 +16,17 @@ declare module '*.woff' {
 declare module '*.woff2' {
   const content: string;
   export default content;
+}
+
+export interface VideoInfo {
+  path: string;
+  durationInFrames: number;
+  durationInSeconds?: number; 
+}
+
+export interface WordTiming {
+  text: string;
+  startFrame: number;
+  endFrame: number;
+  color?: string;
 } 
