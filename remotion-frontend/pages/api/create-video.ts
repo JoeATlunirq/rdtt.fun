@@ -186,6 +186,63 @@ function srtTimeToSeconds(timeString: string): number {
   return (hours * 3600) + (minutes * 60) + seconds + (milliseconds / 1000);
 }
 
+// New function to calculate hook end frame
+function calculateHookEndFrame(hookText: string, srtLines: SrtLine[], fps: number, hookEndDelaySeconds: number = 0.25): number {
+  if (!hookText || hookText.trim() === '' || !srtLines || srtLines.length === 0) {
+    console.warn("Cannot calculate hook end frame: Hook text or SRT lines are empty.");
+    return 0; // Or throw an error, or return a default based on desired behavior
+  }
+
+  // Clean hook text: lowercase, trim, remove trailing punctuation
+  const cleanedHookText = hookText.toLowerCase().trim().replace(/[.,!?;:]+$/, '');
+  const hookWords = cleanedHookText.split(/\\s+/);
+  if (hookWords.length === 0) {
+    console.warn("Cannot calculate hook end frame: Hook text has no words after cleaning.");
+    return 0;
+  }
+  // For now, let's try matching the whole phrase first, then fall back to last word.
+  // More sophisticated matching could be implemented later (e.g., fuzzy matching, sequence matching)
+
+  let matchedEndFrame = 0;
+
+  // Attempt to match the entire cleaned hook phrase
+  for (const line of srtLines) {
+    const cleanedSrtLineText = line.text.toLowerCase().trim().replace(/[.,!?;:]/g, '');
+    if (cleanedSrtLineText.includes(cleanedHookText)) {
+      matchedEndFrame = Math.floor(srtTimeToSeconds(line.endTime) * fps);
+      console.log(`Hook end matched (full phrase): "${hookText}" found in SRT line "${line.text}", ends at frame ${matchedEndFrame}`);
+      break; 
+    }
+  }
+
+  // If full phrase not found, try matching the last word
+  if (matchedEndFrame === 0) {
+    const lastWordOfHook = hookWords[hookWords.length - 1];
+    if (lastWordOfHook) {
+      for (const line of srtLines) {
+        const cleanedSrtLineText = line.text.toLowerCase().trim().replace(/[.,!?;:]/g, '');
+        // Check if the last word of hook text is present as a whole word in the SRT line
+        const wordRegex = new RegExp(`\\\\b${lastWordOfHook}\\\\b`);
+        if (wordRegex.test(cleanedSrtLineText)) {
+          matchedEndFrame = Math.floor(srtTimeToSeconds(line.endTime) * fps);
+          console.log(`Hook end matched (last word): "${lastWordOfHook}" from "${hookText}" found in SRT line "${line.text}", ends at frame ${matchedEndFrame}`);
+          break; 
+        }
+      }
+    }
+  }
+  
+  if (matchedEndFrame > 0) {
+    return matchedEndFrame + Math.floor(hookEndDelaySeconds * fps);
+  }
+
+  console.error(`Could not find hook text ("${hookText}") or its last word in SRT lines to determine hook end frame.`);
+  // Decide on fallback: throw error, or return a small default, or 0 which will be handled later.
+  // For now, returning 0, which might make the hook very short or effectively disabled if not found.
+  // The caller should check for this.
+  return 0; 
+}
+
 function srtLinesToWordTimings(srtLines: SrtLine[], fps: number): WordTiming[] {
   if (!srtLines || srtLines.length === 0) return [];
   return srtLines.map(line => ({
@@ -300,44 +357,59 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const hookAudioDuration = uiData.audioUrl ? await getAudioDurationFromS3(uiData.audioUrl) : 0;
-    let scriptAudioDuration = uiData.scriptAudioUrl ? await getAudioDurationFromS3(uiData.scriptAudioUrl) : 0;
+    // Single audio duration
+    const audioDuration = uiData.audioUrl ? await getAudioDurationFromS3(uiData.audioUrl) : 0;
     
     let srtLines: SrtLine[] = [];
     let finalWordTimings: WordTiming[] | undefined = undefined;
     let finalSubtitleText: string | undefined = undefined;
+    let calculatedHookEndFrame = 0;
+    let srtDurationSeconds = 0;
 
     if (uiData.srtFileUrl) {
       srtLines = await parseSrt(uiData.srtFileUrl);
       if (srtLines.length > 0) {
         finalWordTimings = srtLinesToWordTimings(srtLines, FPS);
         finalSubtitleText = srtLinesToSubtitleText(srtLines);
-        if (scriptAudioDuration <= 0) { 
-          const lastSubtitle = srtLines[srtLines.length - 1];
-          if (lastSubtitle && lastSubtitle.endTime) { 
-            scriptAudioDuration = parseFloat(lastSubtitle.endTime.replace(',', '.'));
-            console.log(`Script audio duration estimated from SRT: ${scriptAudioDuration} seconds`);
-          }
+        
+        // Calculate hook end frame using the new logic
+        calculatedHookEndFrame = calculateHookEndFrame(uiData.hookText, srtLines, FPS);
+        if (calculatedHookEndFrame <= 0) {
+          // Handle case where hook text wasn't found in SRT:
+          // Option 1: Default to a short hook (e.g., 3 seconds)
+          // Option 2: Make hook duration effectively zero (visuals might not show)
+          // Option 3: Return an error
+          console.warn("Hook text not found in SRT. Hook duration might be incorrect or zero.");
+          // Defaulting to a small duration if not found, or rely on it being 0.
+          // For now, if not found, hookDurationInSeconds will be 0 via validatedRemotionProps.
+        }
+        
+        const lastSubtitle = srtLines[srtLines.length - 1];
+        if (lastSubtitle && lastSubtitle.endTime) {
+            srtDurationSeconds = srtTimeToSeconds(lastSubtitle.endTime);
+            console.log(`Total SRT duration: ${srtDurationSeconds} seconds`);
         }
       }
     }
 
-    const overallAudioDuration = hookAudioDuration + scriptAudioDuration;
-    
-    let finalVideoDurationSeconds = overallAudioDuration;
-    if (finalVideoDurationSeconds <= 0 && finalWordTimings && finalWordTimings.length > 0) {
-        const lastTiming = finalWordTimings[finalWordTimings.length - 1];
-        if (lastTiming && typeof lastTiming.endFrame === 'number') finalVideoDurationSeconds = lastTiming.endFrame / FPS; 
+    const hookDurationFromSRTSeconds = calculatedHookEndFrame / FPS;
+
+    // Determine final video duration:
+    // Priority: 1. Audio duration (if available and > 0), 2. SRT duration (if available and > 0)
+    let finalVideoDurationSeconds = 0;
+    if (audioDuration > 0) {
+        finalVideoDurationSeconds = audioDuration;
+        console.log(`Using audio duration for final video length: ${finalVideoDurationSeconds}s`);
+    } else if (srtDurationSeconds > 0) {
+        finalVideoDurationSeconds = srtDurationSeconds;
+        console.log(`Using SRT duration for final video length: ${finalVideoDurationSeconds}s`);
     }
 
     if (finalVideoDurationSeconds <= 0) {
-      if (!finalWordTimings || finalWordTimings.length === 0) {
-          console.error("Could not determine final video duration from audio or SRT.");
-          return res.status(400).json({ error: 'Could not determine final video duration.'});
-      } 
-      console.log("Audio duration is zero, video duration will be based on SRT timings.");
+      console.error("Could not determine final video duration from audio or SRT.");
+      return res.status(400).json({ error: 'Could not determine final video duration. Ensure audio or SRT is provided and valid.'});
     }
-
+    
     let finalBackgroundVideoPath: string | undefined = undefined;
     if (uiData.backgroundVideoUrl) {
       finalBackgroundVideoPath = uiData.backgroundVideoUrl;
@@ -355,10 +427,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const remotionPropsInput: Partial<RemotionFormProps> = {
       ...uiData,
       audioUrl: uiData.audioUrl || undefined,
-      scriptAudioUrl: uiData.scriptAudioUrl || undefined,
       srtFileUrl: uiData.srtFileUrl || undefined,
-      hookDurationInSeconds: hookAudioDuration,
-      scriptDurationInSeconds: scriptAudioDuration,
+      hookDurationInSeconds: hookDurationFromSRTSeconds,
       wordTimings: finalWordTimings, 
       subtitleText: finalSubtitleText,
       backgroundVideoPath: finalBackgroundVideoPath, 

@@ -478,6 +478,7 @@ export default function RedditVideoMakerPage() {
                           {formErrors.scriptAudioUrl && <p className="text-red-400 text-xs mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{formErrors.scriptAudioUrl.message}</p>}
                         </div>
                       </div>
+                      <p className="mt-1 text-xs text-gray-500">Full audio track for the video.</p>
                     </div>
                     <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
                       <h3 className="font-semibold mb-4 flex items-center gap-2"><FileText className="w-5 h-5 text-blue-400" />Text Content</h3>

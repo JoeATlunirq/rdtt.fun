@@ -34,13 +34,11 @@ export const remotionPropsSchema = z.object({
   hook_animation_type: z.enum(['fall', 'float', 'reveal', 'none']).default('fall'),
 
   // Audio sources
-  audioUrl: z.string().url("Must be a valid URL for hook audio").optional(), // Optional now
-  scriptAudioUrl: z.string().url("Must be a valid URL for main audio").optional(), // Optional now
-  srtFileUrl: z.string().url("Must be a valid URL for SRT file").optional(), // Optional now
+  audioUrl: z.string().url("Must be a valid URL for the main audio track").optional(), // Single audio track
+  srtFileUrl: z.string().url("Must be a valid URL for SRT file").optional(),
 
   // Derived audio/subtitle data
-  hookDurationInSeconds: z.number().min(0).default(0),
-  scriptDurationInSeconds: z.number().min(0).default(0),
+  hookDurationInSeconds: z.number().min(0).default(0), // Will be recalculated based on hookText and SRT
   subtitleText: z.string().optional(), // Combined text from SRT
   wordTimings: z.array(wordTimingSchema).optional(), // Parsed and transformed SRT data
   
@@ -95,8 +93,7 @@ export const uiFormSchema = z.object({
   hookText: z.string().min(1, "Hook text is required"),
   hook_animation_type: z.enum(['fall', 'float', 'reveal', 'none']).default('fall'),
   
-  audioUrl: z.string().url("Must be a valid URL for hook audio").optional().or(z.literal('')),
-  scriptAudioUrl: z.string().url("Must be a valid URL for main audio").optional().or(z.literal('')),
+  audioUrl: z.string().url("Main Audio URL (MP3/WAV)").optional().or(z.literal('')), // Updated description
   srtFileUrl: z.string().url("Must be a valid URL for SRT file").optional().or(z.literal('')),
 
   animatedSubtitleType: z.enum(['word', 'phrase']).default('word'),
