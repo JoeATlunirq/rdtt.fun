@@ -290,8 +290,6 @@ async function 실제Remotion랜더링 (props: RemotionFormProps, outputFileName
   // On Vercel, process.cwd() will be the root of the remotion-frontend deployment.
   // The Remotion project files are in a 'remotion' subdirectory.
   const remotionProjectSourceDir = path.join(process.cwd(), 'remotion'); 
-  // Using a direct path to the remotion CLI's entry script within node_modules, executed with node
-  const remotionCLIEntryScript = path.join(process.cwd(), 'node_modules', '@remotion', 'cli', 'bin', 'remotion.js');
   const compositionId = 'MainComposition'; 
   const outputLocation = path.join(os.tmpdir(), outputFileName);
   const propsString = JSON.stringify(props);
@@ -300,9 +298,11 @@ async function 실제Remotion랜더링 (props: RemotionFormProps, outputFileName
   // Added --chrome-flags="--no-sandbox --disable-dev-shm-usage" for serverless environments
   const chromeFlags = "--no-sandbox --disable-dev-shm-usage";
   
+  // Command now executes from process.cwd() (remotion-frontend)
+  // and passes remotionProjectSourceDir as the project path to the Remotion CLI.
   // NPM environment variables are still set to use /tmp.
-  // Execute the Remotion CLI script using 'node'.
-  const command = `HOME=/tmp NPM_CONFIG_CACHE=/tmp/.npm-cache NPM_CONFIG_PREFIX=/tmp/.npm-prefix node ${remotionCLIEntryScript} render "${remotionProjectSourceDir}" ${compositionId} "${outputLocation}" --props='${propsString}' --log=verbose --chrome-flags="${chromeFlags}"`;
+  // Execute the Remotion CLI using 'npx --package @remotion/cli remotion ...'
+  const command = `HOME=/tmp NPM_CONFIG_CACHE=/tmp/.npm-cache NPM_CONFIG_PREFIX=/tmp/.npm-prefix npx --package @remotion/cli remotion render "${remotionProjectSourceDir}" ${compositionId} "${outputLocation}" --props='${propsString}' --log=verbose --chrome-flags="${chromeFlags}"`;
   
   console.log(`Executing Remotion CLI from ${process.cwd()}: ${command}`);
   try {
