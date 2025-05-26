@@ -294,6 +294,7 @@ async function 실제Remotion랜더링(props: RemotionFormProps, outputFileName:
   const remotionCacheDir = path.join(os.tmpdir(), '.remotion-cache');
   const npmCacheDir = path.join(os.tmpdir(), '.npm-cache'); // For npx
   const npmPrefixDir = path.join(os.tmpdir(), '.npm-prefix'); // For npx
+  const remotionBinariesDir = path.join(os.tmpdir(), '.remotion-binaries'); // For --binary-directory
 
   try {
     if (!fs.existsSync(remotionCacheDir)) {
@@ -305,7 +306,10 @@ async function 실제Remotion랜더링(props: RemotionFormProps, outputFileName:
     if (!fs.existsSync(npmPrefixDir)) {
       fs.mkdirSync(npmPrefixDir, { recursive: true });
     }
-    console.log(`Ensured temp directories: ${remotionCacheDir}, ${npmCacheDir}, ${npmPrefixDir}`);
+    if (!fs.existsSync(remotionBinariesDir)) { // Create binaries directory
+      fs.mkdirSync(remotionBinariesDir, { recursive: true });
+    }
+    console.log(`Ensured temp directories: ${remotionCacheDir}, ${npmCacheDir}, ${npmPrefixDir}, ${remotionBinariesDir}`);
   } catch (e: any) {
     console.warn(`Warning: Could not create temp directories: ${e.message}`);
   }
@@ -330,7 +334,14 @@ async function 실제Remotion랜더링(props: RemotionFormProps, outputFileName:
   // Construct the command
   // The `remotion` executable will be fetched by npx.
   // The project path is passed as the first argument to `remotion render`.
-  const baseCommand = `npx --package @remotion/cli@${remotionVersion} remotion render "${remotionProjectSourceDir}" ${compositionId} "${outputLocation}" --props='${propsStringEscaped}' --log=verbose --chrome-flags="${chromeFlags}"`;
+  const baseCommand = `npx --package @remotion/cli@${remotionVersion} remotion render \
+    "${remotionProjectSourceDir}" \
+    ${compositionId} \
+    "${outputLocation}" \
+    --props='${propsStringEscaped}' \
+    --log=verbose \
+    --chrome-flags="${chromeFlags}" \
+    --binary-directory="${remotionBinariesDir}"`;
 
   const envVars = {
     ...process.env, // Inherit existing environment variables
@@ -339,6 +350,8 @@ async function 실제Remotion랜더링(props: RemotionFormProps, outputFileName:
     NPM_CONFIG_PREFIX: npmPrefixDir,
     REMOTION_CACHE_DIR: remotionCacheDir,
     PUPPETEER_CACHE_DIR: remotionCacheDir, // Also set PUPPETEER_CACHE_DIR as a fallback
+    // Optionally, also set it as an env var if Remotion might pick it up
+    // REMOTION_BINARIES_DIR: remotionBinariesDir, 
   };
   
   console.log(`Executing Remotion command: ${baseCommand}`);
