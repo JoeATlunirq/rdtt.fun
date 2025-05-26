@@ -61,72 +61,123 @@ async function streamToString(stream: NodeJS.ReadableStream): Promise<string> {
   });
 }
 
-async function getAudioDurationFromS3(userS3Url: string): Promise<{ processedAudioUrl: string, duration: number }> {
-  if (!userS3Url) return { processedAudioUrl: '', duration: 0 };
+async function streamToFile(stream: NodeJS.ReadableStream, filePath: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const fileWriteStream = fs.createWriteStream(filePath);
+    stream.pipe(fileWriteStream);
+    stream.on('error', (err) => {
+      fileWriteStream.close(); // Ensure stream is closed on error
+      fs.unlink(filePath, () => {}); // Attempt to clean up partial file
+      reject(err);
+    });
+    fileWriteStream.on('finish', () => {
+      fileWriteStream.close();
+      resolve();
+    });
+    fileWriteStream.on('error', (err) => { // Handle errors on the write stream as well
+      fs.unlink(filePath, () => {});
+      reject(err);
+    });
+  });
+}
+
+async function getAudioDurationFromS3(userProvidedUrl: string): Promise<{ processedAudioUrl: string, duration: number }> {
+  if (!userProvidedUrl) return { processedAudioUrl: '', duration: 0 };
 
   const uniqueId = uuidv4();
-  const originalFileName = path.basename(new URL(userS3Url).pathname) || 'audio.tmp';
+  // Ensure originalFileName is safe for file system and S3 keys
+  let originalFileName = 'audio.tmp';
+  try {
+    originalFileName = path.basename(new URL(userProvidedUrl).pathname).replace(/[^a-zA-Z0-9._-]/g, '_') || 'audio.tmp';
+  } catch (e) {
+    console.warn(`Could not parse basename from userProvidedUrl "${userProvidedUrl}", using default.`);
+  }
+  
   const tempLocalPath = path.join(os.tmpdir(), `${uniqueId}_${originalFileName}`);
-  const s3KeyForUploadedAudio = `${S3_UPLOADED_AUDIO_PREFIX}${uniqueId}_${originalFileName}`;
   let duration = 0;
-  let processedS3UrlInYourBucket = '';
+  let processedS3UrlInYourBucket = ''; // This will be the URL in *your* bucket if it was an HTTP(S) URL or if re-upload is intended
 
   try {
-    // 1. Download audio from user's URL to temp local path
-    console.log(`Downloading audio from ${userS3Url} to ${tempLocalPath}...`);
-    await new Promise<void>((resolve, reject) => {
-      const fileStream = fs.createWriteStream(tempLocalPath);
-      https.get(userS3Url, (response) => {
-        if (response.statusCode !== 200) {
-          reject(new Error(`Failed to download audio. Status: ${response.statusCode}, Message: ${response.statusMessage}`));
-          return;
-        }
-        response.pipe(fileStream);
-        fileStream.on('finish', () => {
-          fileStream.close();
-          console.log('Audio downloaded successfully.');
-          resolve();
+    const url = new URL(userProvidedUrl);
+
+    if (url.protocol === 's3:') {
+      console.log(`Processing S3 URL: ${userProvidedUrl}`);
+      const s3BucketName = url.hostname;
+      const s3Key = url.pathname.substring(1);
+
+      console.log(`Downloading audio from S3 (bucket: ${s3BucketName}, key: ${s3Key}) to ${tempLocalPath}...`);
+      const getObjectCommand = new GetObjectCommand({ Bucket: s3BucketName, Key: s3Key });
+      const { Body } = await s3Client.send(getObjectCommand);
+
+      if (!Body || !(Body instanceof require('stream').Readable)) {
+        throw new Error('S3 GetObjectCommand returned no Body or Body is not a ReadableStream');
+      }
+      await streamToFile(Body as NodeJS.ReadableStream, tempLocalPath);
+      console.log('Audio downloaded successfully from S3.');
+      processedS3UrlInYourBucket = userProvidedUrl; // Already an S3 URL, use as is for processing reference
+
+    } else if (url.protocol === 'http:' || url.protocol === 'https:') {
+      console.log(`Processing HTTP(S) URL: ${userProvidedUrl}`);
+      console.log(`Downloading audio from ${userProvidedUrl} to ${tempLocalPath}...`);
+      await new Promise<void>((resolve, reject) => {
+        const fileStream = fs.createWriteStream(tempLocalPath);
+        https.get(userProvidedUrl, (response) => {
+          if (response.statusCode !== 200) {
+            response.resume(); // Consume response data to free up memory
+            reject(new Error(`Failed to download audio from ${userProvidedUrl}. Status: ${response.statusCode}, Message: ${response.statusMessage}`));
+            return;
+          }
+          response.pipe(fileStream);
+          fileStream.on('finish', () => {
+            fileStream.close();
+            console.log('Audio downloaded successfully from HTTP(S).');
+            resolve();
+          });
+        }).on('error', (err) => {
+          fs.unlink(tempLocalPath, () => {}); 
+          reject(new Error(`Error downloading audio from ${userProvidedUrl}: ${err.message}`));
         });
-      }).on('error', (err) => {
-        fs.unlink(tempLocalPath, () => {}); // Clean up temp file on error
-        reject(new Error(`Error downloading audio: ${err.message}`));
       });
-    });
 
-    // 2. Upload the downloaded audio to your S3 bucket
-    console.log(`Uploading audio from ${tempLocalPath} to s3://${S3_BUCKET_NAME}/${s3KeyForUploadedAudio}...`);
-    const fileContent = fs.readFileSync(tempLocalPath);
-    const uploadCommand = new PutObjectCommand({
-      Bucket: S3_BUCKET_NAME,
-      Key: s3KeyForUploadedAudio,
-      Body: fileContent,
-      // ContentType: 'audio/mpeg', // Or determine dynamically if possible/needed
-    });
-    await s3Client.send(uploadCommand);
-    processedS3UrlInYourBucket = `https://${S3_BUCKET_NAME}.s3.${s3ClientConfig.region || 'eu-north-1'}.amazonaws.com/${s3KeyForUploadedAudio}`;
-    console.log(`Audio uploaded to your S3: ${processedS3UrlInYourBucket}`);
+      // Upload the downloaded audio to your S3 bucket
+      const s3KeyForUploadedAudio = `${S3_UPLOADED_AUDIO_PREFIX}${uniqueId}_${originalFileName}`;
+      console.log(`Uploading audio from ${tempLocalPath} to s3://${S3_BUCKET_NAME}/${s3KeyForUploadedAudio}...`);
+      const fileContent = fs.readFileSync(tempLocalPath);
+      const uploadCommand = new PutObjectCommand({
+        Bucket: S3_BUCKET_NAME!,
+        Key: s3KeyForUploadedAudio,
+        Body: fileContent,
+        // ContentType might be needed here, e.g., 'audio/mpeg'
+      });
+      await s3Client.send(uploadCommand);
+      // Construct the S3 URL. Ensure your s3ClientConfig.region is correctly sourced for this.
+      const region = s3ClientConfig.region || 'us-east-1'; // Fallback, but should be set
+      processedS3UrlInYourBucket = `https://${S3_BUCKET_NAME}.s3.${region}.amazonaws.com/${s3KeyForUploadedAudio}`;
+      console.log(`Audio uploaded to your S3: ${processedS3UrlInYourBucket}`);
+    } else {
+      throw new Error(`Unsupported URL protocol: ${url.protocol} in ${userProvidedUrl}`);
+    }
 
-    // 3. Get duration using ffprobe from the local temp file
+    // Get duration using ffprobe from the local temp file
+    if (!fs.existsSync(tempLocalPath) || fs.statSync(tempLocalPath).size === 0) {
+        throw new Error(`Temporary audio file ${tempLocalPath} is missing or empty before ffprobe.`);
+    }
     console.log(`Getting duration for ${tempLocalPath} using ffprobe...`);
     const ffprobeCommand = `ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "${tempLocalPath}"`;
     const { stdout, stderr } = await execPromise(ffprobeCommand);
     if (stderr) {
-      console.warn(`ffprobe stderr for ${tempLocalPath}: ${stderr}`); // Log stderr but proceed if stdout has duration
+      console.warn(`ffprobe stderr for ${tempLocalPath}: ${stderr}`);
     }
-    if (!stdout || isNaN(parseFloat(stdout))){
+    if (!stdout || isNaN(parseFloat(stdout))) {
         throw new Error(`ffprobe failed to get duration or output was not a number for ${tempLocalPath}. Output: ${stdout}`);
     }
     duration = parseFloat(stdout);
     console.log(`Duration determined: ${duration} seconds for ${tempLocalPath}`);
 
   } catch (error) {
-    console.error(`Error in getAudioDurationFromS3 for URL ${userS3Url}:`, error);
-    // In case of error, return 0 duration and empty URL, or rethrow/handle as needed
-    // The original (simulated) return values were: return userS3Url.toLowerCase().includes("hook") ? 5.0 : 60.0;
-    // We should return the structure { processedAudioUrl: string, duration: number }
-    return { processedAudioUrl: '', duration: 0 }; // Fallback on error
+    console.error(`Error in getAudioDurationFromS3 for URL ${userProvidedUrl}:`, error);
+    return { processedAudioUrl: '', duration: 0 }; 
   } finally {
-    // 4. Cleanup: Delete the temporary local audio file
     if (fs.existsSync(tempLocalPath)) {
       fs.unlink(tempLocalPath, (err) => {
         if (err) console.error(`Error deleting temporary file ${tempLocalPath}:`, err);
