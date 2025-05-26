@@ -47,7 +47,7 @@ export const remotionPropsSchema = z.object({
   // Subtitle Styling
   animatedSubtitleType: z.enum(['word', 'phrase']).default('word'),
   fontFamily: z.string().default('Jellee'), 
-  // customFontUrl: z.string().url("Must be a valid URL for TTF font").optional(), // If allowing custom fonts uploaded by user
+  customFontUrl: z.string().url("Must be a valid URL for TTF font").optional(), // If allowing custom fonts uploaded by user
   fontSize: z.number().positive().default(50),
   fontStrokeSize: z.number().min(0).default(3),
   textColor: z.string().default('#FFFFFF'),
@@ -101,6 +101,7 @@ export const uiFormSchema = z.object({
 
   animatedSubtitleType: z.enum(['word', 'phrase']).default('word'),
   fontFamily: z.string().default('Jellee'),
+  customFontUrl: z.string().url("Must be a valid URL for a TTF font (optional)").optional().or(z.literal('')), // Added for UI
   fontSize: z.number({ coerce: true }).positive().default(50),
   fontStrokeSize: z.number({ coerce: true }).min(0).default(3),
   textColor: z.string().default('#FFFFFF'),
