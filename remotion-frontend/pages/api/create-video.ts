@@ -126,6 +126,8 @@ async function getAudioDurationFromS3(audioUrlString: string): Promise<number> {
     const fileBuffer = fs.readFileSync(tempFilePath);
     const metadata = await mm.loadMusicMetadata(fileBuffer, { duration: true }); // Request duration explicitly
 
+    console.log('Raw metadata from loadMusicMetadata:', JSON.stringify(metadata, null, 2));
+
     if (metadata && metadata.format && typeof metadata.format.duration === 'number') {
       console.log(`Duration found: ${metadata.format.duration} seconds.`);
       return metadata.format.duration;
