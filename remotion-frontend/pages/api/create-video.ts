@@ -316,21 +316,11 @@ async function 실제Remotion랜더링(props: RemotionFormProps, outputFileName:
   // Convert S3 URL to HTTPS URL if needed
   let finalServeUrl = serveUrl;
   if (serveUrl.startsWith('s3://')) {
-    // Extract bucket and key from S3 URL
-    const s3Match = serveUrl.match(/^s3:\/\/([^\/]+)\/(.+)$/);
-    if (s3Match) {
-      const [, bucket, key] = s3Match;
-      // Use the CloudFront URL or S3 HTTPS URL
-      // You can set REMOTION_CLOUDFRONT_DOMAIN in env vars if you have a CloudFront distribution
-      const cloudfrontDomain = process.env.REMOTION_CLOUDFRONT_DOMAIN;
-      if (cloudfrontDomain) {
-        finalServeUrl = `https://${cloudfrontDomain}/${key}`;
-      } else {
-        // Use S3 HTTPS URL
-        finalServeUrl = `https://${bucket}.s3.${region}.amazonaws.com/${key}`;
-      }
-      console.log(`Converted S3 URL to HTTPS: ${finalServeUrl}`);
-    }
+    // For S3 URLs, use the Vercel-hosted bundle instead
+    // This avoids S3 permission issues and serves the extracted site directly
+    const vercelAppUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://app.rdtt.fun';
+    finalServeUrl = `${vercelAppUrl}/remotion-bundle`;
+    console.log(`Using Vercel-hosted bundle instead of S3: ${finalServeUrl}`);
   }
   
   try {
