@@ -297,31 +297,20 @@ async function getRandomBackgroundVideoS3(s3ClientInstance: S3Client, bucket: st
 async function 실제Remotion랜더링(props: RemotionFormProps, outputFileName: string): Promise<string> {
   console.log("Starting Remotion Lambda render...");
   
-  // Import Remotion Lambda APIs
   const { renderMediaOnLambda, getRenderProgress } = await import('@remotion/lambda');
   
-  // You need to set up these environment variables:
-  // REMOTION_LAMBDA_FUNCTION_NAME - The name of your deployed Lambda function
-  // REMOTION_LAMBDA_SERVE_URL - The S3 URL where your Remotion project is deployed
-  // REMOTION_LAMBDA_REGION - The AWS region where Lambda is deployed
-  
   const functionName = process.env.REMOTION_LAMBDA_FUNCTION_NAME;
-  const serveUrl = process.env.REMOTION_LAMBDA_SERVE_URL;
-  const region = process.env.REMOTION_LAMBDA_REGION || 'us-east-1';
+  const s3BucketName = process.env.AWS_S3_BUCKET_NAME;
+  // Use AWS_S3_REGION as it's already defined and used for s3Client
+  const region = process.env.AWS_S3_REGION; 
   
-  if (!functionName || !serveUrl) {
-    throw new Error('REMOTION_LAMBDA_FUNCTION_NAME and REMOTION_LAMBDA_SERVE_URL must be set in environment variables');
+  if (!functionName || !s3BucketName || !region) {
+    throw new Error('REMOTION_LAMBDA_FUNCTION_NAME, AWS_S3_BUCKET_NAME, and AWS_S3_REGION must be set in environment variables');
   }
   
-  // Convert S3 URL to HTTPS URL if needed
-  let finalServeUrl = serveUrl;
-  if (serveUrl.startsWith('s3://')) {
-    // For S3 URLs, use the Vercel-hosted bundle instead
-    // This avoids S3 permission issues and serves the extracted site directly
-    const vercelAppUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://app.rdtt.fun';
-    finalServeUrl = `${vercelAppUrl}/remotion-site`;
-    console.log(`Using Vercel-hosted bundle instead of S3: ${finalServeUrl}`);
-  }
+  // Construct the direct S3 HTTPS URL for the publicly accessible lambda-site
+  const finalServeUrl = `https://${s3BucketName}.s3.${region}.amazonaws.com/lambda-site/`;
+  console.log(`Using S3 HTTPS serve URL: ${finalServeUrl}`);
   
   try {
     console.log('Triggering Remotion Lambda render...');
