@@ -340,11 +340,16 @@ async function 실제Remotion랜더링(props: RemotionFormProps, outputFileName:
       region: region as any,
     });
     
-    while (progress.overallProgress < 1 && !progress.fatalErrorEncountered) {
-      console.log(`Render progress: ${(progress.overallProgress * 100).toFixed(2)}%`);
+    const maxPollingDurationMs = 80 * 1000; // 80 seconds
+    const pollingIntervalMs = 10 * 1000; // 10 seconds
+    let pollingTimeElapsedMs = 0;
+
+    while (progress.overallProgress < 1 && !progress.fatalErrorEncountered && pollingTimeElapsedMs < maxPollingDurationMs) {
+      console.log(`Render progress: ${(progress.overallProgress * 100).toFixed(2)}%. Time elapsed in poll: ${pollingTimeElapsedMs / 1000}s`);
       
-      // Wait 2 seconds before checking again
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Wait before checking again
+      await new Promise(resolve => setTimeout(resolve, pollingIntervalMs));
+      pollingTimeElapsedMs += pollingIntervalMs;
       
       progress = await getRenderProgress({
         functionName,
@@ -354,6 +359,12 @@ async function 실제Remotion랜더링(props: RemotionFormProps, outputFileName:
       });
     }
     
+    if (pollingTimeElapsedMs >= maxPollingDurationMs && progress.overallProgress < 1) {
+      console.warn(`Polling timeout reached (${maxPollingDurationMs / 1000}s) before render completion. Last progress: ${(progress.overallProgress * 100).toFixed(2)}%`);
+      // Depending on desired behavior, you might throw an error here or return current state.
+      // For now, we'll let it proceed to check fatalErrorEncountered or outputFile.
+    }
+
     if (progress.fatalErrorEncountered) {
       throw new Error(`Render failed: ${progress.errors?.[0]?.message || 'Unknown error'}`);
     }
