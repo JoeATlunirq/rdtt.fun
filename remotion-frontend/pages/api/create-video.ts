@@ -112,6 +112,12 @@ async function getAudioDurationFromS3(audioUrlString: string): Promise<number> {
     }
 
     console.log(`Getting duration for ${tempFilePath} using music-metadata...`);
+    console.log('Type of mm:', typeof mm);
+    console.log('mm object keys:', mm ? Object.keys(mm) : 'mm is null/undefined');
+    console.log('Does mm.parseFile exist?', typeof mm?.parseFile);
+    console.log('Temp file path to parse:', tempFilePath);
+    console.log('Temp file exists?', fs.existsSync(tempFilePath));
+    console.log('Temp file size:', fs.existsSync(tempFilePath) ? fs.statSync(tempFilePath).size : 'N/A');
     const metadata = await mm.parseFile(tempFilePath);
     if (metadata && metadata.format && typeof metadata.format.duration === 'number') {
       console.log(`Duration found: ${metadata.format.duration} seconds.`);
