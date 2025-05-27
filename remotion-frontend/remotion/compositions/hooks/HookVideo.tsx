@@ -3,15 +3,18 @@ import React from 'react';
 // Replace Google Fonts loading with a constant
 const fontFamily = 'Roboto';
 
-// S3 asset utility function
-const getS3AssetUrl = (bucketName: string, region: string, path: string) => {
-  return `https://${bucketName}.s3.${region}.amazonaws.com/${path}`;
+// Helper function to get S3 URLs for default assets
+const getS3AssetUrl = (key: string) => {
+  // Hardcoded values for your S3 bucket
+  const bucketName = 'remotion-reddit-start';
+  const bucketRegion = 'eu-north-1';
+  return `https://s3.${bucketRegion}.amazonaws.com/${bucketName}/${key}`;
 };
 
-interface Props {
-  channelName?: string;
-  channelImage?: string;
-  hookText?: string;
+interface HookVideoProps {
+  channelName: string;
+  channelImage: string;
+  hookText: string;
   audioUrl?: string;
   audioDurationInSeconds?: number;
   // Add asset URLs props
@@ -20,9 +23,6 @@ interface Props {
     bubble?: string;
     share?: string;
   };
-  // Add bucket info props
-  bucketName?: string;
-  bucketRegion?: string;
 }
 
 // Helper function to get asset URL or fallback to S3 asset
@@ -60,37 +60,32 @@ const VideoComponent: React.FC<{
   );
 };
 
-export const HookVideo: React.FC<Props> = ({
+export const HookVideo: React.FC<HookVideoProps> = ({
   channelImage,
   channelName,
   hookText,
   audioUrl,
   audioDurationInSeconds = 3,
   assetUrls = {},
-  bucketName,
-  bucketRegion,
 }) => {
-  console.log("[HookVideo] Received bucketName:", bucketName);
-  console.log("[HookVideo] Received bucketRegion:", bucketRegion);
-
   const frame = useCurrentFrame();
   const { fps, width, height } = useVideoConfig();
   
   // Create S3 asset paths using the provided bucket info
   const s3Assets = React.useMemo(() => ({
-    robotoFont: getS3AssetUrl(bucketName!, bucketRegion!, 'Fonts/Roboto-Bold.ttf'),
-    verificationBadge: getS3AssetUrl(bucketName!, bucketRegion!, 'HookAssets/images/badge.png'),
-    bubble: getS3AssetUrl(bucketName!, bucketRegion!, 'HookAssets/images/bubble.svg'),
-    share: getS3AssetUrl(bucketName!, bucketRegion!, 'HookAssets/images/share.svg'),
+    robotoFont: getS3AssetUrl('Fonts/Roboto-Bold.ttf'),
+    verificationBadge: getS3AssetUrl('HookAssets/images/badge.png'),
+    bubble: getS3AssetUrl('HookAssets/images/bubble.svg'),
+    share: getS3AssetUrl('HookAssets/images/share.svg'),
     videos: {
-      video1: getS3AssetUrl(bucketName!, bucketRegion!, 'HookAssets/videos/1.mp4'),
-      video2: getS3AssetUrl(bucketName!, bucketRegion!, 'HookAssets/videos/2.mp4'),
-      video3: getS3AssetUrl(bucketName!, bucketRegion!, 'HookAssets/videos/3.mp4'),
-      video4: getS3AssetUrl(bucketName!, bucketRegion!, 'HookAssets/videos/4.mp4'),
-      video5: getS3AssetUrl(bucketName!, bucketRegion!, 'HookAssets/videos/5.mp4'),
-      video6: getS3AssetUrl(bucketName!, bucketRegion!, 'HookAssets/videos/6.mp4'),
+      video1: getS3AssetUrl('HookAssets/videos/1.mp4'),
+      video2: getS3AssetUrl('HookAssets/videos/2.mp4'),
+      video3: getS3AssetUrl('HookAssets/videos/3.mp4'),
+      video4: getS3AssetUrl('HookAssets/videos/4.mp4'),
+      video5: getS3AssetUrl('HookAssets/videos/5.mp4'),
+      video6: getS3AssetUrl('HookAssets/videos/6.mp4'),
     }
-  }), [bucketName, bucketRegion]);
+  }), []);
   
   // Load the Roboto font when the component mounts from S3
   React.useEffect(() => {

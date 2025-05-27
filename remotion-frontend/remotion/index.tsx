@@ -33,9 +33,7 @@ const schema = z.object({
     badge: z.string().optional(),
     bubble: z.string().optional(),
     share: z.string().optional()
-  }).optional(),
-  bucketName: z.string().optional(),
-  bucketRegion: z.string().optional()
+  }).optional()
 });
 
 type Props = z.infer<typeof schema>;
