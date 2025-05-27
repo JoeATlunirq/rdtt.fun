@@ -70,6 +70,9 @@ export const FloatingHookVideo: React.FC<Props> = ({
   bucketName,
   bucketRegion,
 }) => {
+  console.log("[FloatingHookVideo] Received bucketName:", bucketName);
+  console.log("[FloatingHookVideo] Received bucketRegion:", bucketRegion);
+
   const frame = useCurrentFrame();
   const { fps, width, height } = useVideoConfig();
   

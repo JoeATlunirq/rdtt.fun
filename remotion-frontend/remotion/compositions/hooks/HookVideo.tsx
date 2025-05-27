@@ -70,6 +70,9 @@ export const HookVideo: React.FC<Props> = ({
   bucketName,
   bucketRegion,
 }) => {
+  console.log("[HookVideo] Received bucketName:", bucketName);
+  console.log("[HookVideo] Received bucketRegion:", bucketRegion);
+
   const frame = useCurrentFrame();
   const { fps, width, height } = useVideoConfig();
   
