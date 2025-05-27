@@ -5,11 +5,12 @@ import { uiFormSchema, remotionPropsSchema, RemotionFormProps, UIFormValues, Wor
 import { ZodError } from 'zod';
 import { v4 as uuidv4 } from 'uuid';
 import SrtParser from 'srt-parser-2';
-import * as mm from 'music-metadata';
+const mm = require('music-metadata');
 import { execSync } from 'child_process';
 import path from 'path';
 import os from 'os';
 import fs from 'fs';
+import https from 'https';
 
 
 const S3_BUCKET_NAME = process.env.AWS_S3_BUCKET_NAME;
@@ -65,21 +66,12 @@ function parseS3Url(s3Url: string): { bucket: string, key: string } {
 }
 
 async function getAudioDurationFromS3(audioUrlString: string): Promise<number> {
-  if (!audioUrlString) return 0;
-  // Validate URL structure before parsing to prevent errors with path.basename
-  let audioUrl;
-  try {
-    audioUrl = new URL(audioUrlString);
-  } catch (e) {
-    console.error(`Invalid audio URL string: ${audioUrlString}`, e);
-    throw new Error(`Invalid audio URL: ${audioUrlString}`);
-  }
-
-  const tempFileName = `${uuidv4()}_${path.basename(audioUrl.pathname) || 'audiofile'}`;
-  const tempFilePath = path.join(os.tmpdir(), tempFileName);
+  let tempFilePath = '';
+  let s3KeyForUpload: string | null = null;
+  let uploadedToS3 = false;
 
   try {
-    if (audioUrl.protocol === 's3:') {
+    if (audioUrlString.startsWith('s3://')) {
       console.log(`Processing S3 URL: ${audioUrlString}`);
       const { bucket, key } = parseS3Url(audioUrlString);
       console.log(`Downloading audio from S3: bucket=${bucket}, key=${key} to ${tempFilePath}...`);
@@ -88,30 +80,37 @@ async function getAudioDurationFromS3(audioUrlString: string): Promise<number> {
       if (!Body || !(Body instanceof Readable)) {
         throw new Error('S3 Body is not a readable stream or is undefined.');
       }
+      tempFilePath = path.join(os.tmpdir(), path.basename(key));
       await streamToFile(Body, tempFilePath);
       console.log("Audio downloaded successfully from S3.");
-    } else if (audioUrl.protocol === 'http:' || audioUrl.protocol === 'https:') {
+    } else if (audioUrlString.startsWith('http://') || audioUrlString.startsWith('https://')) {
       console.log(`Processing HTTP(S) URL: ${audioUrlString}`);
+      const uniqueId = uuidv4();
+      const fileName = path.basename(new URL(audioUrlString).pathname);
+      tempFilePath = path.join(os.tmpdir(), `${uniqueId}_${fileName}`);
+      s3KeyForUpload = `UploadedAudio/${uniqueId}_${fileName}`;
+
       console.log(`Downloading audio from ${audioUrlString} to ${tempFilePath}...`);
       const response = await fetch(audioUrlString);
       if (!response.ok) throw new Error(`Failed to download audio from ${audioUrlString}: ${response.statusText}`);
       if (!response.body) throw new Error('Response body is null');
       const nodeStream = Readable.fromWeb(response.body as import('stream/web').ReadableStream<any>);
       await streamToFile(nodeStream, tempFilePath);
-      console.log("Audio downloaded successfully from HTTP(S).");
-      if (S3_BUCKET_NAME && S3_UPLOADED_AUDIO_PREFIX) {
-        const s3KeyForUpload = `${S3_UPLOADED_AUDIO_PREFIX}${tempFileName}`;
-        console.log(`Uploading audio from ${tempFilePath} to s3://${S3_BUCKET_NAME}/${s3KeyForUpload}...`);
-        await s3Client.send(new PutObjectCommand({
-          Bucket: S3_BUCKET_NAME,
-          Key: s3KeyForUpload,
-          Body: fs.createReadStream(tempFilePath),
-        }));
-        console.log(`Audio uploaded to S3.`);
-      }
+      console.log('Audio downloaded successfully from HTTP(S).');
+
+      // Upload the downloaded file to S3
+      console.log(`Uploading audio from ${tempFilePath} to s3://${S3_BUCKET_NAME}/${s3KeyForUpload}...`);
+      await s3Client.send(new PutObjectCommand({
+        Bucket: S3_BUCKET_NAME!,
+        Key: s3KeyForUpload,
+        Body: fs.createReadStream(tempFilePath),
+      }));
+      console.log('Audio uploaded to S3.');
+      uploadedToS3 = true;
     } else {
-      throw new Error(`Unsupported audio URL protocol: ${audioUrl.protocol}`);
+      throw new Error('Invalid audio URL format. Must be S3 or HTTP(S).');
     }
+
     console.log(`Getting duration for ${tempFilePath} using music-metadata...`);
     const metadata = await mm.parseFile(tempFilePath);
     if (metadata && metadata.format && typeof metadata.format.duration === 'number') {
@@ -287,136 +286,86 @@ async function getRandomBackgroundVideoS3(s3ClientInstance: S3Client, bucket: st
   }
 }
 
+// Remove the old 실제Remotion랜더링 function and replace with Lambda rendering
 async function 실제Remotion랜더링(props: RemotionFormProps, outputFileName: string): Promise<string> {
-  console.log("Starting Remotion render process...");
-
-  // Ensure the /tmp directory is writable for cache
-  const remotionCacheDir = path.join(os.tmpdir(), '.remotion-cache');
-  const npmCacheDir = path.join(os.tmpdir(), '.npm-cache'); // For npx
-  const npmPrefixDir = path.join(os.tmpdir(), '.npm-prefix'); // For npx
-  const remotionBinariesDir = path.join(os.tmpdir(), '.remotion-binaries'); // For --binary-directory
-
-  try {
-    if (!fs.existsSync(remotionCacheDir)) {
-      fs.mkdirSync(remotionCacheDir, { recursive: true });
-    }
-    if (!fs.existsSync(npmCacheDir)) {
-      fs.mkdirSync(npmCacheDir, { recursive: true });
-    }
-    if (!fs.existsSync(npmPrefixDir)) {
-      fs.mkdirSync(npmPrefixDir, { recursive: true });
-    }
-    if (!fs.existsSync(remotionBinariesDir)) { // Create binaries directory
-      fs.mkdirSync(remotionBinariesDir, { recursive: true });
-    }
-    console.log(`Ensured temp directories: ${remotionCacheDir}, ${npmCacheDir}, ${npmPrefixDir}, ${remotionBinariesDir}`);
-  } catch (e: any) {
-    console.warn(`Warning: Could not create temp directories: ${e.message}`);
+  console.log("Starting Remotion Lambda render...");
+  
+  // Import Remotion Lambda APIs
+  const { renderMediaOnLambda, getRenderProgress } = await import('@remotion/lambda');
+  
+  // You need to set up these environment variables:
+  // REMOTION_LAMBDA_FUNCTION_NAME - The name of your deployed Lambda function
+  // REMOTION_LAMBDA_SERVE_URL - The S3 URL where your Remotion project is deployed
+  // REMOTION_LAMBDA_REGION - The AWS region where Lambda is deployed
+  
+  const functionName = process.env.REMOTION_LAMBDA_FUNCTION_NAME;
+  const serveUrl = process.env.REMOTION_LAMBDA_SERVE_URL;
+  const region = process.env.REMOTION_LAMBDA_REGION || 'us-east-1';
+  
+  if (!functionName || !serveUrl) {
+    throw new Error('REMOTION_LAMBDA_FUNCTION_NAME and REMOTION_LAMBDA_SERVE_URL must be set in environment variables');
   }
-
-  // The Remotion project files are in a 'remotion' subdirectory relative to the Next.js project root.
-  // process.cwd() in Vercel is /var/task/remotion-frontend/
-  const remotionProjectSourceDir = path.join(process.cwd(), 'remotion'); 
-  const compositionId = 'MainComposition'; 
-  const outputLocation = path.join(os.tmpdir(), outputFileName);
   
-  // Escape single quotes in props string for shell command
-  const propsString = JSON.stringify(props);
-  // Handle potential single quotes in the props string if it's directly embedded
-  const propsStringEscaped = propsString.replace(/'/g, "'\\''");
-
-
-  const chromeFlags = "--no-sandbox --disable-dev-shm-usage";
-  
-  // Pin the version of @remotion/cli used by npx to match package.json
-  const remotionVersion = "4.0.150"; 
-
-  // Construct the command
-  // The `remotion` executable will be fetched by npx.
-  // The project path is passed as the first argument to `remotion render`.
-  const baseCommand = `npx --package @remotion/cli@${remotionVersion} remotion render \
-    "${remotionProjectSourceDir}" \
-    ${compositionId} \
-    "${outputLocation}" \
-    --props='${propsStringEscaped}' \
-    --log=verbose \
-    --chrome-flags="${chromeFlags}" \
-    --binary-directory="${remotionBinariesDir}"`;
-
-  const envVars = {
-    ...process.env, // Inherit existing environment variables
-    HOME: os.tmpdir(), 
-    NPM_CONFIG_CACHE: npmCacheDir,
-    NPM_CONFIG_PREFIX: npmPrefixDir,
-    REMOTION_CACHE_DIR: remotionCacheDir,
-    PUPPETEER_CACHE_DIR: remotionCacheDir, // Also set PUPPETEER_CACHE_DIR as a fallback
-    // Optionally, also set it as an env var if Remotion might pick it up
-    // REMOTION_BINARIES_DIR: remotionBinariesDir, 
-  };
-  
-  console.log(`Executing Remotion command: ${baseCommand}`);
-  console.log(`With environment variables: HOME=${envVars.HOME}, NPM_CONFIG_CACHE=${envVars.NPM_CONFIG_CACHE}, NPM_CONFIG_PREFIX=${envVars.NPM_CONFIG_PREFIX}, REMOTION_CACHE_DIR=${envVars.REMOTION_CACHE_DIR}, PUPPETEER_CACHE_DIR=${envVars.PUPPETEER_CACHE_DIR}`);
-
   try {
-    // Capture stdio for logging, do not inherit.
-    const stdout = execSync(baseCommand, {
-        cwd: process.cwd(), // Execute from the Next.js project root (/var/task/remotion-frontend)
-        env: envVars,
-        encoding: 'utf-8', // To get string output
-    });
-    console.log("Remotion render STDOUT:\n", stdout);
-    return outputLocation;
-  } catch (error: any) {
-    console.error("Remotion render FAILED.");
-    // Log the error object itself for more details if available
-    console.error("Error object:", error); // This will log the full error object
+    console.log('Triggering Remotion Lambda render...');
     
-    let errorMessage = "Remotion render failed";
-    if (error.message) {
-      errorMessage += `: ${error.message}`;
+    // Start the render on Lambda
+    const renderResponse = await renderMediaOnLambda({
+      functionName,
+      serveUrl,
+      composition: 'MainComposition',
+      inputProps: props,
+      codec: 'h264',
+      imageFormat: 'jpeg',
+      maxRetries: 1,
+      region: region as any,
+      outName: outputFileName,
+      privacy: 'public', // or 'private' if you want the video to be private
+    });
+    
+    console.log('Render started:', renderResponse);
+    
+    // Poll for progress until complete
+    let progress = await getRenderProgress({
+      functionName,
+      renderId: renderResponse.renderId,
+      bucketName: renderResponse.bucketName,
+      region: region as any,
+    });
+    
+    while (progress.overallProgress < 1 && !progress.fatalErrorEncountered) {
+      console.log(`Render progress: ${(progress.overallProgress * 100).toFixed(2)}%`);
+      
+      // Wait 2 seconds before checking again
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      progress = await getRenderProgress({
+        functionName,
+        renderId: renderResponse.renderId,
+        bucketName: renderResponse.bucketName,
+        region: region as any,
+      });
     }
-    // stdout and stderr are properties of the error object when execSync fails
-    if (error.stdout) {
-      const stdoutStr = Buffer.isBuffer(error.stdout) ? error.stdout.toString() : error.stdout;
-      console.error("Remotion render STDOUT (on error):\n", stdoutStr);
-      errorMessage += `\nSTDOUT: ${stdoutStr}`;
+    
+    if (progress.fatalErrorEncountered) {
+      throw new Error(`Render failed: ${progress.errors?.[0]?.message || 'Unknown error'}`);
     }
-    if (error.stderr) {
-      const stderrStr = Buffer.isBuffer(error.stderr) ? error.stderr.toString() : error.stderr;
-      console.error("Remotion render STDERR (on error):\n", stderrStr);
-      errorMessage += `\nSTDERR: ${stderrStr}`;
+    
+    if (!progress.outputFile) {
+      throw new Error('Render completed but no output file was generated');
     }
-    // The status property can also be useful
-     if (error.status) {
-        errorMessage += `\nStatus: ${error.status}`;
-    }
-    throw new Error(errorMessage);
+    
+    console.log('Render completed successfully:', progress.outputFile);
+    return progress.outputFile;
+    
+  } catch (error) {
+    console.error('Remotion Lambda render failed:', error);
+    throw error;
   }
 }
 
-async function 실제S3업로드 (filePath: string, s3Key: string): Promise<string> {
-  console.log(`Uploading ${filePath} to S3 bucket ${S3_BUCKET_NAME} with key ${s3Key}`);
-  if (!S3_BUCKET_NAME) throw new Error("S3_BUCKET_NAME is not configured.");
-  try {
-    const fileStream = fs.createReadStream(filePath);
-    await s3Client.send(new PutObjectCommand({
-      Bucket: S3_BUCKET_NAME,
-      Key: s3Key,
-      Body: fileStream,
-    }));
-    const videoUrl = `https://${S3_BUCKET_NAME}.s3.${S3_REGION}.amazonaws.com/${s3Key}`;
-    console.log(`File uploaded to S3: ${videoUrl}`);
-    return videoUrl;
-  } catch (error) {
-    console.error("Error uploading file to S3:", error);
-    throw error;
-  } finally {
-    fs.unlink(filePath, err => {
-      if (err) console.warn(`Failed to delete temp rendered file ${filePath}:`, err);
-      else console.log(`Temp rendered file ${filePath} deleted.`);
-    });
-  }
-}
+// Remove the old 실제S3업로드 function since Lambda already uploads to S3
+// The Lambda render will return the S3 URL directly
 
 const FPS = 30;
 
@@ -526,15 +475,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const renderedVideoPath = await 실제Remotion랜더링(validatedRemotionProps, videoFileName);
     console.log(`Rendered video path: ${renderedVideoPath}`);
 
-    console.log("Starting S3 upload...");
-    const finalVideoS3Key = `${S3_VIDEOS_PREFIX}${videoFileName}`;
-    const finalVideoUrl = await 실제S3업로드(renderedVideoPath, finalVideoS3Key);
-    console.log(`Final video URL: ${finalVideoUrl}`);
-
     res.status(200).json({ 
       message: "Video generated and uploaded successfully!", 
       propsUsed: validatedRemotionProps,
-      videoUrl: finalVideoUrl 
+      videoUrl: renderedVideoPath 
     });
 
   } catch (error: any) {

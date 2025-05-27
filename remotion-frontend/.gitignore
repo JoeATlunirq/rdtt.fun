@@ -16,3 +16,4 @@ node_modules/
 
 # macOS specific
 .DS_Store 
+out/lambda-bundle
