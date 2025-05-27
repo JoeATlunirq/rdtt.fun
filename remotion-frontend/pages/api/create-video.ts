@@ -319,7 +319,7 @@ async function 실제Remotion랜더링(props: RemotionFormProps, outputFileName:
     // For S3 URLs, use the Vercel-hosted bundle instead
     // This avoids S3 permission issues and serves the extracted site directly
     const vercelAppUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://app.rdtt.fun';
-    finalServeUrl = `${vercelAppUrl}/remotion-bundle`;
+    finalServeUrl = `${vercelAppUrl}/remotion-site`;
     console.log(`Using Vercel-hosted bundle instead of S3: ${finalServeUrl}`);
   }
   
