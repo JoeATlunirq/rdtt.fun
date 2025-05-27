@@ -52,7 +52,9 @@ const defaultProps: Props = {
   scriptAudioDurationInSeconds: 3,
   wordTimings: [],
   totalDurationInFrames: 180,
-  backgroundVideoPath: ""
+  backgroundVideoPath: "",
+  bucketName: "",
+  bucketRegion: ""
 };
 
 // Register the root component

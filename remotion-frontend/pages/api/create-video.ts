@@ -506,6 +506,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       subtitleText: finalSubtitleText,
       backgroundVideoPath: finalBackgroundVideoPath,
       // srtFileUrl is already in uiData if provided
+
+      // Add bucketName and bucketRegion from environment variables
+      bucketName: S3_BUCKET_NAME, // From process.env relayed via S3_BUCKET_NAME const
+      bucketRegion: S3_REGION,     // From process.env relayed via S3_REGION const
     };
 
     // Remove hookDurationInSeconds from the input if it was part of uiData,

@@ -67,25 +67,25 @@ export const FloatingHookVideo: React.FC<Props> = ({
   audioUrl,
   audioDurationInSeconds = 3,
   assetUrls = {},
-  bucketName = 'reddit-clipper-assets',
-  bucketRegion = 'us-east-1'
+  bucketName,
+  bucketRegion,
 }) => {
   const frame = useCurrentFrame();
   const { fps, width, height } = useVideoConfig();
   
   // Create S3 asset paths using the provided bucket info
   const s3Assets = React.useMemo(() => ({
-    robotoFont: getS3AssetUrl(bucketName, bucketRegion, 'fonts/Roboto-Bold.ttf'),
-    verificationBadge: getS3AssetUrl(bucketName, bucketRegion, 'assets/badge.png'),
-    bubble: getS3AssetUrl(bucketName, bucketRegion, 'assets/bubble.svg'),
-    share: getS3AssetUrl(bucketName, bucketRegion, 'assets/share.svg'),
+    robotoFont: getS3AssetUrl(bucketName!, bucketRegion!, 'Fonts/Roboto-Bold.ttf'),
+    verificationBadge: getS3AssetUrl(bucketName!, bucketRegion!, 'HookAssets/images/badge.png'),
+    bubble: getS3AssetUrl(bucketName!, bucketRegion!, 'HookAssets/images/bubble.svg'),
+    share: getS3AssetUrl(bucketName!, bucketRegion!, 'HookAssets/images/share.svg'),
     videos: {
-      video1: getS3AssetUrl(bucketName, bucketRegion, 'assets/videos/11.mp4'),
-      video2: getS3AssetUrl(bucketName, bucketRegion, 'assets/videos/22.mp4'),
-      video3: getS3AssetUrl(bucketName, bucketRegion, 'assets/videos/33.mp4'),
-      video4: getS3AssetUrl(bucketName, bucketRegion, 'assets/videos/44.mp4'),
-      video5: getS3AssetUrl(bucketName, bucketRegion, 'assets/videos/55.mp4'),
-      video6: getS3AssetUrl(bucketName, bucketRegion, 'assets/videos/66.mp4'),
+      video1: getS3AssetUrl(bucketName!, bucketRegion!, 'HookAssets/videos/1.mp4'),
+      video2: getS3AssetUrl(bucketName!, bucketRegion!, 'HookAssets/videos/2.mp4'),
+      video3: getS3AssetUrl(bucketName!, bucketRegion!, 'HookAssets/videos/3.mp4'),
+      video4: getS3AssetUrl(bucketName!, bucketRegion!, 'HookAssets/videos/4.mp4'),
+      video5: getS3AssetUrl(bucketName!, bucketRegion!, 'HookAssets/videos/5.mp4'),
+      video6: getS3AssetUrl(bucketName!, bucketRegion!, 'HookAssets/videos/6.mp4'),
     }
   }), [bucketName, bucketRegion]);
   
