@@ -50,11 +50,16 @@ const defaultProps: Props = {
   subtitleText: "Default subtitle",
   scriptAudioUrl: "",
   scriptAudioDurationInSeconds: 3,
-  wordTimings: [],
-  totalDurationInFrames: 180,
+  wordTimings: [{text: 'Default', startFrame: 0, endFrame: 30}],
+  totalDurationInFrames: 390,
   backgroundVideoPath: "",
-  bucketName: "",
-  bucketRegion: ""
+  bucketName: "DEFAULT_BUCKET_IN_BUNDLE",
+  bucketRegion: "DEFAULT_REGION_IN_BUNDLE",
+  assetUrls: {
+    badge: '',
+    bubble: '',
+    share: ''
+  }
 };
 
 // Register the root component
