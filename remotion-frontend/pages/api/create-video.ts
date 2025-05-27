@@ -5,7 +5,7 @@ import { uiFormSchema, remotionPropsSchema, RemotionFormProps, UIFormValues, Wor
 import { ZodError } from 'zod';
 import { v4 as uuidv4 } from 'uuid';
 import SrtParser from 'srt-parser-2';
-const mm = require('music-metadata');
+import getMP3Duration from 'get-mp3-duration';
 import { execSync } from 'child_process';
 import path from 'path';
 import os from 'os';
@@ -111,28 +111,20 @@ async function getAudioDurationFromS3(audioUrlString: string): Promise<number> {
       throw new Error('Invalid audio URL format. Must be S3 or HTTP(S).');
     }
 
-    console.log(`Getting duration for ${tempFilePath} using music-metadata...`);
-    console.log('Type of mm:', typeof mm);
-    console.log('mm object keys:', mm ? Object.keys(mm) : 'mm is null/undefined');
-    console.log('Does mm.parseFile exist?', typeof mm?.parseFile);
+    console.log(`Getting duration for ${tempFilePath} using get-mp3-duration...`);
     console.log('Temp file path to parse:', tempFilePath);
     console.log('Temp file exists?', fs.existsSync(tempFilePath));
     console.log('Temp file size:', fs.existsSync(tempFilePath) ? fs.statSync(tempFilePath).size : 'N/A');
 
-    // New way: Using loadMusicMetadata since parseFile is not available on Vercel
-    if (typeof mm.loadMusicMetadata !== 'function') {
-      throw new Error('mm.loadMusicMetadata is not a function. music-metadata import is not as expected.');
-    }
     const fileBuffer = fs.readFileSync(tempFilePath);
-    const metadata = await mm.loadMusicMetadata(fileBuffer, { duration: true }); // Request duration explicitly
+    const durationMs = getMP3Duration(fileBuffer);
 
-    console.log('Raw metadata from loadMusicMetadata:', JSON.stringify(metadata, null, 2));
-
-    if (metadata && metadata.format && typeof metadata.format.duration === 'number') {
-      console.log(`Duration found: ${metadata.format.duration} seconds.`);
-      return metadata.format.duration;
+    if (typeof durationMs === 'number') {
+      const durationSeconds = durationMs / 1000;
+      console.log(`Duration found: ${durationSeconds} seconds.`);
+      return durationSeconds;
     } else {
-      throw new Error('Could not determine audio duration using music-metadata.');
+      throw new Error('Could not determine audio duration using get-mp3-duration.');
     }
   } catch (error) {
     console.error(`Error in getAudioDurationFromS3 for URL ${audioUrlString}:`, error);

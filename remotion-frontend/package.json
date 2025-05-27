@@ -20,6 +20,7 @@
     "axios": "^1.7.2",
     "clsx": "^2.1.0",
     "cmdk": "^1.0.0",
+    "get-mp3-duration": "^1.0.0",
     "lucide-react": "^0.314.0",
     "multiparty": "^4.2.3",
     "music-metadata": "^10.6.0",
