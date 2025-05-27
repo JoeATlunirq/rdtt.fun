@@ -34,8 +34,8 @@ const schema = z.object({
     bubble: z.string().optional(),
     share: z.string().optional()
   }).optional(),
-  bucketName: z.string(),
-  bucketRegion: z.string()
+  bucketName: z.string().optional(),
+  bucketRegion: z.string().optional()
 });
 
 type Props = z.infer<typeof schema>;
@@ -53,8 +53,6 @@ const defaultProps: Props = {
   wordTimings: [{text: 'Default', startFrame: 0, endFrame: 30}],
   totalDurationInFrames: 390,
   backgroundVideoPath: "",
-  bucketName: "DEFAULT_BUCKET_NAME_IN_SCHEMA_TEST",
-  bucketRegion: "DEFAULT_BUCKET_REGION_IN_SCHEMA_TEST",
   assetUrls: {
     badge: '',
     bubble: '',
