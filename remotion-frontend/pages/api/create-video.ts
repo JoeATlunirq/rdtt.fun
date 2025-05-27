@@ -313,13 +313,34 @@ async function 실제Remotion랜더링(props: RemotionFormProps, outputFileName:
     throw new Error('REMOTION_LAMBDA_FUNCTION_NAME and REMOTION_LAMBDA_SERVE_URL must be set in environment variables');
   }
   
+  // Convert S3 URL to HTTPS URL if needed
+  let finalServeUrl = serveUrl;
+  if (serveUrl.startsWith('s3://')) {
+    // Extract bucket and key from S3 URL
+    const s3Match = serveUrl.match(/^s3:\/\/([^\/]+)\/(.+)$/);
+    if (s3Match) {
+      const [, bucket, key] = s3Match;
+      // Use the CloudFront URL or S3 HTTPS URL
+      // You can set REMOTION_CLOUDFRONT_DOMAIN in env vars if you have a CloudFront distribution
+      const cloudfrontDomain = process.env.REMOTION_CLOUDFRONT_DOMAIN;
+      if (cloudfrontDomain) {
+        finalServeUrl = `https://${cloudfrontDomain}/${key}`;
+      } else {
+        // Use S3 HTTPS URL
+        finalServeUrl = `https://${bucket}.s3.${region}.amazonaws.com/${key}`;
+      }
+      console.log(`Converted S3 URL to HTTPS: ${finalServeUrl}`);
+    }
+  }
+  
   try {
     console.log('Triggering Remotion Lambda render...');
+    console.log('Using serve URL:', finalServeUrl);
     
     // Start the render on Lambda
     const renderResponse = await renderMediaOnLambda({
       functionName,
-      serveUrl,
+      serveUrl: finalServeUrl,
       composition: 'MainComposition',
       inputProps: props,
       codec: 'h264',
