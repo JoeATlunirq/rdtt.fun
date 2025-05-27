@@ -13,16 +13,32 @@ import fs from 'fs';
 import https from 'https';
 
 
-const S3_BUCKET_NAME = process.env.AWS_S3_BUCKET_NAME;
-const S3_REGION = process.env.AWS_S3_REGION;
 const S3_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID;
 const S3_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
 const S3_CLIPS_PREFIX = process.env.AWS_S3_CLIPS_PREFIX || 'Clips/';
 const S3_VIDEOS_PREFIX = process.env.AWS_S3_VIDEOS_PREFIX || 'Videos/';
 const S3_UPLOADED_AUDIO_PREFIX = 'UploadedAudio/';
 
-if (!S3_BUCKET_NAME || !S3_REGION) {
-  throw new Error("AWS S3 Bucket Name and Region must be configured in environment variables.");
+// Explicitly check for S3_BUCKET_NAME and S3_REGION from environment variables
+if (!process.env.AWS_S3_BUCKET_NAME || process.env.AWS_S3_BUCKET_NAME.trim() === "") {
+  console.error("Critical: AWS_S3_BUCKET_NAME environment variable is missing or empty.");
+  throw new Error("Configuration error: AWS_S3_BUCKET_NAME is not set.");
+}
+if (!process.env.AWS_S3_REGION || process.env.AWS_S3_REGION.trim() === "") {
+  console.error("Critical: AWS_S3_REGION environment variable is missing or empty.");
+  throw new Error("Configuration error: AWS_S3_REGION is not set.");
+}
+
+const S3_BUCKET_NAME = process.env.AWS_S3_BUCKET_NAME;
+const S3_REGION = process.env.AWS_S3_REGION;
+
+console.log(`API using S3_BUCKET_NAME: ${S3_BUCKET_NAME}`);
+console.log(`API using S3_REGION: ${S3_REGION}`);
+
+// This initial check was good, but let's ensure the derived consts are also checked before s3Client init.
+// The throw new Error above should now cover this, but an explicit check on derived consts before use is safer.
+if (!S3_BUCKET_NAME || !S3_REGION) { // This check is now somewhat redundant due to above, but good for absolute safety before client init
+  throw new Error("AWS S3 Bucket Name and Region must be configured and resolved from environment variables.");
 }
 
 const s3Client = new S3Client({
