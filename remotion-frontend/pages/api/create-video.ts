@@ -467,8 +467,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const style = uiData.backgroundVideoStyle.charAt(0).toUpperCase() + uiData.backgroundVideoStyle.slice(1);
       const randomVideoS3Url = await getRandomBackgroundVideoS3(s3Client, S3_BUCKET_NAME, `${S3_CLIPS_PREFIX}${style}/`);
       if (randomVideoS3Url) {
-        finalBackgroundVideoPath = randomVideoS3Url;
-        console.log(`Using randomly selected background video S3 URL: ${finalBackgroundVideoPath}`);
+        // Convert S3 URL to HTTPS URL
+        const s3Match = randomVideoS3Url.match(/^s3:\/\/([^\/]+)\/(.+)$/);
+        if (s3Match) {
+          const [, bucket, key] = s3Match;
+          const region = process.env.AWS_S3_REGION; // Assuming AWS_S3_REGION is available
+          if (region) {
+            finalBackgroundVideoPath = `https://${bucket}.s3.${region}.amazonaws.com/${key}`;
+            console.log(`Converted random background video S3 URL to HTTPS: ${finalBackgroundVideoPath}`);
+          } else {
+            console.warn("AWS_S3_REGION not set, cannot convert background video S3 URL to HTTPS. Using S3 URL directly.");
+            finalBackgroundVideoPath = randomVideoS3Url; // Fallback, might fail in Remotion
+          }
+        } else {
+          finalBackgroundVideoPath = randomVideoS3Url; // Should not happen if getRandomBackgroundVideoS3 returns valid S3 URL
+        }
       } else {
         console.warn(`No background video found for style ${uiData.backgroundVideoStyle}. Will use background color.`);
       }
