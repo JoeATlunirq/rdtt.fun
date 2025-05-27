@@ -107,9 +107,9 @@ export const MainComposition: React.FC<Props> = ({
       />
       
       {/* Background music that spans entire video */}
-      {has_background_music && (
+      {has_background_music && backgroundMusicUrl && backgroundMusicUrl.trim() !== '' && (
         <Audio 
-          src={backgroundMusic} 
+          src={backgroundMusicUrl || backgroundMusic}
           volume={background_music_volume}
           loop
         />
@@ -140,7 +140,7 @@ export const MainComposition: React.FC<Props> = ({
             subtitle_size={subtitle_size}
             stroke_size={stroke_size}
           />
-          <Audio src={scriptAudioUrl} />
+          {scriptAudioUrl && scriptAudioUrl.trim() !== '' && <Audio src={scriptAudioUrl} />}
         </Series.Sequence>
       </Series>
     </AbsoluteFill>

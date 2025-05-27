@@ -1,4 +1,4 @@
-import { useCurrentFrame, interpolate, Easing, Audio, useVideoConfig, OffthreadVideo } from 'remotion';
+import { useCurrentFrame, interpolate, Easing, Audio, useVideoConfig, OffthreadVideo, AbsoluteFill } from 'remotion';
 import React from 'react';
 // Replace Google Fonts loading with a constant
 const fontFamily = 'Roboto';
@@ -119,6 +119,62 @@ export const FloatingHookVideo: React.FC<Props> = ({
   const bubbleUrl = getAssetUrl(assetUrls, 'bubble', s3Assets, 'bubble');
   const shareUrl = getAssetUrl(assetUrls, 'share', s3Assets, 'share');
   
+  // Define channelTextStyle, likely similar to a title style
+  const channelTextStyle: React.CSSProperties = {
+    fontSize: '28px', // Example size
+    fontWeight: 'bold',
+    color: '#1a1a1a',
+    fontFamily, // Uses the Roboto constant
+    margin: 0,
+  };
+
+  // Define styles that might have been missed by previous edits or were intended
+  const videoOverlayStyle: React.CSSProperties = {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 0, // Ensure it's behind text if they overlap
+  };
+
+  const videoStyle: React.CSSProperties = {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover', // Changed to cover from contain to fill the card
+  };
+
+  const textContainerStyle: React.CSSProperties = {
+    position: 'relative', // Changed from absolute to allow natural flow within flex
+    zIndex: 1, // Ensure text is above video overlay
+    padding: '20px', // Add some padding
+    textAlign: 'center',
+    flex: 1, // Allow it to take space
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  };
+
+  const hookTextStyle: React.CSSProperties = {
+    fontSize: '45px',
+    color: '#1a1a1a',
+    fontFamily,
+    width: '95%', // Ensure it doesn't overflow too much
+    lineHeight: '1.2', // Improved line height
+    textAlign: 'center',
+    overflowWrap: 'break-word', // Ensure long words break
+  };
+  
+  const badgeStyle: React.CSSProperties = { // Ensure badgeStyle is defined
+    width: '24px',
+    height: '24px',
+    marginLeft: '5px',
+  };
+
   // Timing calculations
   const initialGrowthFrames = 12; // 12 frames for initial growth
   const shrinkingDurationFrames = 4; // Exactly 6 frames for shrinking animation (half the time of growth for faster effect)
@@ -275,12 +331,6 @@ export const FloatingHookVideo: React.FC<Props> = ({
     overflow: 'visible',
   };
 
-  const badgeStyle: React.CSSProperties = {
-    height: '40px',
-    width: 'auto',
-    objectFit: 'contain',
-  };
-
   const heartContainerStyle: React.CSSProperties = {
     position: 'relative',
     marginTop: 'auto',
@@ -351,30 +401,38 @@ export const FloatingHookVideo: React.FC<Props> = ({
   };
 
   return (
-    <div style={containerStyle}>
+    <AbsoluteFill style={containerStyle}>
       <div style={cardStyle}>
         <div style={headerStyle}>
-          <div style={profileImageStyle} />
+          {/* Ensure channelImage is checked */}
+          {channelImage && channelImage.trim() !== '' && <div style={profileImageStyle} />}
           <div style={titleContainerStyle}>
             <div style={channelNameStyle}>
-              <h1 style={titleStyle}>{channelName}</h1>
-              <img src={badgeUrl} style={badgeStyle} alt="Verified" />
+              <p style={channelTextStyle}>{channelName}</p>
+              {/* Ensure badgeUrl is checked */}
+              {badgeUrl && badgeUrl.trim() !== '' && <img src={badgeUrl} alt="Verification Badge" style={badgeStyle} />}
             </div>
             <div style={gifContainerStyle}>
-              {[1, 2, 3, 4, 5, 6].map(idx => (
-                <VideoComponent
-                  key={idx}
-                  src={getVideoUrl(assetUrls, idx, s3Assets)}
-                  style={gifStyle}
-                  alt={`Video ${idx}`}
-                />
-              ))}
+              {/* Ensure bubbleUrl is checked */}
+              {bubbleUrl && bubbleUrl.trim() !== '' && <img src={bubbleUrl} alt="Speech Bubble" style={gifStyle} />}
+              {/* Ensure shareUrl is checked */}
+              {shareUrl && shareUrl.trim() !== '' && <img src={shareUrl} alt="Share Icon" style={gifStyle} />}
             </div>
           </div>
         </div>
-        <h2 style={postTitleStyle}>
-          {hookText}
-        </h2>
+        {/* Ensure videoSrc is checked before rendering VideoComponent */}
+        {videoSrc && videoSrc.trim() !== '' && (
+          <div style={videoOverlayStyle}>
+            <VideoComponent 
+              src={videoSrc} 
+              style={videoStyle} 
+              alt="Hook Content Video" 
+            />
+          </div>
+        )}
+        <div style={textContainerStyle}>
+          <p style={hookTextStyle}>{hookText}</p>
+        </div>
         <div style={{display: 'flex', justifyContent: 'space-between', marginTop: 'auto', paddingTop: '10px'}}>
           <div style={heartContainerStyle}>
             <div style={iconContainerStyle}>
@@ -401,7 +459,8 @@ export const FloatingHookVideo: React.FC<Props> = ({
           </div>
         </div>
       </div>
-      {audioUrl && <Audio src={audioUrl} />}
-    </div>
+      {/* Ensure audioUrl is checked before rendering Audio */}
+      {audioUrl && audioUrl.trim() !== '' && <Audio src={audioUrl} />}
+    </AbsoluteFill>
   );
 }; 

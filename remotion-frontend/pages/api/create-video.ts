@@ -459,6 +459,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ error: 'Could not determine final video duration. Ensure audio or SRT is provided and valid.'});
     }
     
+    const scriptAudioDurationSeconds = Math.max(0, audioDuration - hookDurationFromSRTSeconds);
+
     let finalBackgroundVideoPath: string | undefined = undefined;
     if (uiData.backgroundVideoUrl) {
       finalBackgroundVideoPath = uiData.backgroundVideoUrl;
@@ -487,16 +489,38 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     }
     
-    const remotionPropsInput: Partial<RemotionFormProps> = {
-      ...uiData,
-      audioUrl: uiData.audioUrl || undefined,
-      srtFileUrl: uiData.srtFileUrl || undefined,
-      hookDurationInSeconds: hookDurationFromSRTSeconds,
+    // Build the props for Remotion, ensuring correct audio properties
+    const remotionPropsInput: any = {
+      ...uiData, // Spread UI data first, then override/set specific Remotion props
+
+      // Audio props for the hook sequence (first part)
+      audioUrl: uiData.audioUrl || undefined, // Single audio source
+      audioDurationInSeconds: hookDurationFromSRTSeconds, // Duration of the hook audio segment
+
+      // Audio props for the script sequence (second part)
+      scriptAudioUrl: uiData.audioUrl || undefined, // Same single audio source
+      scriptAudioDurationInSeconds: scriptAudioDurationSeconds, // Duration of the main script audio segment
+
+      // Other props that are determined by the API
       wordTimings: finalWordTimings, 
       subtitleText: finalSubtitleText,
-      backgroundVideoPath: finalBackgroundVideoPath, 
-      totalDurationInFrames: Math.ceil(finalVideoDurationSeconds * FPS),
+      backgroundVideoPath: finalBackgroundVideoPath,
+      // srtFileUrl is already in uiData if provided
     };
+
+    // Remove hookDurationInSeconds from the input if it was part of uiData,
+    // as remotionPropsSchema expects audioDurationInSeconds for the hook part.
+    if ('hookDurationInSeconds' in remotionPropsInput) {
+      delete remotionPropsInput.hookDurationInSeconds;
+    }
+
+    // Recalculate totalDurationInFrames based on the sum of hook and script audio parts
+    const preciseTotalDurationInSeconds = hookDurationFromSRTSeconds + scriptAudioDurationSeconds;
+    remotionPropsInput.totalDurationInFrames = Math.ceil(preciseTotalDurationInSeconds * FPS);
+
+    if (finalVideoDurationSeconds > 0 && Math.abs(preciseTotalDurationInSeconds - finalVideoDurationSeconds) > 0.1) {
+        console.warn(`Initial finalVideoDurationSeconds (${finalVideoDurationSeconds}s) differs from sum of hook+script durations (${preciseTotalDurationInSeconds}s). Using sum for totalDurationInFrames.`);
+    }
 
     const validatedRemotionProps = remotionPropsSchema.parse(remotionPropsInput);
     console.log("Final Remotion props (validated):", validatedRemotionProps);

@@ -1,4 +1,4 @@
-import { useCurrentFrame, interpolate, Easing, Audio, useVideoConfig, OffthreadVideo } from 'remotion';
+import { useCurrentFrame, interpolate, Easing, Audio, useVideoConfig, OffthreadVideo, AbsoluteFill } from 'remotion';
 import React from 'react';
 // Replace Google Fonts loading with a constant
 const fontFamily = 'Roboto';
@@ -119,6 +119,15 @@ export const HookVideo: React.FC<Props> = ({
   const bubbleUrl = getAssetUrl(assetUrls, 'bubble', s3Assets, 'bubble');
   const shareUrl = getAssetUrl(assetUrls, 'share', s3Assets, 'share');
   
+  // Define channelTextStyle, likely similar to a title style
+  const channelTextStyle: React.CSSProperties = {
+    fontSize: '28px', // Example size
+    fontWeight: 'bold',
+    color: '#1a1a1a',
+    fontFamily, // Uses the Roboto constant
+    margin: 0,
+  };
+
   // Timing calculations
   const initialGrowthFrames = 12; // 12 frames for initial growth
   const fallingDurationFrames = 15; // Exactly 15 frames for falling animation
@@ -270,9 +279,9 @@ export const HookVideo: React.FC<Props> = ({
   };
 
   const badgeStyle: React.CSSProperties = {
-    height: '40px',
-    width: 'auto',
-    objectFit: 'contain',
+    width: '24px',
+    height: '24px',
+    marginLeft: '5px',
   };
 
   const heartContainerStyle: React.CSSProperties = {
@@ -344,58 +353,78 @@ export const HookVideo: React.FC<Props> = ({
     marginLeft: 'auto',
   };
 
+  const videoOverlayStyle: React.CSSProperties = {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 0, // Ensure it's behind text if they overlap
+  };
+
+  const videoStyle: React.CSSProperties = {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover', // Changed to cover from contain to fill the card
+  };
+
+  const textContainerStyle: React.CSSProperties = {
+    position: 'relative', // Changed from absolute to allow natural flow within flex
+    zIndex: 1, // Ensure text is above video overlay
+    padding: '20px', // Add some padding
+    textAlign: 'center',
+    flex: 1, // Allow it to take space
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  };
+
+  const hookTextStyle: React.CSSProperties = {
+    fontSize: '45px',
+    color: '#1a1a1a',
+    fontFamily,
+    width: '95%', // Ensure it doesn't overflow too much
+    lineHeight: '1.2', // Improved line height
+    textAlign: 'center',
+    overflowWrap: 'break-word', // Ensure long words break
+  };
+
   return (
-    <div style={containerStyle}>
+    <AbsoluteFill style={containerStyle}>
       <div style={cardStyle}>
         <div style={headerStyle}>
-          <div style={profileImageStyle} />
+          {channelImage && channelImage.trim() !== '' && <div style={profileImageStyle} />}
           <div style={titleContainerStyle}>
             <div style={channelNameStyle}>
-              <h1 style={titleStyle}>{channelName}</h1>
-              <img src={badgeUrl} style={badgeStyle} alt="Verified" />
+              <p style={channelTextStyle}>{channelName}</p>
+              {badgeUrl && badgeUrl.trim() !== '' && <img src={badgeUrl} alt="Verification Badge" style={badgeStyle} />}
             </div>
             <div style={gifContainerStyle}>
-              {[1, 2, 3, 4, 5, 6].map(idx => (
-                <VideoComponent
-                  key={idx}
-                  src={getVideoUrl(assetUrls, idx, s3Assets)}
-                  style={gifStyle}
-                  alt={`Video ${idx}`}
-                />
-              ))}
+              {bubbleUrl && bubbleUrl.trim() !== '' && <img src={bubbleUrl} alt="Speech Bubble" style={gifStyle} />}
+              {shareUrl && shareUrl.trim() !== '' && <img src={shareUrl} alt="Share Icon" style={gifStyle} />}
             </div>
           </div>
         </div>
-        <h2 style={postTitleStyle}>
-          {hookText}
-        </h2>
-        <div style={{display: 'flex', justifyContent: 'space-between', marginTop: 'auto', paddingTop: '10px'}}>
-          <div style={heartContainerStyle}>
-            <div style={iconContainerStyle}>
-              <div style={iconGroupStyle}>
-                <svg 
-                  viewBox="0 0 24 24" 
-                  style={heartIconStyle}
-                >
-                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                </svg>
-                <span style={counterStyle}>99+</span>
-              </div>
-              <div style={iconGroupStyle}>
-                <img src={bubbleUrl} style={bubbleIconStyle} alt="Comments" />
-                <span style={counterStyle}>99+</span>
-              </div>
-            </div>
+        {/* Ensure videoSrc is checked before rendering VideoComponent */}
+        {videoSrc && videoSrc.trim() !== '' && (
+          <div style={videoOverlayStyle}>
+            <VideoComponent 
+              src={videoSrc} 
+              style={videoStyle} 
+              alt="Hook Content Video" 
+            />
           </div>
-          <div style={shareContainerStyle}>
-            <div style={iconGroupStyle}>
-              <img src={shareUrl} style={shareIconStyle} alt="Share" />
-              <span style={shareTextStyle}>Share</span>
-            </div>
-          </div>
+        )}
+        <div style={textContainerStyle}>
+          <p style={hookTextStyle}>{hookText}</p>
         </div>
       </div>
-      {audioUrl && <Audio src={audioUrl} />}
-    </div>
+      {/* Ensure audioUrl is checked before rendering Audio */}
+      {audioUrl && audioUrl.trim() !== '' && <Audio src={audioUrl} />}
+    </AbsoluteFill>
   );
 }; 

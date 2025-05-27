@@ -48,22 +48,28 @@ export const BackgroundVideo: React.FC<Props> = ({ backgroundVideoPath, volume =
       overflow: 'hidden',
     }}>
       <Series>
-        {videos.map((video, index) => (
-          <Series.Sequence 
-            key={`${video.path}-${index}`} 
-            durationInFrames={video.durationInFrames || totalDurationInFrames || 300} // Use totalDurationInFrames as a better fallback
-          >
-            <OffthreadVideo
-              src={video.path}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-              }}
-              volume={Math.max(0, Math.min(1, (100 - Math.abs(volume)) / 100))}
-            />
-          </Series.Sequence>
-        ))}
+        {videos.map((video, index) => {
+          // Ensure video.path is valid before rendering
+          if (!video.path || video.path.trim() === '') {
+            return null; // Skip rendering if path is invalid
+          }
+          return (
+            <Series.Sequence 
+              key={`${video.path}-${index}`} 
+              durationInFrames={video.durationInFrames || totalDurationInFrames || 300} // Use totalDurationInFrames as a better fallback
+            >
+              <OffthreadVideo
+                src={video.path}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                }}
+                volume={Math.max(0, Math.min(1, (100 - Math.abs(volume)) / 100))}
+              />
+            </Series.Sequence>
+          );
+        })}
       </Series>
     </div>
   );
