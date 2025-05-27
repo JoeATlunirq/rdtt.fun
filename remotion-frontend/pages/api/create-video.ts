@@ -118,7 +118,14 @@ async function getAudioDurationFromS3(audioUrlString: string): Promise<number> {
     console.log('Temp file path to parse:', tempFilePath);
     console.log('Temp file exists?', fs.existsSync(tempFilePath));
     console.log('Temp file size:', fs.existsSync(tempFilePath) ? fs.statSync(tempFilePath).size : 'N/A');
-    const metadata = await mm.parseFile(tempFilePath);
+
+    // New way: Using loadMusicMetadata since parseFile is not available on Vercel
+    if (typeof mm.loadMusicMetadata !== 'function') {
+      throw new Error('mm.loadMusicMetadata is not a function. music-metadata import is not as expected.');
+    }
+    const fileBuffer = fs.readFileSync(tempFilePath);
+    const metadata = await mm.loadMusicMetadata(fileBuffer, { duration: true }); // Request duration explicitly
+
     if (metadata && metadata.format && typeof metadata.format.duration === 'number') {
       console.log(`Duration found: ${metadata.format.duration} seconds.`);
       return metadata.format.duration;
